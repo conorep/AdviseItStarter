@@ -16,7 +16,7 @@
 
 <body>
     <header>
-        <nav class="navbar mb-3 pt-0">
+        <nav class="navbar mb-3 pt-0 pb-0">
             <a class="navbar-brand p-2 col-3 col-lg-2 col-xl-1 me-0" href="https://www.greenriver.edu/">
                 <img id="centerImg" class="img-fluid" src="imgs/logo.png" alt="Green River College logo" />
             </a>
@@ -30,7 +30,7 @@
     </header>
     
     <main>
-        <div class="container ">
+        <div class="container-fluid">
         
             <div class="row justify-content-center">
             
