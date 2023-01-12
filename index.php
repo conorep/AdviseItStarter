@@ -15,6 +15,7 @@
 </head>
 
 <body>
+
     <header>
         <nav class="navbar mb-3 pt-0 pb-0">
             <a class="navbar-brand p-2 col-3 col-lg-2 col-xl-1 me-0" href="https://www.greenriver.edu/">
@@ -30,6 +31,12 @@
     </header>
     
     <main>
+
+        <!--TESTING DB CONNECTION-->
+        <?php
+        include("php/db_connection.php")
+        ?>
+
         <div class="container-fluid">
         
             <div class="row justify-content-center">
