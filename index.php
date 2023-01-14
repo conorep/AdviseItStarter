@@ -68,6 +68,6 @@
     
     <!--TODO: decide whether the JS for BS will be used or not-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/general_js.js"></script>
+    <script src="../controller/js/general_js.js"></script>
 </body>
 </html>

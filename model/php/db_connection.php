@@ -12,8 +12,8 @@ if($connection -> connect_error)
 } else
 {
     echo " Connection successful!\n";
-    $selectOne = "SELECT * FROM schedules";
 
+    $selectOne = "SELECT * FROM schedules";
     $result = mysqli_query($connection, $selectOne);
     if(mysqli_num_rows($result) > 0)
     {
@@ -25,6 +25,8 @@ if($connection -> connect_error)
     {
         echo " No results from select query.";
     }
+    /*this isn't necessary in a program of this size. close does the trick. not stressing about memory leak or anything.*/
+    //mysqli_free_result($result);
 
     /*close connection when done (for now)*/
     $connection->close();

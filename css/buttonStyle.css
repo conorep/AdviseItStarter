@@ -1,0 +1,35 @@
+/**
+ * Button Styles CSS
+ * @author Conor O'Brien
+ * @version 1.0
+ */
+
+button.showButton {
+    display: inline-block;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 4px 2px;
+    cursor: pointer;
+    box-shadow: 4px 6px #999;
+}
+
+button.showButton:hover, button.showButton:active {
+    background-color: #558d55;
+}
+
+button.showButton:disabled {
+    background-color: rgba(118, 211, 123, 0.6);
+    border: #03a403 3px solid;
+    color: #757575;
+}
+
+button.showButton:active {
+    box-shadow: 4px 4px #8c8c8c;
+    transform: translateY(2px);
+}
