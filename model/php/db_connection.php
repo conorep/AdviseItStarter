@@ -13,8 +13,8 @@ if($connection -> connect_error)
 {
     echo " Connection successful!\n";
 
-    $selectOne = "SELECT * FROM schedules";
-    $result = mysqli_query($connection, $selectOne);
+    $selectAll = "SELECT * FROM schedules";
+    $result = mysqli_query($connection, $selectAll);
     if(mysqli_num_rows($result) > 0)
     {
         while($row = mysqli_fetch_assoc($result))
