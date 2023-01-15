@@ -1,10 +1,10 @@
 /**
- * Button Styles CSS
- * @author Conor O'Brien
+ * This is the button styles file for the application.
  * @version 1.0
+ * @author Conor O'Brien
  */
 
-button.headerButton {
+button.scheduleButton {
     display: inline-block;
     background-color: #4CAF50;
     border: none;
@@ -19,17 +19,21 @@ button.headerButton {
     box-shadow: 4px 6px #999;
 }
 
-button.headerButton:hover, button.headerButton:active {
+button.scheduleButton:hover, button.scheduleButton:active {
     background-color: #558d55;
 }
 
-button.headerButton:disabled {
+button.scheduleButton:disabled {
     background-color: rgba(118, 211, 123, 0.6);
-    border: #03a403 3px solid;
+    border: #03a403 1px solid;
     color: #757575;
 }
 
-button.headerButton:active {
+button.scheduleButton:active {
     box-shadow: 4px 4px #8c8c8c;
     transform: translateY(2px);
+}
+
+button#submit-schedule-button {
+    max-width: 20%;
 }
