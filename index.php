@@ -1,3 +1,8 @@
+<!--
+    This is the application page containing HTML for the general application view.
+    @version 1.0
+    @author Conor O'Brien
+-->
 <!doctype html>
 <html lang="en">
 <head>
@@ -20,7 +25,7 @@
         <nav class="navbar mb-3 pt-0 pb-0">
 
             <a class="navbar-brand p-2 col-3 col-lg-2 col-xl-1 me-0" href="https://www.greenriver.edu/">
-                <img id="centerImg" class="img-fluid" src="imgs/logo.png" alt="Green River College logo" />
+                <img id="centerImg" class="img-fluid" src="imgs/logo.png" alt="Green River College logo"/>
             </a>
 
             <section class="col-9 col-lg-10 col-xl-11">
@@ -32,21 +37,21 @@
                         generating them...?-->
                 <div class="float-end me-sm-3">
 
-                    <button id="home-view-button" class="headerButton">
+                    <button id="home-view-button" class="scheduleButton viewButton">
                         HOME
                     </button>
 
-                    <button id="new-view-button" class="headerButton">
+                    <button id="new-view-button" class="scheduleButton viewButton">
                         NEW SCHEDULE
                     </button>
 
-                    <button id="retrieve-view-button" class="headerButton">
+                    <button id="retrieve-view-button" class="scheduleButton viewButton">
                         RETRIEVE SCHEDULE
                     </button>
                 </div>
 
             </section>
-    
+
         </nav>
     </header>
     
