@@ -24,30 +24,37 @@
             </a>
 
             <section class="col-9 col-lg-10 col-xl-11">
-                <h1 class="ps-3">
+                <h2 class="ps-3 inline-block">
                     Advise-It Tool
-                </h1>
+                </h2>
 
+                <!--TODO: think about how many buttons I will have here. enough to benefit from a view dynamically
+                        generating them...?-->
+                <div class="float-end me-sm-3">
+
+                    <button id="home-view-button" class="headerButton">
+                        HOME
+                    </button>
+
+                    <button id="new-view-button" class="headerButton">
+                        NEW SCHEDULE
+                    </button>
+
+                    <button id="retrieve-view-button" class="headerButton">
+                        RETRIEVE SCHEDULE
+                    </button>
+                </div>
 
             </section>
     
         </nav>
     </header>
     
-    <main>
-
-        <!--TESTING DB CONNECTION-->
-        <?php
-//        include("model/php/db_connection.php");
-        include("controller/php/model_calls.php");
-
-        include("views/new_plan.php");
-        ?>
-
-
-
+    <main id="mainContent">
+        <!--PHP content here-->
     </main>
-    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <!--TODO: decide whether the JS for BS will be used or not-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/general_js.js"></script>
