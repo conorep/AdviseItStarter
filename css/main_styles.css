@@ -1,11 +1,15 @@
-/*Main Styling File*/
+/**
+ * This is the main styles file for the application.
+ * @version 1.0
+ * @author Conor O'Brien
+ */
 
 html {
     height: 100vh;
 }
 
 body {
-    background-color: rgb(251,251,251);
+    background-color: rgb(251, 251, 251);
 }
 
 body, main {
