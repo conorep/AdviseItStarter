@@ -1,31 +1,63 @@
-/*General JS File*/
-$(document).ready(function()
+/**
+ * This file contains javascript functions for the page.
+ * @version 1.0
+ * @author Conor O'Brien
+ */
+
+/**
+ * This jQuery function contains several nested functions defining page view activity.
+ *      It sets the page load view to 'home' and adds onclick event handlers to load
+ *      different PHP views in the document's content body.
+ */
+$(document).ready(function ()
 {
     $("#mainContent").load('views/home.php');
 
-    $("#home-view-button").click(function()
+    $("#home-view-button").click(function ()
     {
         $("#mainContent").load('views/home.php');
     });
-    $("#new-view-button").click(function()
+    $("#new-view-button").click(function ()
     {
         $("#mainContent").load('views/new.php');
     });
-    $("#retrieve-view-button").click(function()
+    $("#retrieve-view-button").click(function ()
     {
         $("#mainContent").load('views/retrieve.php');
     });
 });
 
-/*TODO: see if this is needed or not*/
-window.onload = function()
+/**
+ * This function does two things:
+ *  1: Sets the home button disabled property to 'true' on window load.
+ *  2: Attaches a disable toggle function to each of the header 'view' buttons.
+ */
+window.onload = function ()
 {
-    let viewButtons = document.getElementsByClassName("headerButton");
+    let viewButtons = document.getElementsByClassName("viewButton");
 
-    for(let x = 0; x < viewButtons.length; x++)
+    for (let x = 0; x < viewButtons.length; x++)
     {
-        viewButtons[x].addEventListener("click", selectView);
+        if (viewButtons[x].id === "home-view-button")
+        {
+            viewButtons[x].disabled = true;
+        }
+        viewButtons[x].addEventListener("click", () => disableToggle(viewButtons[x].id, viewButtons));
     }
+}
+
+/**
+ * This function sets the clicked button to 'disabled' and re-enables any other button that has been disabled.
+ * @param clicked the ID of the button that was clicked
+ * @param viewButtons button elements with 'viewButton' class
+ */
+function disableToggle(clicked, viewButtons)
+{
+    for (let x = 0; x < viewButtons.length; x++)
+    {
+        viewButtons[x].disabled = viewButtons[x].id === clicked;
+    }
+
 }
 
 /*TODO: see if this is needed or not*/
@@ -36,39 +68,8 @@ function removeElements()
 {
     const mainElement = document.getElementById("mainContent");
     let mainChild = mainElement.firstChild;
-    while(mainChild)
+    while (mainChild)
     {
         mainElement.removeChild(mainChild);
     }
-}
-
-/*TODO: see if this is needed or not*/
-/**
- * This function changes the displayed page view based on navbar button clicks.
- * @param thisButton the
- */
-function selectView(thisButton)
-{
-    let idName = thisButton.target.id.split("-");
-    if(idName[0] === "home")
-    {
-        console.log("home");
-    } else if(idName[0] === "new")
-    {
-        console.log("new");
-    } else if(idName[0] === "retrieve")
-    {
-        console.log("retrieve");
-    }
-    console.log(thisButton.target.id);
-}
-
-/*TODO: see if this is needed or not*/
-function makeNewElement(info)
-{
-    let newScript = document.createElement('script');
-    newScript.id = info + "-view";
-    newScript.innerText = " <?php  include_once 'views/" + info + ".php'; ?> "
-
-    return newScript;
 }
