@@ -11,7 +11,7 @@
         <h1 class='text-center text-decoration-underline'>HOME PAGE</h1>
         <br/>
         <div class='container-fluid row justify-content-center'>
-            <h3 class='text-center'>Hello advisor!</h3>
+            <h3 class='text-center'>Hello, advisor!</h3>
 
             <div class='col-6 mb-2'>
                 <p class='text-center'>This is your home page. Please click a button to select what you're here for:</p>
