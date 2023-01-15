@@ -30,6 +30,10 @@ section#navItems {
     display: inline-block;
 }
 
+section h2 {
+    display: inline-block;
+}
+
 .quarter-box {
     border: #2c882b solid 3px;
     border-radius: 5px;
