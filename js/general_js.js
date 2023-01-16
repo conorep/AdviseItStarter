@@ -7,32 +7,66 @@
 /**
  * This jQuery function contains several nested functions defining page view activity.
  *      It sets the page load view to 'home' and adds onclick event handlers to load
- *      different PHP views in the document's content body.
+ *          different PHP views in the document's content body.
+ *      When the 'new' view is loaded, an onclick event handler is attached to the submit
+ *          button. This prevents page reload and runs a function to submit the new
+ *          schedule to the database.
  */
 $(document).ready(function ()
 {
     $("#mainContent").load('views/home.php');
 
+    /*load home.php*/
     $("#home-view-button").click(function ()
     {
         $("#mainContent").load('views/home.php');
     });
+
+    /*load new.php and attach event handler to submit button*/
     $("#new-view-button").click(function ()
     {
-        $("#mainContent").load('views/new.php');
+        $("#mainContent").load('views/new.php', function ()
+        {
+            $('#scheduleSubmit').submit(function (e)
+            {
+                e.preventDefault();
+                $.ajax({
+                    url: '../adviseit/controller/php/schedule_submit.php/',
+                    type: 'post',
+                    data: $('#scheduleSubmit').serialize(),
+                    success: function(){
+                        /*move view to "retrieve" and set the view button disabled state properly*/
+                        $("#mainContent").load('views/retrieve.php');
+
+                        disableToggle('retrieve-view-button',
+                            document.getElementsByClassName('viewButton'));
+                    }
+                });
+
+            });
+
+        });
     });
+
+    /*load retrieve.php*/
     $("#retrieve-view-button").click(function ()
     {
         $("#mainContent").load('views/retrieve.php');
     });
 });
 
+
+/**
+ * Call the viewButtonHandler method on window load.
+ */
+window.onload = viewButtonHandler;
+
 /**
  * This function does two things:
  *  1: Sets the home button disabled property to 'true' on window load.
  *  2: Attaches a disable toggle function to each of the header 'view' buttons.
  */
-window.onload = function ()
+function viewButtonHandler()
 {
     let viewButtons = document.getElementsByClassName("viewButton");
 
@@ -48,7 +82,7 @@ window.onload = function ()
 
 /**
  * This function sets the clicked button to 'disabled' and re-enables any other button that has been disabled.
- * @param clicked the ID of the button that was clicked
+ * @param clicked the ID of the button that was clicked (home-view-button, new-view-button, or retrieve-view-button)
  * @param viewButtons button elements with 'viewButton' class
  */
 function disableToggle(clicked, viewButtons)
@@ -57,7 +91,6 @@ function disableToggle(clicked, viewButtons)
     {
         viewButtons[x].disabled = viewButtons[x].id === clicked;
     }
-
 }
 
 /*TODO: see if this is needed or not*/
