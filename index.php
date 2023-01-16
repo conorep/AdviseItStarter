@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!--
     This is the application page containing HTML for the general application view.
     @version 1.0
