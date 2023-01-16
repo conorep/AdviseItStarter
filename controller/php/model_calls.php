@@ -51,7 +51,6 @@
         function createNewPlan($id, $fall, $winter, $spring, $summer)
         {
             //TODO: validation here! PRE db access.
-            //$this->databaseFuncs->createNewTest();
             return $this->databaseFuncs->createNewSchedule($id, $fall, $winter, $spring, $summer);
         }
 
