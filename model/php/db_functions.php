@@ -60,7 +60,7 @@
 
         /**
          * This function takes a new ID as a parameter and references it against existing schedule IDs in the database.
-         * @param $newID
+         * @param $newID String new token ID
          * @return bool true if ID parameter is not found in DB or nothing in DB yet,
          *      false if found in DB
          */
@@ -109,7 +109,38 @@
         }
 
         /*TODO: function that adds new schedule to DB*/
-        public function createNewSchedule() {}
+        /**
+         * This function creates a new schedule in the database.
+         * @param $id String unique token ID
+         * @param $fall String fall quarter info
+         * @param $winter String winter quarter info
+         * @param $spring String spring quarter info
+         * @param $summer String summer quarter info
+         * @return bool|mysqli_result false if nothing returned from DB query, mysqli_result if data returned
+         */
+        public function createNewSchedule(string $id, string $fall, string $winter, string $spring, string $summer)
+        {
+           $newSchedule = "INSERT INTO schedules(scheduleID, fallQrtr, winterQrtr, springQrtr, summerQrtr) VALUES('". $id ."','". $fall ."', '". $winter ."', '". $spring ."', '".$summer ."')";
+
+            return mysqli_query($this->getConn(), $newSchedule);
+        }
+
+        public function createNewTest()
+        {
+            $newSchedule = "INSERT INTO schedules (scheduleID, fallQrtr, winterQrtr, springQrtr, summerQrtr) VALUES('8A8B8C', 'yes', 'yes', 'yes', 'yes')";
+
+            $response = mysqli_query($this->getConn(), $newSchedule);
+        }
+
+        /**
+         * This function retrieves an existing schedule from the database.
+         * @param $scheduleID String unique token ID of a schedule
+         * @return void
+         */
+        public function retrieveSchedule($scheduleID)
+        {
+            null;
+        }
 
         /**
          * This function runs a SELECT ALL query on the database 'schedules' table.
@@ -118,7 +149,7 @@
         public function getAllScheduleInfo()
         {
             $selectAll = "SELECT * FROM schedules";
-            return mysqli_query($this->conn, $selectAll);
+            return mysqli_query($this->getConn(), $selectAll);
 
             /*
             if(mysqli_num_rows($result) > 0)
