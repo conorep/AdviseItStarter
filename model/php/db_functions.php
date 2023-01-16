@@ -55,7 +55,7 @@
         public function getAllUniqueIDs()
         {
             $selectAllIDs = "SELECT scheduleID FROM schedules";
-            return mysqli_query(DBFunctions::getConn(), $selectAllIDs);
+            return mysqli_query($this->getConn(), $selectAllIDs);
         }
 
         /**
@@ -64,11 +64,11 @@
          * @return bool true if ID parameter is not found in DB or nothing in DB yet,
          *      false if found in DB
          */
-        private function checkTokens($newID): bool
+        private function checkTokens(string $newID): bool
         {
-            $result = DBFunctions::getAllUniqueIDs();
+            $result = $this->getAllUniqueIDs();
 
-            if (mysqli_num_rows($result) > 0)
+            if ($result && mysqli_num_rows($result) > 0)
             {
                 while ($row = mysqli_fetch_assoc($result))
                 {
