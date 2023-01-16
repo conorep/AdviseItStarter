@@ -1,4 +1,5 @@
 <?php
+    session_start();
 
     /**
      * This file contains the code for the "home" view.
