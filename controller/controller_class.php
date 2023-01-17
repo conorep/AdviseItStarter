@@ -90,6 +90,27 @@
             }
         }
 
+        /**
+         * This function gets an array of row arrays from the model and displays them as buttons in
+         *      the retrieve schedule view.
+         * @return void echo data out
+         */
+        function getAllIds()
+        {
+            $plansArr = $this->databaseFuncs->getAllScheduleIDs();
+
+            echo "
+                  <div id='shrinkContainer' class='container d-flex flex-wrap flex-column px-5 mx-5'>";
+            foreach ($plansArr as $row)
+            {
+                echo   "<div class='row'>
+                            <button class='retrievalBtn scheduleButton py-0 fs-5' id='row_" . $row . "'>
+                                        " . $row . " </button>
+                        </div>";
+            }
+            echo "</div>";
+        }
+
     }
 
 
