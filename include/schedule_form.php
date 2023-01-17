@@ -7,8 +7,7 @@
      * @author Conor O'Brien
      */
 
-    echo $_SESSION['pageID'];
-    echo '<br/>' . $_SESSION['scheduleToken'];
+
     echo "        
             <form id='scheduleSubmit' action='' method='post'>
                 <div class='container-fluid'>
@@ -19,34 +18,27 @@
     if($_SESSION['pageID'] == 'NewView')
     {
         $modelCalls->displayUniqueToken();
+        include("quarter_html.php");
+
     } else if($_SESSION['pageID'] == 'RetrieveView')
     {
+        /*if there's a scheduleToken, load data from freshly-created schedule*/
+        /*if not, load a bunch of links that will allow retrieval of old schedules for viewing and editing*/
         if($_SESSION['scheduleToken'] != '')
         {
             $modelCalls->displayCreatedPlan($_SESSION['scheduleToken']);
+
+            include("quarter_html.php");
+
+            /*set both session vars back to '' when done with them*/
             $_SESSION['scheduleToken'] = '';
             $_SESSION['planData'] = '';
+        } else
+        {
+            include("existing_schedules.php");
         }
+
     } else
     {
         echo"I DON'T KNOW HOW YOU GET HERE!";
     }
-
-    foreach ($quartersArr as $quarter)
-    {
-        echo "                    
-                        <div class='col-10 col-md-5 shadow quarter-box m-2 p-2'>
-                            <h2>" . $quarter . "</h2>
-                            <label for='" . $quarter . "'>CLASSES</label>
-                            <textarea class='quarterInput form-control' id='" . $quarter . "' rows='5' name='" . $quarter . "'></textarea>
-                        </div>";
-    }
-
-    echo "
-                        <button type='submit' id='submit-schedule-button' class='scheduleButton' value='newSchedule' name='newScheduleSubmit'>
-                            SUBMIT
-                        </button>";
-
-    echo "            </div>
-                </div>
-            </form>";
