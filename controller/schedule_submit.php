@@ -6,12 +6,12 @@
      * has posted the form data to $_SESSION.
      */
     
-    require("model_calls.php");
-    require("../model/db_functions.php");
+    require("controller_class.php");
+    require("../model/model_DB.php");
     
     /*create objects*/
-    $dbFunctions = new DBFunctions();
-    $modelCalls = new ModelCalls($dbFunctions);
+    $dbFunctions = new ModelDB();
+    $modelCalls = new ControllerClass($dbFunctions);
     
     
     if($_SERVER["REQUEST_METHOD"] == "POST")
