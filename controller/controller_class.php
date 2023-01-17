@@ -105,7 +105,7 @@
                   <div id='shrinkContainer' class='container-fluid d-flex flex-wrap flex-column'>";
             foreach ($plansArr as $row)
             {
-                echo   "<div class='row mx-5'>
+                echo   "<div class='retrievalDiv row mx-5' id='" . $row . "-div'>
                             <button class='retrievalBtn scheduleButton py-0 fs-5' id='" . $row . "' name='" . $row . "'>
                                         " . $row . " </button>
                         </div>";
