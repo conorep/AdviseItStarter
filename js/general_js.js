@@ -44,7 +44,7 @@ $(document).ready(function ()
             {
                 e.preventDefault();
                 $.ajax({
-                    url: 'controller/schedule_submit.php',
+                    url: 'controller/schedule_ajax_calls.php',
                     type: 'post',
                     data: $('#scheduleSubmit').serialize(),
                     success: function(){
@@ -78,7 +78,7 @@ $(document).ready(function ()
         e.preventDefault();
         var buttonID = $(this).attr('id');
         $.ajax({
-            url: 'controller/schedule_submit.php',
+            url: 'controller/schedule_ajax_calls.php',
             type: 'get',
             data: {"ScheduleIDGet": buttonID},
             success: function(){
