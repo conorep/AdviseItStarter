@@ -37,3 +37,12 @@ button.scheduleButton:active {
 button#submit-schedule-button {
     max-width: 20%;
 }
+
+div button.retrievalBtn.scheduleButton {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+button.retrievalBtn.scheduleButton {
+    border-radius: 10px;
+}
