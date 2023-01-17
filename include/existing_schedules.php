@@ -12,7 +12,8 @@
                 <div class='container-fluid d-flex row justify-content-center mx-0'>
                     <div class=' col-6 mx-5 mb-3 text-center'>
                         <label for='searchSchedules' class='form-label fw-bold'>Start typing a schedule token to narrow choices:</label>
-                        <input id='searchSchedules' type='search' class='form-control shadow-sm'/>
+                        <input id='searchSchedules' type='search' class='form-control shadow-sm' 
+                                    placeholder='Search...' aria-label='Search through schedule IDs.'/>
                     </div>
                 </div>
             </div>";
