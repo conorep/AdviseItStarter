@@ -6,8 +6,8 @@
      * @author Conor O'Brien
      */
 
-    require("../controller/php/model_calls.php");
-    require("../model/php/db_functions.php");
+    require("../controller/model_calls.php");
+    require("../model/db_functions.php");
 
     /*create objects*/
     $dbFunctions = new DBFunctions();
