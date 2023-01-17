@@ -27,6 +27,11 @@ $(document).ready(function ()
     {
         $("#mainContent").load('views/new.php', function ()
         {
+            /*
+              on schedule submit, ajax handles posting of the data to session
+              and then navigates to the 'retrieve' view and displays the info.
+              before setting button disabled states properly.
+              */
             $('#scheduleSubmit').submit(function (e)
             {
                 e.preventDefault();
