@@ -14,6 +14,14 @@
  */
 $(document).ready(function ()
 {
+    /*TODO: create ajax code that will catch URI route and load the 'retrieve' view*/
+/*    var session;
+    $.ajaxSetup({cache: false})
+    $.get('index.php', function (data) {
+        session = data;
+    });*/
+
+    /*on document ready, load home view in index page*/
     $("#mainContent").load('views/home.php');
 
     /*load home.php*/
@@ -36,7 +44,7 @@ $(document).ready(function ()
             {
                 e.preventDefault();
                 $.ajax({
-                    url: '../adviseit/controller/php/schedule_submit.php',
+                    url: 'controller/schedule_submit.php',
                     type: 'post',
                     data: $('#scheduleSubmit').serialize(),
                     success: function(){
