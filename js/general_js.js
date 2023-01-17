@@ -91,12 +91,24 @@ $(document).ready(function ()
         });
     });
 
-    /*TODO: finish this function*/
-    /*this function will take the search input's current value and display click elements that have its value
-            (i.e. show the record we want to retrieve)*/
-    $(document).on('change', '#searchSchedules', function()
+    /*this function reponds to the search box input. when there's a change, it schedule div IDs to see if they
+            contain the input character. if not, they are hidden. if yes, they are shown.*/
+    $(document).on('input', '#searchSchedules', function()
     {
-        console.log($(this).attr('currentValue'));
+        var thisVal = $(this).val();
+
+        $('.retrievalDiv').each(function()
+        {
+            var thisId = this.id.split('-')[0];
+
+            if(thisId.search(thisVal) < 0)
+            {
+                $(this).hide();
+            } else
+            {
+                $(this).show();
+            }
+        });
     });
 
 });
