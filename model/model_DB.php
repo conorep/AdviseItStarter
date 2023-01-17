@@ -141,12 +141,6 @@
            return $sqlStatement->execute();
         }
 
-        public function createNewTest()
-        {
-            $newSchedule = "INSERT INTO schedules (scheduleID, fallQrtr, winterQrtr, springQrtr, summerQrtr) VALUES('8A8B8C', 'yes', 'yes', 'yes', 'yes')";
-
-            $response = mysqli_query($this->getConn(), $newSchedule);
-        }
     
         /**
          * This function retrieves an existing schedule from the database.
@@ -166,28 +160,22 @@
         }
 
         /**
-         * This function runs a SELECT ALL query on the database 'schedules' table.
-         * @return bool|mysqli_result false if nothing returned from DB query, mysqli_result if data returned
+         * This function runs a SELECT ALL query on the database 'schedules' table. It returns an array of all rows.
+         * @return array array of fetched IDs
          */
-        public function getAllScheduleInfo()
+        public function getAllScheduleIDs(): array
         {
-            $selectAll = "SELECT * FROM schedules";
-            return mysqli_query($this->getConn(), $selectAll);
+            $arrayOfIDs = array();
 
-            /*
-            if(mysqli_num_rows($result) > 0)
+            $selectAll = "SELECT scheduleID FROM schedules";
+            $sqlSelectAll = $this->getConn()->prepare($selectAll);
+            $sqlSelectAll->execute();
+            $result = $sqlSelectAll->get_result();
+            while($row = $result->fetch_assoc())
             {
-
-                while($row = mysqli_fetch_assoc($result))
-                {
-                    echo " Schedule ID: " . $row["scheduleID"];
-                }
-            } else
-            {
-
-                echo " No results from select query.";
+                $arrayOfIDs[]=$row['scheduleID'];
             }
-            */
+            return $arrayOfIDs;
         }
 
     }
