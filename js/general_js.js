@@ -68,11 +68,26 @@ $(document).ready(function ()
     $("#retrieve-view-button").click(function ()
     {
         $("#mainContent").load('views/retrieve.php');
-
     });
-    $(document).on('click', '.retrievalBtn', function()
+
+    /*this adds an on click event to each button with the retrievalBtnclass*/
+    /*the event will trigger an ajax get call to schedule_submit.php, triggering a page reload and
+            a view of an existing schedule*/
+    $(document).on('click', '.retrievalBtn', function(e)
     {
-        alert($(this).attr('id'));
+        e.preventDefault();
+        var buttonID = $(this).attr('id');
+        $.ajax({
+            url: 'controller/schedule_submit.php',
+            type: 'get',
+            data: {"ScheduleIDGet": buttonID},
+            success: function(){
+                /*move view to "retrieve" and set the view button disabled state properly*/
+                $("#mainContent").load('views/retrieve.php');
+
+                $('#retrieve-view-button').prop('disabled', false);
+            }
+        });
     });
 
 });
