@@ -71,7 +71,7 @@ $(document).ready(function ()
     });
 
     /*this adds an on click event to each button with the retrievalBtnclass*/
-    /*the event will trigger an ajax get call to schedule_submit.php, triggering a page reload and
+    /*the event will trigger an ajax get call to schedule_ajax_calls.php, triggering a page reload and
             a view of an existing schedule*/
     $(document).on('click', '.retrievalBtn', function(e)
     {
