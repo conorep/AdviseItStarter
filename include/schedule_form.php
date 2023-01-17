@@ -8,6 +8,7 @@
      */
 
     echo $_SESSION['pageID'];
+    echo '<br/>' . $_SESSION['scheduleToken'];
     echo "        
             <form id='scheduleSubmit' action='' method='post'>
                 <div class='container-fluid'>
@@ -20,7 +21,12 @@
         $modelCalls->displayUniqueToken();
     } else if($_SESSION['pageID'] == 'RetrieveView')
     {
-        echo 'NOTHING YET. MAKING THE FUNCTION.';
+        if($_SESSION['scheduleToken'] != '')
+        {
+            $modelCalls->displayCreatedPlan($_SESSION['scheduleToken']);
+            $_SESSION['scheduleToken'] = '';
+            $_SESSION['planData'] = '';
+        }
     } else
     {
         echo"I DON'T KNOW HOW YOU GET HERE!";
