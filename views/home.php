@@ -6,6 +6,7 @@
      * @version 1.0
      * @author Conor O'Brien
      */
+    $_SESSION['pageID'] = 'HomeView';
 
     echo "
 
