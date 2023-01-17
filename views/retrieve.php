@@ -10,6 +10,7 @@
      */
 
     include('../include/object_creation.php');
-    $_SESSION['pageID'] = "RetrieveView";
+    
+    $_SESSION['pageID'] = 'RetrieveView';
 
     include('../include/schedule_form.php');
