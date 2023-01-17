@@ -13,7 +13,7 @@
     $dbFunctions = new ModelDB();
     $modelCalls = new ControllerClass($dbFunctions);
     
-    
+    /*POST method from ajax does THIS:*/
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $uniqueID = '';
@@ -53,4 +53,22 @@
             }
         }
 
+    }
+
+    /*get method from ajax does THIS:*/
+    if($_SERVER["REQUEST_METHOD"] == "GET")
+    {
+        $uniqueID = '';
+        if(!empty($_GET))
+        {
+            var_dump($_GET);
+            if(isset($_GET['ScheduleIDGet']))
+            {
+                $uniqueID = $_GET['ScheduleIDGet'];
+            }
+            if($uniqueID)
+            {
+                $_SESSION['scheduleToken'] = $uniqueID;
+            }
+        }
     }
