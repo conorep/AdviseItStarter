@@ -47,10 +47,12 @@
             $planArray = $this->databaseFuncs->retrieveSchedule($uniqueToken);
             if($planArray)
             {
-                $modDate = "NO UPDATES YET";
-                if($planArray['modified_date'] != null)
+                if($planArray['modified_date'])
                 {
                     $modDate = $planArray['modified_date'];
+                } else
+                {
+                    $modDate = "NO UPDATES YET";
                 }
                 echo "
                     <div id='" . $planArray['scheduleID'] . "' class='container-fluid'>
