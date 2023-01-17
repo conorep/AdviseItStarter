@@ -91,6 +91,14 @@ $(document).ready(function ()
         });
     });
 
+    /*TODO: finish this function*/
+    /*this function will take the search input's current value and display click elements that have its value
+            (i.e. show the record we want to retrieve)*/
+    $(document).on('change', '#searchSchedules', function()
+    {
+        console.log($(this).attr('currentValue'));
+    });
+
 });
 
 
