@@ -90,12 +90,6 @@
             }
         }
 
-        /*THIS IS FOR TESTING THAT DIFFERENT VIEWS CAN ACCESS A CREATED OBJECT*/
-        function testingStuff()
-        {
-            return "hi, you've reached the object";
-        }
-
     }
 
 
