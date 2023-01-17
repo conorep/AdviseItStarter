@@ -111,18 +111,32 @@
         /*TODO: function that adds new schedule to DB*/
         /**
          * This function creates a new schedule in the database.
-         * @param $id String unique token ID
-         * @param $fall String fall quarter info
-         * @param $winter String winter quarter info
-         * @param $spring String spring quarter info
-         * @param $summer String summer quarter info
-         * @return bool|mysqli_result false if nothing returned from DB query, mysqli_result if data returned
+         *      It utilizes mysqli's prepare and bind_param functions to handle SQL validation
+         *      and avoid SQL injection.
+         * @param $idParam String unique token ID
+         * @param $fallParam String fall quarter info
+         * @param $winterParam String winter quarter info
+         * @param $springParam String spring quarter info
+         * @param $summerParam String summer quarter info
+         * @return bool false if nothing returned from DB query, mysqli_result if data returned
          */
-        public function createNewSchedule(string $id, string $fall, string $winter, string $spring, string $summer)
+        public function createNewSchedule(string $idParam, string $fallParam, string $winterParam,
+                                          string $springParam, string $summerParam): bool
         {
-           $newSchedule = "INSERT INTO schedules(scheduleID, fallQrtr, winterQrtr, springQrtr, summerQrtr) VALUES('". $id ."','". $fall ."', '". $winter ."', '". $spring ."', '".$summer ."')";
-
-            return mysqli_query($this->getConn(), $newSchedule);
+            /*create SQL statement and use mysqli's prepare function for safe execution preparation*/
+           $newSchedule = "INSERT INTO schedules (scheduleID, fallQrtr, winterQrtr, springQrtr, summerQrtr)
+                                VALUES (?, ?, ?, ?, ?);";
+           $sqlStatement = $this->getConn()->prepare($newSchedule);
+           /*bind parameters using mysqli and declaring them as String (does not allow for SQL injection)*/
+           $sqlStatement->bind_param("sssss", $id, $fall, $winter, $spring, $summer);
+           /*update all bound parameters*/
+           $id = $idParam;
+           $fall = $fallParam;
+           $winter = $winterParam;
+           $spring = $springParam;
+           $summer = $summerParam;
+           
+           return $sqlStatement->execute();
         }
 
         public function createNewTest()
