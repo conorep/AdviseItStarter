@@ -2,15 +2,18 @@
     session_start();
 
     /**
-     * This file handles the submitting of new schedules in the background.
-     *      Ajax sends the data here as JSON.
+     * This file handles the submitting of new schedules in the background after Ajax
+     * has posted the form data to $_SESSION.
      */
-
-    require('model_calls.php');
-    require('../../model/php/db_functions.php');
-    $dbFunctionsSubmit = new DBFunctions();
-    $modelCallsSubmit = new ModelCalls($dbFunctionsSubmit);
-
+    
+    require("model_calls.php");
+    require("../../model/php/db_functions.php");
+    
+    /*create objects*/
+    $dbFunctions = new DBFunctions();
+    $modelCalls = new ModelCalls($dbFunctions);
+    
+    
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
         $uniqueID = '';
@@ -21,7 +24,6 @@
 
         if(!empty($_POST))
         {
-            /*TODO: VALIDATE INPUTS!!!!*/
             if(isset($_POST['UniqueID']))
             {
                 $uniqueID = $_POST['UniqueID'];
@@ -45,12 +47,8 @@
 
             if($uniqueID)
             {
-                /*TODO: check to see if successful*/
-
-                $infoHere = $modelCallsSubmit->createNewPlan($uniqueID, $fallInfo, $winterInfo, $springInfo, $summerInfo);
-                echo "<script>$infoHere</script>";
-
-//            echo "<script>$uniqueID</script>";
+                $infoHere = $modelCalls->createNewPlan($uniqueID, $fallInfo, $winterInfo, $springInfo, $summerInfo);
+                echo $infoHere;
             }
         }
 
