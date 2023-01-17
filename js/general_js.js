@@ -55,6 +55,7 @@ $(document).ready(function ()
                         /*disableToggle('retrieve-view-button',
                             document.getElementsByClassName('viewButton'));*/
                         $('#new-view-button').prop('disabled', false);
+
                     }
                 });
 
@@ -67,7 +68,13 @@ $(document).ready(function ()
     $("#retrieve-view-button").click(function ()
     {
         $("#mainContent").load('views/retrieve.php');
+
     });
+    $(document).on('click', '.retrievalBtn', function()
+    {
+        alert($(this).attr('id'));
+    });
+
 });
 
 
