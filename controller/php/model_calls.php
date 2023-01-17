@@ -43,15 +43,27 @@
         {
 
         }
-
+    
         /**
          * This function creates a new plan.
-         * @return bool|mysqli_result
+         *      The returned 'alert' scripts are found by checking the 'Network' tab in the browser inspection tool.
+         *      Click the
+         * @param $id String
+         * @param $fall String
+         * @param $winter String
+         * @param $spring String
+         * @param $summer String
+         * @return string if true, a success message. if false, an error message.
          */
-        function createNewPlan($id, $fall, $winter, $spring, $summer)
+        function createNewPlan(string $id, string $fall, string $winter, string $spring, string $summer): string
         {
-            //TODO: validation here! PRE db access.
-            return $this->databaseFuncs->createNewSchedule($id, $fall, $winter, $spring, $summer);
+            if($this->databaseFuncs->createNewSchedule($id, $fall, $winter, $spring, $summer))
+            {
+                return "The schedule was successfully created!";
+            } else
+            {
+                return "Error - the new schedule was not created.";
+            }
         }
 
         /*THIS IS FOR TESTING THAT DIFFERENT VIEWS CAN ACCESS A CREATED OBJECT*/
