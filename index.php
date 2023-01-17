@@ -1,5 +1,18 @@
 <?php
     session_start();
+
+    /*TODO: add route handling for token URI input*/
+    include("controller/route.php");
+    $routing = new Route();
+    $routing->addRoute("/{id}", "/");
+
+//    if (isset($_GET['getSchedule'])) {
+//        // return requested value
+//        print $_SESSION[$_GET['getSchedule']];
+//    } else {
+//        // nothing requested, so return all values
+//        print json_encode($_SESSION);
+//    }
 ?>
 <!--
     This is the application page containing HTML for the general application view.
