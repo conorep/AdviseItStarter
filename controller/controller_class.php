@@ -47,8 +47,8 @@
             $planArray = $this->databaseFuncs->retrieveSchedule($uniqueToken);
             if($planArray)
             {
-                $modDate = "JUST CREATED";
-                if($planArray['modified_date'] != '')
+                $modDate = "NO UPDATES YET";
+                if($planArray['modified_date'] != null)
                 {
                     $modDate = $planArray['modified_date'];
                 }
@@ -100,11 +100,11 @@
             $plansArr = $this->databaseFuncs->getAllScheduleIDs();
 
             echo "
-                  <div id='shrinkContainer' class='container d-flex flex-wrap flex-column px-5 mx-5'>";
+                  <div id='shrinkContainer' class='container-fluid d-flex flex-wrap flex-column'>";
             foreach ($plansArr as $row)
             {
-                echo   "<div class='row'>
-                            <button class='retrievalBtn scheduleButton py-0 fs-5' id='row_" . $row . "'>
+                echo   "<div class='row mx-5'>
+                            <button class='retrievalBtn scheduleButton py-0 fs-5' id='" . $row . "' name='" . $row . "'>
                                         " . $row . " </button>
                         </div>";
             }
