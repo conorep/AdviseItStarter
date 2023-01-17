@@ -6,12 +6,12 @@
      * @author Conor O'Brien
      */
 
-    require("../controller/model_calls.php");
-    require("../model/db_functions.php");
+    require("../controller/controller_class.php");
+    require("../model/model_DB.php");
 
     /*create objects*/
-    $dbFunctions = new DBFunctions();
-    $modelCalls = new ModelCalls($dbFunctions);
+    $dbFunctions = new ModelDB();
+    $modelCalls = new ControllerClass($dbFunctions);
 
     /*shared array of quarter names*/
     $quartersArr = array("Fall", "Winter", "Spring", "Summer");
