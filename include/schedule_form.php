@@ -2,21 +2,17 @@
     session_start();
 
     /**
-     * This file contains the form HTML for schedule submission/view/updates
+     * This file contains calls for the form HTML for schedule submission/view/updates.
      * @version 1.0
      * @author Conor O'Brien
      */
 
 
-    echo "        
-            <form id='scheduleSubmit' action='' method='post'>
-                <div class='container-fluid'>
-                    <div class='row justify-content-center'>";
-
     /*call the unique token generator method if $_SESSION['pageID'] is 'NewView'
             or retrieve existing info if $_SESSION['pageID'] is 'RetrieveView*/
     if($_SESSION['pageID'] == 'NewView')
     {
+        include("form_opening.php");
         $modelCalls->displayUniqueToken();
         include("quarter_html.php");
 
@@ -26,6 +22,7 @@
         /*if not, load a bunch of links that will allow retrieval of old schedules for viewing and editing*/
         if($_SESSION['scheduleToken'] != '')
         {
+            include("form_opening.php");
             $modelCalls->displayCreatedPlan($_SESSION['scheduleToken']);
 
             include("quarter_html.php");
