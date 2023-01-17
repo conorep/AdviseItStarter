@@ -9,6 +9,7 @@
      */
 
     include('../include/object_creation.php');
+
     $_SESSION['pageID'] = 'NewView';
 
     include('../include/schedule_form.php');
