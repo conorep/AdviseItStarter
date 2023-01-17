@@ -127,8 +127,10 @@
            $newSchedule = "INSERT INTO schedules (scheduleID, fallQrtr, winterQrtr, springQrtr, summerQrtr)
                                 VALUES (?, ?, ?, ?, ?);";
            $sqlStatement = $this->getConn()->prepare($newSchedule);
+           
            /*bind parameters using mysqli and declaring them as String (does not allow for SQL injection)*/
            $sqlStatement->bind_param("sssss", $id, $fall, $winter, $spring, $summer);
+           
            /*update all bound parameters*/
            $id = $idParam;
            $fall = $fallParam;
@@ -145,15 +147,22 @@
 
             $response = mysqli_query($this->getConn(), $newSchedule);
         }
-
+    
         /**
          * This function retrieves an existing schedule from the database.
          * @param $scheduleID String unique token ID of a schedule
-         * @return void
+         * @return array|false|null associative array if row fetched, false if no rows, null if failure
          */
-        public function retrieveSchedule($scheduleID)
+        public function retrieveSchedule(string $scheduleID)
         {
-            null;
+            $retrieveSchedule = "SELECT * FROM schedules WHERE scheduleID = ? LIMIT 1";
+            $sqlStatement = $this->getConn()->prepare($retrieveSchedule);
+    
+            $sqlStatement->bind_param("s", $id);
+            $id = $scheduleID;
+            
+            $sqlStatement->execute();
+            return $sqlStatement->get_result()->fetch_assoc();
         }
 
         /**
