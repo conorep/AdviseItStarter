@@ -1,5 +1,6 @@
 <?php
-
+    session_start();
+    
     /**
      * This class contains calls to the model and handling of data returned from it.
      * @version 1.0
@@ -22,26 +23,49 @@
         /**
          * This function utilizes the DB model class to retrieve  a token and display it on the page.
          *      The div is generated with the token as its ID for usage in the form submit function.
-         * @return void
+         * @return void this function doesn't return anything, but instead echos the generated token.
          */
         function displayUniqueToken()
         {
             $thisUniqueId = $this->databaseFuncs->generateUniqueID();
             echo "
                 <div id='" . $thisUniqueId . "' class='container-fluid'>
-                    <h3 class='text-center' >Schedule Token: " . $thisUniqueId . "</h3>
+                    <h3 class='text-center'>Schedule Token: " . $thisUniqueId . "</h3>
                     <input name='UniqueID' class='d-none' value=" . $thisUniqueId . " />
-                </div>
-            ";
+                </div>";
         }
 
         /**
-         * This function retrieves a plan and displays it on the page.
-         * @return void
+         * This function retrieves a plan, displays it token/created date/modified date on page, and returns an array
+         *      of schedule info if all goes well.
+         * @return void no return data. sets $_SESSION planData to array of info if successfully retrieved and echos
+         *      HTML to display ID + created/modified date, otherwise echos error text.
          */
-        function displayCreatedPlan()
+        function displayCreatedPlan(string $uniqueToken)
         {
-
+            $_SESSION['planData'] = '';
+            $planArray = $this->databaseFuncs->retrieveSchedule($uniqueToken);
+            if($planArray)
+            {
+                $modDate = "JUST CREATED";
+                if($planArray['modified_date'] != '')
+                {
+                    $modDate = $planArray['modified_date'];
+                }
+                echo "
+                    <div id='" . $planArray['scheduleID'] . "' class='container-fluid'>
+                        <h3 class='text-center'>Schedule Token: " . $planArray['scheduleID'] . "</h3>
+                        <h4 class='text-center'>Schedule Created: " . $planArray['created_date'] . "</h4>
+                        <h4 class='text-center'>Last Updated: " . $modDate . "</h4>
+                    </div>";
+                $_SESSION['planData'] = $planArray;
+            } else
+            {
+                echo "
+                <div class='container-fluid'>
+                    <h3 class='text-center'>ERROR. Plan data not found!</h3>
+                </div>";
+            }
         }
     
         /**
