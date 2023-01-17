@@ -51,8 +51,10 @@ $(document).ready(function ()
                         /*move view to "retrieve" and set the view button disabled state properly*/
                         $("#mainContent").load('views/retrieve.php');
 
-                        disableToggle('retrieve-view-button',
-                            document.getElementsByClassName('viewButton'));
+                        /*THIS CYCLES THE DISABLED BUTTON ATTRIBUTE TO DISABLE RETRIEVE SCHEDULE ON VIEW CHANGE.*/
+                        /*disableToggle('retrieve-view-button',
+                            document.getElementsByClassName('viewButton'));*/
+                        $('#new-view-button').prop('disabled', false);
                     }
                 });
 
