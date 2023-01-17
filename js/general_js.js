@@ -50,6 +50,7 @@ $(document).ready(function ()
                     success: function(){
                         /*move view to "retrieve" and set the view button disabled state properly*/
                         $("#mainContent").load('views/retrieve.php');
+                        alert("NEW RECORD CREATED");
 
                         /*THIS CYCLES THE DISABLED BUTTON ATTRIBUTE TO DISABLE RETRIEVE SCHEDULE ON VIEW CHANGE.*/
                         /*disableToggle('retrieve-view-button',
