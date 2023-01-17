@@ -6,15 +6,15 @@
      * @version 1.0
      * @author Conor O'Brien
      */
-    class ModelCalls
+    class ControllerClass
     {
         private $databaseFuncs;
 
         /**
          * This constructor initializes its $databaseFuncs dependency using a DBFunctions class parameter
-         * @param DBFunctions $databaseFuncs
+         * @param ModelDB $databaseFuncs
          */
-        public function __construct(DBFunctions $databaseFuncs)
+        public function __construct(ModelDB $databaseFuncs)
         {
             $this->databaseFuncs = $databaseFuncs;
         }

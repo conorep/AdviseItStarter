@@ -5,7 +5,7 @@
      * @version 1.0
      * @author Conor O'Brien
      */
-    class DBFunctions
+    class ModelDB
     {
         private $conn;
 
