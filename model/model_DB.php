@@ -178,4 +178,8 @@
             return $arrayOfIDs;
         }
 
+        /*TODO: THIS! update plan in DB.*/
+        function updateSchedule()
+        {}
+
     }
