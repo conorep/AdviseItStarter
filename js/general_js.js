@@ -31,7 +31,7 @@ $(document).ready(function ()
             {
                 e.preventDefault();
                 $.ajax({
-                    url: '../adviseit/controller/php/schedule_submit.php/',
+                    url: '../adviseit/controller/php/schedule_submit.php',
                     type: 'post',
                     data: $('#scheduleSubmit').serialize(),
                     success: function(){
