@@ -47,6 +47,7 @@
 
             if($uniqueID)
             {
+                $_SESSION['scheduleToken'] = $uniqueID;
                 $infoHere = $modelCalls->createNewPlan($uniqueID, $fallInfo, $winterInfo, $springInfo, $summerInfo);
                 echo $infoHere;
             }
