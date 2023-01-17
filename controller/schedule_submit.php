@@ -7,7 +7,7 @@
      */
     
     require("model_calls.php");
-    require("../../model/php/db_functions.php");
+    require("../model/db_functions.php");
     
     /*create objects*/
     $dbFunctions = new DBFunctions();
