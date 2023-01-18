@@ -42,11 +42,8 @@ $(document).ready(function ()
     {
         $("#mainContent").load('views/new.php', function ()
         {
-            /*
-              on schedule submit, ajax handles posting of the data to session
-              and then navigates to the 'retrieve' view and displays the info.
-              before setting button disabled states properly.
-              */
+
+            /*TODO: make this dynamic. Want to be able to trigger a POST or an UPDATE based on something*/
             /**
              * On schedule submit, ajax handles posting of the data to session
              *      and then navigates to the 'retrieve' view and displays the info.
@@ -57,7 +54,7 @@ $(document).ready(function ()
                 e.preventDefault();
                 $.ajax({
                     url: 'controller/schedule_ajax_calls.php',
-                    type: 'post',
+                    type: 'POST',
                     data: $('#scheduleSubmit').serialize(),
                     success: function(){
                         /*move view to "retrieve" and set the view button disabled state properly*/
@@ -96,7 +93,7 @@ $(document).ready(function ()
         var buttonID = $(this).attr('id');
         $.ajax({
             url: 'controller/schedule_ajax_calls.php',
-            type: 'get',
+            type: 'GET',
             data: {"ScheduleIDGet": buttonID},
             success: function(){
                 /*move view to "retrieve" and set the view button disabled state properly*/
@@ -113,7 +110,7 @@ $(document).ready(function ()
      */
     $(document).on('input', '#searchSchedules', function()
     {
-        var thisVal = $(this).val();
+        var thisVal = $(this).val().toUpperCase();
 
         $('.retrievalDiv').each(function()
         {
