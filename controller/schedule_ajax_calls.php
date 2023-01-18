@@ -12,50 +12,40 @@
     /*create objects*/
     $dbFunctions = new ModelDB();
     $modelCalls = new ControllerClass($dbFunctions);
-    
-    /*POST method from ajax does THIS:*/
+
+
+    /**
+     * The POST ajax call creates a new schedule in the DB using this block of code.
+     */
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        $uniqueID = '';
-        $fallInfo = '';
-        $winterInfo = '';
-        $springInfo = '';
-        $summerInfo = '';
+        /*make arrays of variables and the associated $_POST terms that will be saved to them*/
+        $infoArray = ['UniqueID', 'Fall', 'Winter', 'Spring', 'Summer'];
+        $varArray = [$uniqueID = '', $fallInfo = '', $winterInfo = '', $springInfo = '', $summerInfo = ''];
 
         if(!empty($_POST))
         {
-            if(isset($_POST['UniqueID']))
+            for($x = 0; $x < count($infoArray); $x++)
             {
-                $uniqueID = $_POST['UniqueID'];
-            }
-            if(isset($_POST['Fall']))
-            {
-                $fallInfo = $_POST['Fall'];
-            }
-            if(isset($_POST['Winter']))
-            {
-                $winterInfo = $_POST['Winter'];
-            }
-            if(isset($_POST['Spring']))
-            {
-                $springInfo = $_POST['Spring'];
-            }
-            if(isset($_POST['Summer']))
-            {
-                $summerInfo = $_POST['Summer'];
+                if(isset($_POST[$infoArray[$x]]))
+                {
+                    $varArray[$x] = $_POST[$infoArray[$x]];
+                }
             }
 
-            if($uniqueID)
+            if($varArray[0])
             {
-                $_SESSION['scheduleToken'] = $uniqueID;
-                $infoHere = $modelCalls->createNewPlan($uniqueID, $fallInfo, $winterInfo, $springInfo, $summerInfo);
+                $_SESSION['scheduleToken'] = $varArray[0];
+                $infoHere = $modelCalls->createNewPlan($varArray[0], $varArray[1], $varArray[2], $varArray[3], $varArray[4]);
                 echo $infoHere;
             }
+            postUnset($infoArray);
         }
-
     }
 
-    /*get method from ajax does THIS:*/
+    /**
+     * The GET ajax call facilitates retrieval of one specific record using this block of code.
+     */
     if($_SERVER["REQUEST_METHOD"] == "GET")
     {
         $uniqueID = '';
@@ -69,6 +59,22 @@
             if($uniqueID)
             {
                 $_SESSION['scheduleToken'] = $uniqueID;
+            }
+        }
+    }
+
+    /**
+     * A simple function to unset the variables used in the $_POST array
+     * @param $postInfoArr array the array of values that are used in the 'new schedule' code
+     * @return void
+     */
+    function postUnset(array $postInfoArr)
+    {
+        foreach($postInfoArr as $postInfo)
+        {
+            if($postInfo !== 'UniqueID')
+            {
+                unset($_POST[$postInfo]);
             }
         }
     }
