@@ -21,7 +21,7 @@
     {
         /*make arrays of variables and the associated $_POST terms that will be saved to them*/
         $infoArray = ['UniqueID', 'Fall', 'Winter', 'Spring', 'Summer'];
-        $varArray = [$uniqueID = '', $fallInfo = '', $winterInfo = '', $springInfo = '', $summerInfo = ''];
+        $varArr = [$uniqueID = '', $fallInfo = '', $winterInfo = '', $springInfo = '', $summerInfo = ''];
 
         if(!empty($_POST))
         {
@@ -29,14 +29,14 @@
             {
                 if(isset($_POST[$infoArray[$x]]))
                 {
-                    $varArray[$x] = $_POST[$infoArray[$x]];
+                    $varArr[$x] = $_POST[$infoArray[$x]];
                 }
             }
 
-            if($varArray[0])
+            if($varArr[0])
             {
-                $_SESSION['scheduleToken'] = $varArray[0];
-                $infoHere = $modelCalls->createNewPlan($varArray[0], $varArray[1], $varArray[2], $varArray[3], $varArray[4]);
+                $_SESSION['scheduleToken'] = $varArr[0];
+                $infoHere = $modelCalls->createNewPlan($varArr[0], $varArr[1], $varArr[2], $varArr[3], $varArr[4]);
                 echo $infoHere;
             }
             postUnset($infoArray);
