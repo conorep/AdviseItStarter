@@ -21,16 +21,23 @@ $(document).ready(function ()
         session = data;
     });*/
 
-    /*on document ready, load home view in index page*/
+    /**
+     * On document 'ready,' the home view is loaded in the index page.
+     */
     $("#mainContent").load('views/home.php');
 
-    /*load home.php*/
+    /**
+     * This onclick function loads home.php when the home header button is clicked.
+     */
     $("#home-view-button").click(function ()
     {
         $("#mainContent").load('views/home.php');
     });
 
     /*load new.php and attach event handler to submit button*/
+    /**
+     * This onclick function loads new.php when the new schedule header button is clicked.
+     */
     $("#new-view-button").click(function ()
     {
         $("#mainContent").load('views/new.php', function ()
@@ -40,6 +47,11 @@ $(document).ready(function ()
               and then navigates to the 'retrieve' view and displays the info.
               before setting button disabled states properly.
               */
+            /**
+             * On schedule submit, ajax handles posting of the data to session
+             *      and then navigates to the 'retrieve' view and displays the info.
+             *      before setting button disabled states properly.
+             */
             $('#scheduleSubmit').submit(function (e)
             {
                 e.preventDefault();
@@ -65,15 +77,19 @@ $(document).ready(function ()
         });
     });
 
-    /*load retrieve.php*/
+    /**
+     * This onclick function loads retrieve.php when the retrieve schedule header button is clicked.
+     */
     $("#retrieve-view-button").click(function ()
     {
         $("#mainContent").load('views/retrieve.php');
     });
 
-    /*this adds an on click event to each button with the retrievalBtnclass*/
-    /*the event will trigger an ajax get call to schedule_ajax_calls.php, triggering a page reload and
-            a view of an existing schedule*/
+    /**
+     * This function adds an onclick event to each button with the retrievalBtnclass.
+     * The event will trigger an ajax get call to schedule_ajax_calls.php, triggering a page reload and
+     *             a view of an existing schedule
+     */
     $(document).on('click', '.retrievalBtn', function(e)
     {
         e.preventDefault();
@@ -91,8 +107,10 @@ $(document).ready(function ()
         });
     });
 
-    /*this function reponds to the search box input. when there's a change, it schedule div IDs to see if they
-            contain the input character. if not, they are hidden. if yes, they are shown.*/
+    /**
+     * This function responds to the search box input. When there's a change, it searches schedule div IDs
+     *      to see if they contain the input character(s). If not, they are hidden. If yes, they are shown.
+     */
     $(document).on('input', '#searchSchedules', function()
     {
         var thisVal = $(this).val();
