@@ -12,6 +12,10 @@
             or retrieve existing info if $_SESSION['pageID'] is 'RetrieveView*/
     if($_SESSION['pageID'] == 'NewView')
     {
+        if(isset($_SESSION['scheduleToken']))
+        {
+            unset($_SESSION['scheduleToken']);
+        }
         include("form_opening.php");
         $modelCalls->displayUniqueToken();
         include("quarter_html.php");
@@ -24,7 +28,6 @@
         {
             include("form_opening.php");
             $modelCalls->displayCreatedPlan($_SESSION['scheduleToken']);
-
             include("quarter_html.php");
 
             /*set both session vars back to '' when done with them*/
