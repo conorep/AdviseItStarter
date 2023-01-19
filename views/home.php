@@ -7,7 +7,8 @@
      * @author Conor O'Brien
      */
     include('../include/object_creation.php');
-    var_dump($_SESSION);
+//    var_dump($_SESSION);
+
     $_SESSION['pageID'] = 'HomeView';
     $modelCalls->unsetVars($quartersArr);
 
