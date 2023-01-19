@@ -56,7 +56,7 @@ $(document).ready(function ()
                     success: function()
                     {
                         /*move view to "retrieve" and set the view button disabled state properly*/
-                        $("#mainContent").on('load', 'views/retrieve.php', function()
+                        $("#mainContent").load('views/retrieve.php', function()
                         {
                             $.fn.disableUpdateBtn();
                         });
