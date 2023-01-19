@@ -11,5 +11,6 @@
     include('../include/object_creation.php');
 
     $_SESSION['pageID'] = 'NewView';
+    $modelCalls->unsetVars($quartersArr, 'SESH');
 
     include('../include/schedule_form.php');

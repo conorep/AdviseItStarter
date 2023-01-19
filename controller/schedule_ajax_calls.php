@@ -50,7 +50,7 @@
                     $infoHere = $modelCalls->createNewPlan($varArr[0], $varArr[1], $varArr[2], $varArr[3], $varArr[4]);
                     echo $infoHere;
                 }
-                postUnset($infoArray);
+                $modelCalls->unsetVars($infoArray, 'POST');
             }
         }
     }
@@ -70,22 +70,6 @@
             if($uniqueID)
             {
                 $_SESSION['scheduleToken'] = $uniqueID;
-            }
-        }
-    }
-
-    /**
-     * A simple function to unset the variables used in the $_POST array
-     * @param $postInfoArr array the array of values that are used in the 'new schedule' code
-     * @return void
-     */
-    function postUnset(array $postInfoArr)
-    {
-        foreach($postInfoArr as $postInfo)
-        {
-            if($postInfo !== 'UniqueID')
-            {
-                unset($_POST[$postInfo]);
             }
         }
     }

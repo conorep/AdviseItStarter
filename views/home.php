@@ -6,7 +6,9 @@
      * @version 1.0
      * @author Conor O'Brien
      */
+    include('../include/object_creation.php');
     $_SESSION['pageID'] = 'HomeView';
+    $modelCalls->unsetVars($quartersArr, 'SESH');
 
     echo "
 
