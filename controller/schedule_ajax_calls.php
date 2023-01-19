@@ -1,5 +1,8 @@
 <?php
     session_start();
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST');
+    header("Access-Control-Allow-Headers: X-Requested-With");
 
     /**
      * This file handles the submitting of new schedules in the background after Ajax
@@ -19,27 +22,36 @@
      */
     if($_SERVER["REQUEST_METHOD"] == "POST")
     {
-        /*make arrays of variables and the associated $_POST terms that will be saved to them*/
-        $infoArray = ['UniqueID', 'Fall', 'Winter', 'Spring', 'Summer'];
-        $varArr = [$uniqueID = '', $fallInfo = '', $winterInfo = '', $springInfo = '', $summerInfo = ''];
-
-        if(!empty($_POST))
+        /*using for external API request testing*/
+        if(isset($_POST['RETURN_DATA_TEST_8A8A8A8A']))
         {
-            for($x = 0; $x < count($infoArray); $x++)
+            echo $_POST['RETURN_DATA_TEST_8A8A8A8A'] . "\n";
+            echo json_encode($dbFunctions->getAllScheduleIDs());
+        } else
+        {
+            /*make arrays of variables and the associated $_POST terms that will be saved to them*/
+            $infoArray = ['UniqueID', 'Fall', 'Winter', 'Spring', 'Summer'];
+            $varArr = [$uniqueID = '', $fallInfo = '', $winterInfo = '', $springInfo = '', $summerInfo = ''];
+    
+            if(!empty($_POST))
             {
-                if(isset($_POST[$infoArray[$x]]))
+                echo "we got here";
+                for($x = 0; $x < count($infoArray); $x++)
                 {
-                    $varArr[$x] = $_POST[$infoArray[$x]];
+                    if(isset($_POST[$infoArray[$x]]))
+                    {
+                        $varArr[$x] = $_POST[$infoArray[$x]];
+                    }
                 }
+        
+                if($varArr[0])
+                {
+                    $_SESSION['scheduleToken'] = $varArr[0];
+                    $infoHere = $modelCalls->createNewPlan($varArr[0], $varArr[1], $varArr[2], $varArr[3], $varArr[4]);
+                    echo $infoHere;
+                }
+                postUnset($infoArray);
             }
-
-            if($varArr[0])
-            {
-                $_SESSION['scheduleToken'] = $varArr[0];
-                $infoHere = $modelCalls->createNewPlan($varArr[0], $varArr[1], $varArr[2], $varArr[3], $varArr[4]);
-                echo $infoHere;
-            }
-            postUnset($infoArray);
         }
     }
 
@@ -51,7 +63,6 @@
         $uniqueID = '';
         if(!empty($_GET))
         {
-            var_dump($_GET);
             if(isset($_GET['ScheduleIDGet']))
             {
                 $uniqueID = $_GET['ScheduleIDGet'];
