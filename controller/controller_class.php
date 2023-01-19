@@ -25,7 +25,7 @@
          *      The div is generated with the token as its ID for usage in the form submit function.
          * @return void this function doesn't return anything, but instead echos the generated token.
          */
-        function displayUniqueToken()
+        public function displayUniqueToken()
         {
             $thisUniqueId = $this->databaseFuncs->generateUniqueID();
             echo "
@@ -41,7 +41,7 @@
          * @return void no return data. sets $_SESSION planData to array of info if successfully retrieved and echos
          *      HTML to display ID + created/modified date, otherwise echos error text.
          */
-        function displayCreatedPlan(string $uniqueToken)
+        public function displayCreatedPlan(string $uniqueToken)
         {
             $_SESSION['planData'] = '';
             $planArray = $this->databaseFuncs->retrieveSchedule($uniqueToken);
@@ -55,10 +55,11 @@
                     $modDate = "NO UPDATES YET";
                 }
                 echo "
-                    <div id='" . $planArray['scheduleID'] . "' class='container-fluid'>
+                    <div class='container-fluid'>
                         <h3 class='text-center'>Schedule Token: " . $planArray['scheduleID'] . "</h3>
                         <h4 class='text-center'>Schedule Created: " . $planArray['created_date'] . "</h4>
                         <h4 class='text-center'>Last Updated: " . $modDate . "</h4>
+                        <input name='UniqueID' value='" . $planArray['scheduleID'] . "' class='d-none'>
                     </div>";
                 $_SESSION['planData'] = $planArray;
             } else
@@ -81,14 +82,22 @@
          * @param $summer String
          * @return string if true, a success message. if false, an error message.
          */
-        function createNewPlan(string $id, string $fall, string $winter, string $spring, string $summer): string
+        public function createNewPlan(string $id, string $fall, string $winter, string $spring, string $summer): string
         {
-            if($this->databaseFuncs->createNewSchedule($id, $fall, $winter, $spring, $summer))
+            echo $id;
+            /*if there's no existing ID, created new schedule. if there IS an existing ID, run the update function.*/
+            if($this->databaseFuncs->checkTokens($id))
             {
-                return "The schedule was successfully created!";
+                if($this->databaseFuncs->createNewSchedule($id, $fall, $winter, $spring, $summer))
+                {
+                    return "The schedule was successfully created!";
+                } else
+                {
+                    return "Error - the new schedule was not created.";
+                }
             } else
             {
-                return "Error - the new schedule was not created.";
+                return $this->updateExistingPlan($id, [$fall, $winter, $spring, $summer]);
             }
         }
 
@@ -97,7 +106,7 @@
          *      the retrieve schedule view.
          * @return void echo data out
          */
-        function getAllIds()
+        public function getAllIds()
         {
             $plansArr = $this->databaseFuncs->getAllScheduleIDs();
 
@@ -114,8 +123,63 @@
         }
 
         /*TODO: this! send in info to update, update record.*/
-        function updateExistingPlan(string $uniqueToken)
-        {}
+        /**
+         * @param string $uniqueToken scheduleID token for row reference
+         * @param array $valsArray values to update. also used to reference $columnArr to see which fields need updating.
+         * @return string return string regarding successful or unsuccessful record creation
+         */
+        public function updateExistingPlan(string $uniqueToken, array $valsArray): string
+        {
+            $currentValsArr = [];
+            $columnArr = ['fallQrtr', 'winterQrtr', 'springQrtr', 'summerQrtr'];
+            $updateStatement = "UPDATE schedule SET ";
+            for($x = 0; $x < count($columnArr); $x++)
+            {
+                if($valsArray[$x] != '')
+                {
+                     $updateStatement .= $columnArr[$x] . "=?, ";
+                     $currentValsArr[] = $valsArray[$x];
+                }
+            }
+            /*trim last ', ' and append 'WHERE scheduleID = ?'*/
+            $updateStatement = substr($updateStatement, 0, -2) . " WHERE scheduleID=?";
+            
+            echo $updateStatement;
+            if($this->databaseFuncs->updateSchedule($uniqueToken, $updateStatement, $currentValsArr))
+            {
+                return "This record was updated properly.";
+            } else
+            {
+                return "Error - record not updated.";
+            }
+            
+        }
+    
+        /**
+         * A simple function to unset the variables used in the $_POST or $_SESSION array
+         * @param array $globalInfoArr array the array of values that are used in the 'new schedule' code
+         * @return void
+         */
+        public function unsetVars(array $globalInfoArr)
+        {
+            foreach($globalInfoArr as $globalInfo)
+            {
+                if($globalInfo !== 'UniqueID')
+                {
+                    if(isset($_POST[$globalInfo]))
+                    {
+                        unset($_POST[$globalInfo]);
+                    } else if(isset($_SESSION[$globalInfo]))
+                    {
+                        unset($_SESSION[$globalInfo]);
+                    }
+                }
+            }
+            if(isset($_SESSION['planData']))
+            {
+                unset($_SESSION['planData']);
+            }
+        }
 
     }
 
