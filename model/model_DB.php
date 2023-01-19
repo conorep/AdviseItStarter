@@ -64,7 +64,7 @@
          * @return bool true if ID parameter is not found in DB or nothing in DB yet,
          *      false if found in DB
          */
-        private function checkTokens(string $newID): bool
+        public function checkTokens(string $newID): bool
         {
             $result = $this->getAllUniqueIDs();
 
@@ -84,6 +84,7 @@
             return true;
         }
 
+        /*TODO: update this to NOT use uniqid*/
         /**
          * This function creates a unique 6-digit ID to use as a schedule token.
          *      It checks all existing DB tokens for uniqueness. If unique, it is usable.
@@ -106,6 +107,25 @@
 
             /*this is useless and not reachable - just getting rid of a few bogus IDE flags*/
             return '';
+        }
+    
+        /**
+         * This function runs a SELECT ALL query on the database 'schedules' table. It returns an array of all rows.
+         * @return array array of fetched IDs
+         */
+        public function getAllScheduleIDs(): array
+        {
+            $arrayOfIDs = array();
+        
+            $selectAll = "SELECT scheduleID FROM schedules ORDER BY modified_date";
+            $sqlSelectAll = $this->getConn()->prepare($selectAll);
+            $sqlSelectAll->execute();
+            $result = $sqlSelectAll->get_result();
+            while($row = $result->fetch_assoc())
+            {
+                $arrayOfIDs[]=$row['scheduleID'];
+            }
+            return $arrayOfIDs;
         }
 
         /*TODO: function that adds new schedule to DB*/
@@ -140,7 +160,6 @@
            
            return $sqlStatement->execute();
         }
-
     
         /**
          * This function retrieves an existing schedule from the database.
@@ -159,27 +178,39 @@
             return $sqlStatement->get_result()->fetch_assoc();
         }
 
-        /**
-         * This function runs a SELECT ALL query on the database 'schedules' table. It returns an array of all rows.
-         * @return array array of fetched IDs
-         */
-        public function getAllScheduleIDs(): array
-        {
-            $arrayOfIDs = array();
-
-            $selectAll = "SELECT scheduleID FROM schedules";
-            $sqlSelectAll = $this->getConn()->prepare($selectAll);
-            $sqlSelectAll->execute();
-            $result = $sqlSelectAll->get_result();
-            while($row = $result->fetch_assoc())
-            {
-                $arrayOfIDs[]=$row['scheduleID'];
-            }
-            return $arrayOfIDs;
-        }
-
         /*TODO: THIS! update plan in DB.*/
-        function updateSchedule()
-        {}
+        /**
+         * This function updates a row in the database.
+         * @param string $scheduleID ID of row to update
+         * @param string $sqlUpdate update query built in controller
+         * @param array $valsArr values to update
+         * @return bool false if nothing returned from DB query, mysqli_result if data returned
+         */
+        public function updateSchedule(string $scheduleID, string $sqlUpdate, array $valsArr): bool
+        {
+            $columnVars = [];
+            $uniqueID = '';
+            $columnName = [$one = '', $two = '', $three = '', $four = ''];
+            $sqlUpdateStatement = $sqlUpdate;
+            $sqlStatement = $this->getConn()->prepare($sqlUpdateStatement);
+    
+            $numQuestionMarks = str_repeat('?', count($valsArr) +1);
+            for($x = 0; $x < strlen($numQuestionMarks); $x ++)
+            {
+                $columnVars[] = $columnName[$x];
+            }
+    
+            /*bind parameters using mysqli and declaring them as String (does not allow for SQL injection)*/
+            $sqlStatement->bind_param($numQuestionMarks, $columnVars[], $uniqueID);
+            
+            /*update all bound parameters*/
+            for($x = 0; $x < strlen($numQuestionMarks); $x++)
+            {
+                $columnVars[$x] = $valsArr[$x];
+            }
+            $uniqueID = $scheduleID;
+    
+            return $sqlStatement->execute();
+        }
 
     }

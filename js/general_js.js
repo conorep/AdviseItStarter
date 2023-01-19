@@ -34,7 +34,6 @@ $(document).ready(function ()
         $("#mainContent").load('views/home.php');
     });
 
-    /*load new.php and attach event handler to submit button*/
     /**
      * This onclick function loads new.php when the new schedule header button is clicked.
      */
@@ -42,30 +41,28 @@ $(document).ready(function ()
     {
         $("#mainContent").load('views/new.php', function ()
         {
-
-            /*TODO: make this dynamic. Want to be able to trigger a POST or an UPDATE based on something*/
             /**
              * On schedule submit, ajax handles posting of the data to session
              *      and then navigates to the 'retrieve' view and displays the info.
              *      before setting button disabled states properly.
              */
-            $('#scheduleSubmit').submit(function (e)
+            $('#scheduleSubmit').submit(function(e)
             {
                 e.preventDefault();
                 $.ajax({
                     url: 'controller/schedule_ajax_calls.php',
                     type: 'POST',
                     data: $('#scheduleSubmit').serialize(),
-                    success: function(){
+                    success: function()
+                    {
                         /*move view to "retrieve" and set the view button disabled state properly*/
-                        $("#mainContent").load('views/retrieve.php');
+                        $("#mainContent").on('load', 'views/retrieve.php', function()
+                        {
+                            $.fn.disableUpdateBtn();
+                        });
                         alert("NEW RECORD CREATED");
 
-                        /*THIS CYCLES THE DISABLED BUTTON ATTRIBUTE TO DISABLE RETRIEVE SCHEDULE ON VIEW CHANGE.*/
-                        /*disableToggle('retrieve-view-button',
-                            document.getElementsByClassName('viewButton'));*/
                         $('#new-view-button').prop('disabled', false);
-
                     }
                 });
 
@@ -77,7 +74,7 @@ $(document).ready(function ()
     /**
      * This onclick function loads retrieve.php when the retrieve schedule header button is clicked.
      */
-    $("#retrieve-view-button").click(function ()
+    $("#retrieve-view-button").click(function()
     {
         $("#mainContent").load('views/retrieve.php');
     });
@@ -95,10 +92,13 @@ $(document).ready(function ()
             url: 'controller/schedule_ajax_calls.php',
             type: 'GET',
             data: {"ScheduleIDGet": buttonID},
-            success: function(){
+            success: function()
+            {
                 /*move view to "retrieve" and set the view button disabled state properly*/
-                $("#mainContent").load('views/retrieve.php');
-
+                $("#mainContent").load('views/retrieve.php', function()
+                {
+                    $.fn.disableUpdateBtn();
+                });
                 $('#retrieve-view-button').prop('disabled', false);
             }
         });
@@ -126,6 +126,23 @@ $(document).ready(function ()
         });
     });
 
+    /**
+     * This function disables the update button. It is called when the retrieve view has been loaded.
+     *      The button is re-enabled when there is a change registered in the schedule forms.
+     */
+    $.fn.disableUpdateBtn = function()
+    {
+        var submitBtn = $('#submit-schedule-button');
+        var scheduleForms = $('#scheduleSubmit');
+        if(submitBtn.prop('name') === 'scheduleUpdate')
+        {
+            submitBtn.prop("disabled", true);
+        }
+        scheduleForms.on('input', function()
+        {
+            submitBtn.prop("disabled", false);
+        })
+    }
 });
 
 
