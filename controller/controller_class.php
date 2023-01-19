@@ -84,7 +84,6 @@
          */
         public function createNewPlan(string $id, string $fall, string $winter, string $spring, string $summer): string
         {
-            echo $id;
             /*if there's no existing ID, created new schedule. if there IS an existing ID, run the update function.*/
             if($this->databaseFuncs->checkTokens($id))
             {
@@ -122,7 +121,7 @@
             echo "</div>";
         }
 
-        /*TODO: this! send in info to update, update record.*/
+        /*TODO: update JavaScript to only submit changed fields*/
         /**
          * @param string $uniqueToken scheduleID token for row reference
          * @param array $valsArray values to update. also used to reference $columnArr to see which fields need updating.
@@ -132,7 +131,7 @@
         {
             $currentValsArr = [];
             $columnArr = ['fallQrtr', 'winterQrtr', 'springQrtr', 'summerQrtr'];
-            $updateStatement = "UPDATE schedule SET ";
+            $updateStatement = "UPDATE schedules SET ";
             for($x = 0; $x < count($columnArr); $x++)
             {
                 if($valsArray[$x] != '')
@@ -142,9 +141,8 @@
                 }
             }
             /*trim last ', ' and append 'WHERE scheduleID = ?'*/
-            $updateStatement = substr($updateStatement, 0, -2) . " WHERE scheduleID=?";
-            
-            echo $updateStatement;
+            $updateStatement = substr($updateStatement, 0, -2) . " WHERE scheduleID =?;";
+
             if($this->databaseFuncs->updateSchedule($uniqueToken, $updateStatement, $currentValsArr))
             {
                 return "This record was updated properly.";
