@@ -6,8 +6,11 @@
      * @version 1.0
      * @author Conor O'Brien
      */
+    /*this delineates what the submit button will say (submit or update based on view)*/
     $submitOrUpdate = 'SUBMIT';
+    /*this delineates what the submit button will be labeled to do (submit new schedule or update existing schedule)*/
     $subOrUpVal = 'newScheduleSubmit';
+    /*this is used to save the schedule token in the update view*/
     $idVal = '';
     $databaseValArr = array('Fall'=>'fallQrtr', 'Winter'=>'winterQrtr', 'Spring'=>'springQrtr', 'Summer'=>'summerQrtr');
     $rowVal ='';
@@ -43,7 +46,7 @@
     
     echo "
                     <button type='submit' id='submit-schedule-button' class='scheduleButton' name='".$subOrUpVal. "'
-                                value='.$idVal'>
+                                value='".$idVal."'>
                         ". $submitOrUpdate ."
                     </button>
                 </div>
