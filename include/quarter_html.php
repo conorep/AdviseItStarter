@@ -6,16 +6,22 @@
      * @version 1.0
      * @author Conor O'Brien
      */
-    $readOnlyOrNot = '';
+    $submitOrUpdate = 'SUBMIT';
+    $subOrUpVal = 'newScheduleSubmit';
+    $idVal = '';
     $databaseValArr = array('Fall'=>'fallQrtr', 'Winter'=>'winterQrtr', 'Spring'=>'springQrtr', 'Summer'=>'summerQrtr');
     $rowVal ='';
 
     if($_SESSION['pageID'] == 'RetrieveView')
     {
-        $readOnlyOrNot = 'readonly';
+        $submitOrUpdate = 'UPDATE';
+        $subOrUpVal = 'scheduleUpdate';
+        if(isset($_SESSION['scheduleToken']) && $_SESSION['scheduleToken'] !== '')
+        {
+            $idVal = $_SESSION['scheduleToken'];
+        }
     }
-
-    /*if viewing a freshly-created schedule, readonly is toggled 'on' for the textareas*/
+    
     foreach ($quartersArr as $quarter)
     {
         if($_SESSION['pageID'] == 'RetrieveView')
@@ -27,25 +33,19 @@
                     <h2>" . $quarter . "</h2>
                     <label for='" . $quarter . "'>CLASSES</label>
                     <textarea class='quarterInput form-control' id='" . $quarter . "' rows='5' 
-                                name='" . $quarter . "' ".$readOnlyOrNot.">";
+                                name='" . $quarter . "' >";
 
         echo $_SESSION['pageID'] == 'RetrieveView' ? $_SESSION['planData'][$rowVal]  :  '';
 
         echo       "</textarea>
                 </div>";
     }
-
-    /*TODO: for now, hiding button if in 'view created schedule' view. need to implement edit capabilities.*/
-    if($_SESSION['pageID'] == 'NewView')
-    {
-        echo "
-                <button type='submit' id='submit-schedule-button' class='scheduleButton' value='newSchedule' name='newScheduleSubmit'>
-                    SUBMIT
-                </button>";
-    }
-
-
+    
     echo "
-                 </div>
+                    <button type='submit' id='submit-schedule-button' class='scheduleButton' name='".$subOrUpVal. "'
+                                value='.$idVal'>
+                        ". $submitOrUpdate ."
+                    </button>
+                </div>
             </div>
         </form>";
