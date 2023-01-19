@@ -1,10 +1,6 @@
 <?php
     session_start();
 
-    //turn on error reporting
-    ini_set('display_errors', 1);
-    error_reporting(E_ALL);
-
     /*TODO: add route handling for token URI input*/
     include("controller/route.php");
     $routing = new Route();
