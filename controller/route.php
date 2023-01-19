@@ -1,5 +1,4 @@
 <?php
-    session_start();
 
     /**
      * This is an un-finished class for handling routes. It will be possible to use six-digit URL routes
