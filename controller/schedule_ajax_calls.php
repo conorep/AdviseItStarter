@@ -35,7 +35,6 @@
     
             if(!empty($_POST))
             {
-                echo "we got here";
                 for($x = 0; $x < count($infoArray); $x++)
                 {
                     if(isset($_POST[$infoArray[$x]]))
@@ -43,14 +42,14 @@
                         $varArr[$x] = $_POST[$infoArray[$x]];
                     }
                 }
-        
+                
                 if($varArr[0])
                 {
                     $_SESSION['scheduleToken'] = $varArr[0];
                     $infoHere = $modelCalls->createNewPlan($varArr[0], $varArr[1], $varArr[2], $varArr[3], $varArr[4]);
                     echo $infoHere;
                 }
-                $modelCalls->unsetVars($infoArray, 'POST');
+                $modelCalls->unsetVars($infoArray);
             }
         }
     }
