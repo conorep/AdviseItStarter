@@ -118,6 +118,7 @@
             $arrayOfIDs = array();
         
             $selectAll = "SELECT scheduleID FROM schedules ORDER BY modified_date";
+            
             $sqlSelectAll = $this->getConn()->prepare($selectAll);
             $sqlSelectAll->execute();
             $result = $sqlSelectAll->get_result();
