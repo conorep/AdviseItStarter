@@ -41,33 +41,7 @@ $(document).ready(function ()
     {
         $("#mainContent").load('views/new.php', function ()
         {
-            /**
-             * On schedule submit, ajax handles posting of the data to session
-             *      and then navigates to the 'retrieve' view and displays the info.
-             *      before setting button disabled states properly.
-             */
-            $('#scheduleSubmit').submit(function(e)
-            {
-                e.preventDefault();
-                $.ajax({
-                    url: 'controller/schedule_ajax_calls.php',
-                    type: 'POST',
-                    data: $('#scheduleSubmit').serialize(),
-                    success: function()
-                    {
-                        /*move view to "retrieve" and set the view button disabled state properly*/
-                        $("#mainContent").load('views/retrieve.php', function()
-                        {
-                            $.fn.disableUpdateBtn();
-                        });
-                        alert("NEW RECORD CREATED");
-
-                        $('#new-view-button').prop('disabled', false);
-                    }
-                });
-
-            });
-
+            $.fn.postSchedule();
         });
     });
 
@@ -127,6 +101,34 @@ $(document).ready(function ()
     });
 
     /**
+     * On schedule submit, ajax handles posting of the data to session
+     *      and then navigates to the 'retrieve' view and displays the info.
+     *      before setting button disabled states properly.
+     */
+    $.fn.postSchedule = function()
+    {
+        $('#scheduleSubmit').submit(function(e)
+        {
+            e.preventDefault();
+            $.ajax({
+                url: 'controller/schedule_ajax_calls.php',
+                type: 'POST',
+                data: $('#scheduleSubmit').serialize(),
+                success: function()
+                {
+                    /*move view to "retrieve" and set the view button disabled state properly*/
+                    $("#mainContent").load('views/retrieve.php', function()
+                    {
+                        $.fn.disableUpdateBtn();
+                    });
+                    alert("NEW RECORD CREATED");
+                    $('#new-view-button').prop('disabled', false);
+                }
+            });
+        });
+    }
+
+    /**
      * This function disables the update button. It is called when the retrieve view has been loaded.
      *      The button is re-enabled when there is a change registered in the schedule forms.
      */
@@ -141,6 +143,25 @@ $(document).ready(function ()
         scheduleForms.on('input', function()
         {
             submitBtn.prop("disabled", false);
+        })
+        scheduleForms.submit(function(e)
+        {
+            e.preventDefault();
+            $.ajax({
+                url: 'controller/schedule_ajax_calls.php',
+                type: 'POST',
+                data: $('#scheduleSubmit').serialize(),
+                success: function()
+                {
+                    /*move view to "retrieve" and set the view button disabled state properly*/
+                    $("#mainContent").load('views/retrieve.php', function()
+                    {
+                        $.fn.disableUpdateBtn();
+                    });
+                    alert("RECORD UPDATED");
+                    $('#new-view-button').prop('disabled', false);
+                }
+            });
         })
     }
 });
