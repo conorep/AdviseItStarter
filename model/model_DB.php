@@ -129,7 +129,6 @@
             return $arrayOfIDs;
         }
 
-        /*TODO: function that adds new schedule to DB*/
         /**
          * This function creates a new schedule in the database.
          *      It utilizes mysqli's prepare and bind_param functions to handle SQL validation
@@ -179,8 +178,7 @@
             return $sqlStatement->get_result()->fetch_assoc();
         }
 
-        /*TODO: THIS! update plan in DB.*/
-    
+        /*TODO: update JavaScript to only submit changed fields*/
         /**
          * This function updates a row in the database.
          * @param string $scheduleID ID of row to update
@@ -190,44 +188,43 @@
          */
         public function updateSchedule(string $scheduleID, string $sqlUpdate, array $valsArr): bool
         {
-//            $columnVars = array();
-//            $uniqueID = '';
-//            $columnName = [$one, $two, $three, $four];
-            $one = ''; $two = ''; $three = ''; $four = '';
-            
-            $localStatement = "UPDATE schedule SET fallQrtr= ?, winterQrtr= ?, springQrtr= ?, summerQrtr= ? WHERE scheduleID= ?";
-            $sqlStatement = $this->getConn()->prepare($localStatement);
-            $sqlStatement->bind_param("sssss", $one, $two, $three, $four, $uniqueID);
-    
-            $one = $valsArr[0];
-            $two = $valsArr[1];
-            $three = $valsArr[2];
-            $four = $valsArr[3];
-            $uniqueID = $scheduleID;
-            
-            return $sqlStatement->execute();
-            
-//            for($x = 0; $x < count($valsArr); $x++)
-//            {
-//                $columnVars[] = $columnName[$x];
-//            }
-//            echo " num of vars before id: " . count($columnVars);
-//            print_r($columnVars);
-    
-            /*bind parameters using mysqli and declaring them as String (does not allow for SQL injection)*/
-//            for($x = 0; $x < count($columnVars); $x++)
-//            {
-//                var_dump($columnVars[$x]);
-//                $sqlStatement->bind_param("s", $columnVars[$x]);
-//            }
-//            $sqlStatement->bind_param("s", $uniqueID);
+            /*instantiate empty variables for possible usage, dependent on amount of updated fields sent in*/
+            $uniqueID = ''; $one = ''; $two = ''; $three = ''; $four = '';
 
-            
-            /*update all bound parameters*/
-//            for($x = 0; $x < strlen($numQuestionMarks); $x++)
-//            {
-//                $columnVars[$x] = $valsArr[$x];
-//            }
+            /*transfer variables into empty array for each in array of values sent into function, plus uniqueID*/
+            /*loop through columnNameVars and save the required amount of reference field variables in columnVars*/
+            $columnVars = array();
+            $columnNameVars = [$one, $two, $three, $four];
+
+            for($x = 0; $x < count($valsArr); $x++)
+            {
+                $columnVars[] = $columnNameVars[$x];
+            }
+            $columnVars[] = $uniqueID;
+
+            /*create a string of 's's for string bind_param function*/
+            $stringRefs = str_repeat('s', count($columnVars));
+
+            /*prepare query*/
+            $sqlStatement = $this->getConn()->prepare($sqlUpdate);
+
+            /*bind parameters using mysqli and declaring them as string (does not allow for SQL injection)*/
+            $sqlStatement->bind_param($stringRefs, ...$columnVars);
+
+            /*save actual values to array of variables*/
+            for($x = 0; $x < count($columnVars); $x++)
+            {
+                if($x < count($columnVars) -1)
+                {
+                    $columnVars[$x] = $valsArr[$x];
+                } else
+                {
+                    $columnVars[$x] = $scheduleID;
+                }
+            }
+
+            /*execute*/
+            return $sqlStatement->execute();
         }
 
     }
