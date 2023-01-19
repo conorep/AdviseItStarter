@@ -10,7 +10,7 @@
      */
 
     include('../include/object_creation.php');
-    var_dump($_SESSION);
+//    var_dump($_SESSION);
     
     $_SESSION['pageID'] = 'RetrieveView';
     $modelCalls->unsetVars($quartersArr);
