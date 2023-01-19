@@ -144,6 +144,7 @@ $(document).ready(function ()
         {
             submitBtn.prop("disabled", false);
         })
+        /*TODO: simplify this. redundant code.*/
         scheduleForms.submit(function(e)
         {
             e.preventDefault();
