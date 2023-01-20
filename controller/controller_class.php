@@ -18,8 +18,7 @@
         {
             $this->databaseFuncs = $databaseFuncs;
         }
-
-        /*TODO: fix this up a bit. hidden input with the token is not ideal - can be edited.*/
+        
         /**
          * This function utilizes the DB model class to retrieve  a token and display it on the page.
          *      The div is generated with the token as its ID for usage in the form submit function.
@@ -29,9 +28,8 @@
         {
             $thisUniqueId = $this->databaseFuncs->generateUniqueID();
             echo "
-                <div id='" . $thisUniqueId . "' class='container-fluid'>
+                <div id='" . $thisUniqueId . "' class='container-fluid submit_id'>
                     <h3 class='text-center'>Schedule Token: " . $thisUniqueId . "</h3>
-                    <input name='UniqueID' class='d-none' value=" . $thisUniqueId . " />
                 </div>";
         }
 
@@ -55,11 +53,10 @@
                     $modDate = "NO UPDATES YET";
                 }
                 echo "
-                    <div class='container-fluid'>
+                    <div id='" . $planArray['schedule_id'] . "' class='container-fluid submit_id'>
                         <h3 class='text-center'>Schedule Token: " . $planArray['schedule_id'] . "</h3>
                         <h4 class='text-center'>Schedule Created: " . $planArray['created_date'] . "</h4>
                         <h4 class='text-center'>Last Updated: " . $modDate . "</h4>
-                        <input name='UniqueID' value='" . $planArray['schedule_id'] . "' class='d-none'>
                     </div>";
                 $_SESSION['planData'] = $planArray;
             } else
@@ -84,7 +81,7 @@
          */
         public function createNewPlan(string $id, string $fall, string $winter, string $spring, string $summer): string
         {
-            /*if there's no existing ID, created new schedule. if there IS an existing ID, run the update function.*/
+            /*if there's no existing ID, create new schedule. if there IS an existing ID, run the update function.*/
             if($this->databaseFuncs->checkTokens($id))
             {
                 if($this->databaseFuncs->createNewSchedule($id, $fall, $winter, $spring, $summer))
