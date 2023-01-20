@@ -19,14 +19,12 @@
         {
             while ($row = mysqli_fetch_assoc($result))
             {
-                echo " Schedule ID: " . $row["scheduleID"];
+                echo " Schedule ID: " . $row["schedule_id"];
             }
         } else
         {
             echo " No results from select query.";
         }
-        /*this isn't necessary in a program of this size. close does the trick. not stressing about memory leak or anything.*/
-        //mysqli_free_result($result);
 
         /*close connection when done (for now)*/
         $connection->close();

@@ -56,10 +56,10 @@
                 }
                 echo "
                     <div class='container-fluid'>
-                        <h3 class='text-center'>Schedule Token: " . $planArray['scheduleID'] . "</h3>
+                        <h3 class='text-center'>Schedule Token: " . $planArray['schedule_id'] . "</h3>
                         <h4 class='text-center'>Schedule Created: " . $planArray['created_date'] . "</h4>
                         <h4 class='text-center'>Last Updated: " . $modDate . "</h4>
-                        <input name='UniqueID' value='" . $planArray['scheduleID'] . "' class='d-none'>
+                        <input name='UniqueID' value='" . $planArray['schedule_id'] . "' class='d-none'>
                     </div>";
                 $_SESSION['planData'] = $planArray;
             } else
@@ -123,14 +123,14 @@
 
         /*TODO: update JavaScript to only submit changed fields*/
         /**
-         * @param string $uniqueToken scheduleID token for row reference
+         * @param string $uniqueToken schedule_id token for row reference
          * @param array $valsArray values to update. also used to reference $columnArr to see which fields need updating.
          * @return string return string regarding successful or unsuccessful record creation
          */
         public function updateExistingPlan(string $uniqueToken, array $valsArray): string
         {
             $currentValsArr = [];
-            $columnArr = ['fallQrtr', 'winterQrtr', 'springQrtr', 'summerQrtr'];
+            $columnArr = ['fall_qrtr', 'winter_qrtr', 'spring_qrtr', 'summer_qrtr'];
             $updateStatement = "UPDATE schedules SET ";
             for($x = 0; $x < count($columnArr); $x++)
             {
@@ -140,8 +140,8 @@
                      $currentValsArr[] = $valsArray[$x];
                 }
             }
-            /*trim last ', ' and append 'WHERE scheduleID = ?'*/
-            $updateStatement = substr($updateStatement, 0, -2) . " WHERE scheduleID =?;";
+            /*trim last ', ' and append 'WHERE schedule_id = ?'*/
+            $updateStatement = substr($updateStatement, 0, -2) . " WHERE schedule_id =?;";
 
             if($this->databaseFuncs->updateSchedule($uniqueToken, $updateStatement, $currentValsArr))
             {

@@ -12,7 +12,7 @@
     $subOrUpVal = 'newScheduleSubmit';
     /*this is used to save the schedule token in the update view*/
     $idVal = '';
-    $databaseValArr = array('Fall'=>'fallQrtr', 'Winter'=>'winterQrtr', 'Spring'=>'springQrtr', 'Summer'=>'summerQrtr');
+    $databaseValArr = array('Fall'=>'fall_qrtr', 'Winter'=>'winter_qrtr', 'Spring'=>'spring_qrtr', 'Summer'=>'summer_qrtr');
     $rowVal ='';
 
     if($_SESSION['pageID'] == 'RetrieveView')

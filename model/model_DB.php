@@ -54,7 +54,7 @@
          */
         public function getAllUniqueIDs()
         {
-            $selectAllIDs = "SELECT scheduleID FROM schedules";
+            $selectAllIDs = "SELECT schedule_id FROM schedules";
             return mysqli_query($this->getConn(), $selectAllIDs);
         }
 
@@ -72,7 +72,7 @@
             {
                 while ($row = mysqli_fetch_assoc($result))
                 {
-                    if ($row['scheduleID'] == $newID)
+                    if ($row['schedule_id'] == $newID)
                     {
                         return false;
                     }
@@ -117,14 +117,14 @@
         {
             $arrayOfIDs = array();
         
-            $selectAll = "SELECT scheduleID FROM schedules ORDER BY modified_date";
+            $selectAll = "SELECT schedule_id FROM schedules ORDER BY modified_date";
             
             $sqlSelectAll = $this->getConn()->prepare($selectAll);
             $sqlSelectAll->execute();
             $result = $sqlSelectAll->get_result();
             while($row = $result->fetch_assoc())
             {
-                $arrayOfIDs[]=$row['scheduleID'];
+                $arrayOfIDs[]=$row['schedule_id'];
             }
             return $arrayOfIDs;
         }
@@ -144,7 +144,7 @@
                                           string $springParam, string $summerParam): bool
         {
             /*create SQL statement and use mysqli's prepare function for safe execution preparation*/
-           $newSchedule = "INSERT INTO schedules (scheduleID, fallQrtr, winterQrtr, springQrtr, summerQrtr)
+           $newSchedule = "INSERT INTO schedules (schedule_id, fall_qrtr, winter_qrtr, spring_qrtr, summer_qrtr)
                                 VALUES (?, ?, ?, ?, ?);";
            $sqlStatement = $this->getConn()->prepare($newSchedule);
            
@@ -168,7 +168,7 @@
          */
         public function retrieveSchedule(string $scheduleID)
         {
-            $retrieveSchedule = "SELECT * FROM schedules WHERE scheduleID = ? LIMIT 1";
+            $retrieveSchedule = "SELECT * FROM schedules WHERE schedule_id = ? LIMIT 1";
             $sqlStatement = $this->getConn()->prepare($retrieveSchedule);
     
             $sqlStatement->bind_param("s", $id);
