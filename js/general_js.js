@@ -113,7 +113,7 @@ $(document).ready(function ()
             $.ajax({
                 url: 'controller/schedule_ajax_calls.php',
                 type: 'POST',
-                data: $('#scheduleSubmit').serialize(),
+                data: "UniqueID=" + $('.submit_id').attr('id') + "&" + $('#scheduleSubmit').serialize(),
                 success: function()
                 {
                     /*move view to "retrieve" and set the view button disabled state properly*/
@@ -151,7 +151,7 @@ $(document).ready(function ()
             $.ajax({
                 url: 'controller/schedule_ajax_calls.php',
                 type: 'POST',
-                data: $('#scheduleSubmit').serialize(),
+                data: "UniqueID=" + $('.submit_id').attr('id') + "&" + $('#scheduleSubmit').serialize(),
                 success: function()
                 {
                     /*move view to "retrieve" and set the view button disabled state properly*/
