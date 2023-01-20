@@ -68,7 +68,8 @@ $(document).ready(function ()
             data: {"ScheduleIDGet": buttonID},
             success: function()
             {
-                /*move view to "retrieve" and set the view button disabled state properly*/
+                /*move view to "retrieve", call disableUpdateBtn function,
+                            and set the view button disabled state properly*/
                 $("#mainContent").load('views/retrieve.php', function()
                 {
                     $.fn.disableUpdateBtn();
@@ -129,8 +130,37 @@ $(document).ready(function ()
     }
 
     /**
+     * On schedule update submit, ajax handles posting of the data to session
+     *      and then navigates back to the 'retrieve' view to display the info
+     *      before calling the disableUpdateBtn function to reset element functional
+     *      properties.
+     * @param postDataBuilder string with UniqueID= and the schedule ID.
+     * @param inputDataBuilder string with the field(s) to update and update value(s).
+     */
+    $.fn.updateSchedule = function(postDataBuilder, inputDataBuilder)
+    {
+        $.ajax({
+            url: 'controller/schedule_ajax_calls.php',
+            type: 'POST',
+            data: postDataBuilder + inputDataBuilder,
+            success: function()
+            {
+                /*move view to "retrieve" and set the view button disabled state properly*/
+                $("#mainContent").load('views/retrieve.php', function()
+                {
+                    $.fn.disableUpdateBtn();
+                });
+                alert("RECORD UPDATED");
+                $('#new-view-button').prop('disabled', false);
+            }
+        });
+    }
+
+    /**
      * This function disables the update button. It is called when the retrieve view has been loaded.
      *      The button is re-enabled when there is a change registered in the schedule forms.
+     *      This function also re-attaches a submit eventlistener to the submit button that has been
+     *      loaded via ajax in consideration of this element not being a part of the DOM.
      */
     $.fn.disableUpdateBtn = function()
     {
@@ -144,25 +174,39 @@ $(document).ready(function ()
         {
             submitBtn.prop("disabled", false);
         })
-        /*TODO: simplify this. redundant code.*/
+
+        /*grab all initial input elements and save their values to array for comparison in submit*/
+        let scheduleInitEles = $('.quarterInput');
+        let scheduleInitVals = [];
+        scheduleInitEles.each(function()
+        {
+            scheduleInitVals.push(this.value);
+        });
+
+        /*create initial ID string and an empty input data builder string variable for POST*/
+        let postDataBuilder = "UniqueID=" + $('.submit_id').attr('id');
+        let inputDataBuilder = '';
         scheduleForms.submit(function(e)
         {
+            /*TODO: might need to use attr('value') for normal input (i.e. advisor name input). val() is used for textarea*/
             e.preventDefault();
-            $.ajax({
-                url: 'controller/schedule_ajax_calls.php',
-                type: 'POST',
-                data: "UniqueID=" + $('.submit_id').attr('id') + "&" + $('#scheduleSubmit').serialize(),
-                success: function()
+            /*grab values on submit and compare to initial input values*/
+            let scheduleUpdateVals = $('.quarterInput');
+            for(let x = 0; x < scheduleUpdateVals.length; x++)
+            {
+                if(scheduleInitVals[x] !== scheduleUpdateVals[x].value)
                 {
-                    /*move view to "retrieve" and set the view button disabled state properly*/
-                    $("#mainContent").load('views/retrieve.php', function()
-                    {
-                        $.fn.disableUpdateBtn();
-                    });
-                    alert("RECORD UPDATED");
-                    $('#new-view-button').prop('disabled', false);
+                    inputDataBuilder += "&" + scheduleUpdateVals[x].id + "=" + scheduleUpdateVals[x].value;
                 }
-            });
+            }
+            /*if there are updated values, run the update POST*/
+            if(inputDataBuilder !== '')
+            {
+                $.fn.updateSchedule(postDataBuilder, inputDataBuilder);
+            } else
+            {
+                alert("NO CHANGE TO VALUES. SUBMIT CANCELED.");
+            }
         })
     }
 });
