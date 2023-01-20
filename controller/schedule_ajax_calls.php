@@ -70,5 +70,6 @@
             {
                 $_SESSION['scheduleToken'] = $uniqueID;
             }
+            unset($_GET['ScheduleIDGet']);
         }
     }
