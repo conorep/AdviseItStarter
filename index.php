@@ -1,5 +1,10 @@
 <?php
     session_start();
+    
+    if(isset($_SESSION['scheduleToken']))
+    {
+        unset($_SESSION['scheduleToken']);
+    }
 
     /*TODO: add route handling for token URI input*/
     include("controller/route.php");
@@ -27,6 +32,13 @@
     <link rel="stylesheet" href="css/buttonStyle.css">
     
     <title>Advise-It Tool</title>
+    
+    <?php
+        if(isset($_SCHEDULE['scheduleToken']))
+        {
+            include('views/retrieve.php');
+        }
+    ?>
 
 </head>
 

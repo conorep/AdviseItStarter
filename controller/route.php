@@ -8,8 +8,8 @@
     {
         /**
          * This function sends a user to a view of a retrieved schedule when they input the token code in the URL.
-         * @param $route String route address
-         * @param $file String location of the file to show if route address matched
+         * @param $route string route address
+         * @param $file string location of the file to show if route address matched
          * @return void
          */
         public function addRoute(string $route, string $file)
@@ -25,9 +25,9 @@
             /*if route and requestURI are the same after regex*/
             if($requestURI == $route && strlen($requestURI) === 6)
             {
-                print($requestURI);
+                echo $requestURI;
                 //on match load the view
-                $_SESSION['getSchedule'] = $requestURI;
+                $_SESSION['scheduleToken'] = $requestURI;
                 include($file);
 
                 //exit because route address matched.
