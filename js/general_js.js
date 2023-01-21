@@ -15,11 +15,11 @@
 $(document).ready(function ()
 {
     /*TODO: create ajax code that will catch URI route and load the 'retrieve' view*/
-/*    var session;
+    var session;
     $.ajaxSetup({cache: false})
     $.get('index.php', function (data) {
         session = data;
-    });*/
+    });
 
     /**
      * On document 'ready,' the home view is loaded in the index page.
@@ -62,21 +62,15 @@ $(document).ready(function ()
     {
         e.preventDefault();
         var buttonID = $(this).attr('id');
-        $.ajax({
-            url: 'controller/schedule_ajax_calls.php',
-            type: 'GET',
-            data: {"ScheduleIDGet": buttonID},
-            success: function()
+        $.get('controller/schedule_ajax_calls.php', {"ScheduleIDGet": buttonID}, function()
+        {
+            /*move view to "retrieve", call disableUpdateBtn function, remove retrieve schedule button 'disabled'*/
+            $("#mainContent").load('views/retrieve.php', function()
             {
-                /*move view to "retrieve", call disableUpdateBtn function,
-                            and set the view button disabled state properly*/
-                $("#mainContent").load('views/retrieve.php', function()
-                {
-                    $.fn.disableUpdateBtn();
-                });
-                $('#retrieve-view-button').prop('disabled', false);
-            }
-        });
+                $.fn.disableUpdateBtn();
+            });
+            $('#retrieve-view-button').prop('disabled', false);
+        })
     });
 
     /**
@@ -90,14 +84,7 @@ $(document).ready(function ()
         $('.retrievalDiv').each(function()
         {
             var thisId = this.id.split('-')[0];
-
-            if(thisId.search(thisVal) < 0)
-            {
-                $(this).hide();
-            } else
-            {
-                $(this).show();
-            }
+            this.id.search(thisVal) < 0 ? $(this).hide() : $(this).show();
         });
     });
 
@@ -111,11 +98,8 @@ $(document).ready(function ()
         $('#scheduleSubmit').submit(function(e)
         {
             e.preventDefault();
-            $.ajax({
-                url: 'controller/schedule_ajax_calls.php',
-                type: 'POST',
-                data: "UniqueID=" + $('.submit_id').attr('id') + "&" + $('#scheduleSubmit').serialize(),
-                success: function()
+            $.post('controller/schedule_ajax_calls.php',
+                "UniqueID=" + $('.submit_id').attr('id') + "&" + $('#scheduleSubmit').serialize(), function()
                 {
                     /*move view to "retrieve" and set the view button disabled state properly*/
                     $("#mainContent").load('views/retrieve.php', function()
@@ -124,8 +108,7 @@ $(document).ready(function ()
                     });
                     alert("NEW RECORD CREATED");
                     $('#new-view-button').prop('disabled', false);
-                }
-            });
+                });
         });
     }
 
@@ -139,20 +122,15 @@ $(document).ready(function ()
      */
     $.fn.updateSchedule = function(postDataBuilder, inputDataBuilder)
     {
-        $.ajax({
-            url: 'controller/schedule_ajax_calls.php',
-            type: 'POST',
-            data: postDataBuilder + inputDataBuilder,
-            success: function()
+        $.post('controller/schedule_ajax_calls.php', postDataBuilder + inputDataBuilder, function()
+        {
+            /*move view to "retrieve" and set the view button disabled state properly*/
+            $("#mainContent").load('views/retrieve.php', function()
             {
-                /*move view to "retrieve" and set the view button disabled state properly*/
-                $("#mainContent").load('views/retrieve.php', function()
-                {
-                    $.fn.disableUpdateBtn();
-                });
-                alert("RECORD UPDATED");
-                $('#new-view-button').prop('disabled', false);
-            }
+                $.fn.disableUpdateBtn();
+            });
+            alert("RECORD UPDATED");
+            $('#new-view-button').prop('disabled', false);
         });
     }
 
@@ -256,9 +234,12 @@ function disableToggle(clicked, viewButtons)
 function removeElements()
 {
     const mainElement = document.getElementById("mainContent");
-    let mainChild = mainElement.firstChild;
-    while (mainChild)
+    if(mainElement.firstChild)
     {
-        mainElement.removeChild(mainChild);
+        let mainChild = mainElement.firstChild;
+        while (mainChild)
+        {
+            mainElement.removeChild(mainChild);
+        }
     }
 }
