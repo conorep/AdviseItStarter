@@ -29,8 +29,24 @@
             $thisUniqueId = $this->databaseFuncs->generateUniqueID();
             echo "
                 <div id='" . $thisUniqueId . "' class='container-fluid submit_id'>
-                    <h3 class='text-center'>Schedule Token: " . $thisUniqueId . "</h3>
+                    <h3 class='text-center'>Schedule Token: " . $thisUniqueId . "</h3>";
+            $this->displayAdvisorInput();
+            echo"
                 </div>";
+        }
+
+        /**
+         * This private function returns HTML for an advisor name input field.
+         * @return void
+         */
+        private function displayAdvisorInput()
+        {
+            echo "
+                    <div class='w-50 mx-auto'>
+                        <label for='AdvisorName' class='form-label fw-bold d-inline'>Advisor Name </label>
+                        <input id='AdvisorName' class='form-control shadow-sm' name='AdvisorName' 
+                        placeholder='Enter advisor name...'/>
+                    </div>";
         }
 
         /**
@@ -57,6 +73,11 @@
                         <h3 class='text-center'>Schedule Token: " . $planArray['schedule_id'] . "</h3>
                         <h4 class='text-center'>Schedule Created: " . $planArray['created_date'] . "</h4>
                         <h4 class='text-center'>Last Updated: " . $modDate . "</h4>
+                        <div class='w-50 mx-auto'>
+                            <label for='AdvisorName' class='form-label fw-bold d-inline'>Advisor Name </label>
+                            <input id='AdvisorName' class='quarterInput form-control shadow-sm' name='AdvisorName' 
+                                                    value='" . $planArray['advisor_name'] . "' />
+                        </div>
                     </div>";
                 $_SESSION['planData'] = $planArray;
             } else
@@ -72,19 +93,21 @@
          * This function creates a new plan.
          *      The returned 'alert' scripts are found by checking the 'Network' tab in the browser inspection tool.
          *      Click the
-         * @param $id String
-         * @param $fall String
-         * @param $winter String
-         * @param $spring String
-         * @param $summer String
+         * @param $id String plan ID
+         * @param $advisor String advisor name
+         * @param $fall String fall quarter info
+         * @param $winter String winter quarter info
+         * @param $spring String spring quarter info
+         * @param $summer String summer quarter info
          * @return string if true, a success message. if false, an error message.
          */
-        public function createNewPlan(string $id, string $fall, string $winter, string $spring, string $summer): string
+        public function createNewPlan(string $id, string $advisor, string $fall, string $winter, string $spring,
+                                      string $summer): string
         {
             /*if there's no existing ID, create new schedule. if there IS an existing ID, run the update function.*/
             if($this->databaseFuncs->checkTokens($id))
             {
-                if($this->databaseFuncs->createNewSchedule($id, $fall, $winter, $spring, $summer))
+                if($this->databaseFuncs->createNewSchedule($id, $advisor, $fall, $winter, $spring, $summer))
                 {
                     return "The schedule was successfully created!";
                 } else
@@ -93,7 +116,7 @@
                 }
             } else
             {
-                return $this->updateExistingPlan($id, [$fall, $winter, $spring, $summer]);
+                return $this->updateExistingPlan($id, [$advisor, $fall, $winter, $spring, $summer]);
             }
         }
 
@@ -118,7 +141,6 @@
             echo "</div>";
         }
 
-        /*TODO: update JavaScript to only submit changed fields*/
         /**
          * @param string $uniqueToken schedule_id token for row reference
          * @param array $valsArray values to update. also used to reference $columnArr to see which fields need updating.
@@ -127,7 +149,7 @@
         public function updateExistingPlan(string $uniqueToken, array $valsArray): string
         {
             $currentValsArr = [];
-            $columnArr = ['fall_qrtr', 'winter_qrtr', 'spring_qrtr', 'summer_qrtr'];
+            $columnArr = ['advisor_name', 'fall_qrtr', 'winter_qrtr', 'spring_qrtr', 'summer_qrtr'];
             $updateStatement = "UPDATE schedules SET ";
             for($x = 0; $x < count($columnArr); $x++)
             {
