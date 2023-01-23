@@ -16,19 +16,20 @@
         $modelCalls->unsetVars($quartersArr);
 
         echo "
-
-        <h1 class='text-center text-decoration-underline'>HOME PAGE</h1>
         <br/>
         <div class='container-fluid row justify-content-center'>
             <h3 class='text-center'>Welcome!</h3>
 
-            <div class='col-6 mb-2'>
-                <p class='text-center'>This is your home page. Please click a button to select what you're here for:</p>
-                <ul class='list-group list-group-flush'>
-                    <li class='list-group-item'><em>HOME:</em> You're here.</li>
-                    <li class='list-group-item'><em>NEW SCHEDULE:</em> Create a new schedule plan.</li>
-                    <li class='list-group-item'><em>VIEW SCHEDULES:</em> View all existing plans.</li>
-                </ul>
+            <div class='col-7 mb-2'>
+                <p class='text-center'>
+                    Click a button above to navigate to your desired page or enter your schedule ID below.
+                </p>
+
+            </div>
+            
+            <div class='col-7 my-2'>
+                <label class='form-label fw-bold ms-2' for='getSchedule'>Enter your six-digit schedule ID: </label>
+                <input class='form-control shadow' id='getSchedule' name='getSchedule'/>
             </div>
 
         </div>";
