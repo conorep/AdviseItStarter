@@ -18,7 +18,8 @@
         }
         include("form_opening.php");
         $modelCalls->displayUniqueToken();
-        include("quarter_html.php");
+
+        include("schedule_html.php");
 
     } else if($_SESSION['pageID'] == 'RetrieveView')
     {
@@ -28,7 +29,7 @@
         {
             include("form_opening.php");
             $modelCalls->displayCreatedPlan($_SESSION['scheduleToken']);
-            include("quarter_html.php");
+            include("schedule_html.php");
 
             /*set both session vars back to '' when done with them*/
             $_SESSION['scheduleToken'] = '';
