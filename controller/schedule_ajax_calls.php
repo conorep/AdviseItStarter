@@ -26,7 +26,7 @@
         if(isset($_POST['RETURN_DATA_TEST_8A8A8A8A']))
         {
             echo $_POST['RETURN_DATA_TEST_8A8A8A8A'] . "\n";
-            echo json_encode($dbFunctions->getAllScheduleIDs());
+            echo json_encode($dbFunctions->getAllSchedules());
         } else
         {
             /*make arrays of variables and the associated $_POST terms that will be saved to them*/
