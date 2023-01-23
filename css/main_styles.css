@@ -9,14 +9,14 @@ html {
 }
 
 body {
-    background-color: rgb(251, 251, 251);
+    background-color: rgb(236, 236, 236);
     height: 100%;
     font-family: proxima-nova,sans-serif,Arial,Helvetica,Verdana;
 }
 
 nav {
-    background-color: #bad8fc;
-    border-bottom: 5px solid #96c4fc;
+    background-color: #96c4fc;
+    border-bottom: 5px solid #75adec;
 }
 
 a.navbar-brand {
@@ -41,6 +41,10 @@ section h2 {
 #logoImg {
     max-width: 70%;
     height: auto;
+}
+
+div.retrievalDiv > *{
+    line-height: 1rem;
 }
 
 .quarter-box {
