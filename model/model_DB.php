@@ -140,19 +140,20 @@
          * @param $summerParam String summer quarter info
          * @return bool false if nothing returned from DB query, mysqli_result if data returned
          */
-        public function createNewSchedule(string $idParam, string $fallParam, string $winterParam,
+        public function createNewSchedule(string $idParam, string $advisorParam, string $fallParam, string $winterParam,
                                           string $springParam, string $summerParam): bool
         {
             /*create SQL statement and use mysqli's prepare function for safe execution preparation*/
-           $newSchedule = "INSERT INTO schedules (schedule_id, fall_qrtr, winter_qrtr, spring_qrtr, summer_qrtr)
-                                VALUES (?, ?, ?, ?, ?);";
+           $newSchedule = "INSERT INTO schedules (schedule_id, advisor_name, fall_qrtr, winter_qrtr, spring_qrtr, summer_qrtr)
+                                VALUES (?, ?, ?, ?, ?, ?);";
            $sqlStatement = $this->getConn()->prepare($newSchedule);
            
            /*bind parameters using mysqli and declaring them as String (does not allow for SQL injection)*/
-           $sqlStatement->bind_param("sssss", $id, $fall, $winter, $spring, $summer);
+           $sqlStatement->bind_param("ssssss", $id, $advisor, $fall, $winter, $spring, $summer);
            
            /*update all bound parameters*/
            $id = $idParam;
+           $advisor = $advisorParam;
            $fall = $fallParam;
            $winter = $winterParam;
            $spring = $springParam;
@@ -178,7 +179,6 @@
             return $sqlStatement->get_result()->fetch_assoc();
         }
 
-        /*TODO: update JavaScript to only submit changed fields*/
         /**
          * This function updates a row in the database.
          * @param string $scheduleID ID of row to update
@@ -189,12 +189,12 @@
         public function updateSchedule(string $scheduleID, string $sqlUpdate, array $valsArr): bool
         {
             /*instantiate empty variables for possible usage, dependent on amount of updated fields sent in*/
-            $uniqueID = ''; $one = ''; $two = ''; $three = ''; $four = '';
+            $uniqueID = ''; $one = ''; $two = ''; $three = ''; $four = ''; $five = '';
 
             /*transfer variables into empty array for each in array of values sent into function, plus uniqueID*/
             /*loop through columnNameVars and save the required amount of reference field variables in columnVars*/
             $columnVars = array();
-            $columnNameVars = [$one, $two, $three, $four];
+            $columnNameVars = [$one, $two, $three, $four, $five];
 
             for($x = 0; $x < count($valsArr); $x++)
             {
