@@ -14,6 +14,7 @@
  */
 $(document).ready(function ()
 {
+    /*TODO: remove Home button disabled prop on view load if found a schedule using URI input*/
     /**
      * On document 'ready,' the home view is loaded in the index page.
      */
@@ -79,6 +80,28 @@ $(document).ready(function ()
             var thisId = this.id.split('-')[0];
             this.id.search(thisVal) < 0 ? $(this).hide() : $(this).show();
         });
+    });
+
+    /**
+     * This function responds to input in the home page search box. STILL IN WORK!
+     */
+    $(document).on('input', '#getSchedule', function()
+    {
+        let searchVal = $(this).val().toUpperCase();
+        if(searchVal.length === 6)
+        {
+            console.log("length six input! run that get.");
+            $.get('controller/schedule_ajax_calls.php', {"ScheduleIDGet": searchVal}, function ()
+            {
+                /*move view to "retrieve", call disableUpdateBtn function, remove retrieve schedule button 'disabled'*/
+                $("#mainContent").load('views/retrieve.php', function ()
+                {
+                    $.fn.disableUpdateBtn();
+                });
+                $('#retrieve-view-button').prop('disabled', false);
+                $('#home-view-button').prop('disabled', false);
+            });
+        }
     });
 
     /**
