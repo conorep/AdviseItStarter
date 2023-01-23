@@ -1,0 +1,13 @@
+/**
+ * This is the print styles file for the application.
+ * @version 1.0
+ * @author Conor O'Brien
+ */
+
+body {
+    visibility: hidden;
+}
+
+.print {
+    visibility: visible;
+}

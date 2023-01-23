@@ -23,8 +23,9 @@
 
     <!--    Bootstrap Styles and Main Styles-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/main_styles.css">
-    <link rel="stylesheet" href="css/buttonStyle.css">
+    <link rel="stylesheet" href="css/main_styles.css" type="text/css">
+    <link rel="stylesheet" href="css/button_styles.css" type="text/css">
+    <link rel="stylesheet" media="print" href="css/print_styles.css" type="text/css">
     
     <title>Advise-It Tool</title>
     <!--TODO: create error handling for non-existent token-->
