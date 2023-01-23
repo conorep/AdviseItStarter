@@ -113,18 +113,19 @@
          * This function runs a SELECT ALL query on the database 'schedules' table. It returns an array of all rows.
          * @return array array of fetched IDs
          */
-        public function getAllScheduleIDs(): array
+        public function getAllSchedules(): array
         {
             $arrayOfIDs = array();
         
-            $selectAll = "SELECT schedule_id FROM schedules ORDER BY modified_date";
+            $selectAll = "SELECT schedule_id, advisor_name, created_date FROM schedules ORDER BY created_date";
             
             $sqlSelectAll = $this->getConn()->prepare($selectAll);
             $sqlSelectAll->execute();
             $result = $sqlSelectAll->get_result();
             while($row = $result->fetch_assoc())
             {
-                $arrayOfIDs[]=$row['schedule_id'];
+                $arrayOfIDs[]=['scheduleId'=>$row['schedule_id'], 'advisorName'=>$row['advisor_name'],
+                    'createdDate'=>$row['created_date'], 'modifiedDate'=>$row['modified_date']];
             }
             return $arrayOfIDs;
         }

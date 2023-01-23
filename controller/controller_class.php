@@ -44,7 +44,7 @@
             echo "
                     <div class='w-50 mx-auto'>
                         <label for='AdvisorName' class='form-label fw-bold d-inline'>Advisor Name </label>
-                        <input id='AdvisorName' class='form-control shadow-sm' name='AdvisorName' 
+                        <input id='AdvisorName' class='form-control shadow' name='AdvisorName' 
                         placeholder='Enter advisor name...'/>
                     </div>";
         }
@@ -75,7 +75,7 @@
                         <h4 class='text-center'>Last Updated: " . $modDate . "</h4>
                         <div class='w-50 mx-auto'>
                             <label for='AdvisorName' class='form-label fw-bold d-inline'>Advisor Name </label>
-                            <input id='AdvisorName' class='quarterInput form-control shadow-sm' name='AdvisorName' 
+                            <input id='AdvisorName' class='quarterInput form-control shadow' name='AdvisorName' 
                                                     value='" . $planArray['advisor_name'] . "' />
                         </div>
                     </div>";
@@ -127,18 +127,36 @@
          */
         public function getAllIds()
         {
-            $plansArr = $this->databaseFuncs->getAllScheduleIDs();
+            $plansArr = $this->databaseFuncs->getAllSchedules();
 
             echo "
-                  <div id='shrinkContainer' class='container-fluid d-flex flex-wrap flex-column'>";
+                  <div id='shrinkContainer' class='container-fluid d-flex flex-wrap flex-column'>
+                    <div class='retrievalDiv row mx-5'>
+                        <div class='retrievalBtn scheduleButton py-0 fs-5 d-flex justify-content-between align-items-center'>
+                            <div class='ps-2 col-4 text-center fw-bold'>SCHEDULE ID</div>
+                            <div class='col-4 text-center fw-bold'>ADVISOR NAME</div>
+                            <div class='pe-2 col-4 text-center fw-bold'>CREATED DATE</div>
+                        </div>
+                    </div>
+                  ";
             foreach ($plansArr as $row)
             {
-                echo   "<div class='retrievalDiv row mx-5' id='" . $row . "-div'>
-                            <button class='retrievalBtn scheduleButton py-0 fs-5' id='" . $row . "' name='" . $row . "'>
-                                        " . $row . " </button>
+                if($row['advisorName'] == '')
+                {
+                    $row['advisorName'] = 'No advisor entered!';
+                }
+                echo   "
+                        <div class='retrievalDiv row mx-5' id='" .$row['scheduleId']. "-div'>
+                            <button class='retrievalBtn scheduleButton py-0 fs-5 d-flex justify-content-between align-items-center' 
+                            id='" .$row['scheduleId']. "' name='" .$row['schedule_id']. "'>
+                                <div class='ps-2 col-4'>".$row['scheduleId']."</div>
+                                <div class='col-4'>".$row['advisorName']."</div>
+                                <div class='pe-2 col-4'>".$row['createdDate']."</div>
+                            </button>
                         </div>";
             }
-            echo "</div>";
+            echo "
+                   </div>";
         }
 
         /**
