@@ -30,8 +30,8 @@
         } else
         {
             /*make arrays of variables and the associated $_POST terms that will be saved to them*/
-            $infoArray = ['UniqueID', 'Fall', 'Winter', 'Spring', 'Summer'];
-            $varArr = [$uniqueID = '', $fallInfo = '', $winterInfo = '', $springInfo = '', $summerInfo = ''];
+            $infoArray = ['UniqueID', 'AdvisorName', 'Fall', 'Winter', 'Spring', 'Summer'];
+            $varArr = [$uniqueID='', $advisor='', $fallInfo='', $winterInfo='', $springInfo='', $summerInfo=''];
     
             if(!empty($_POST))
             {
@@ -46,7 +46,7 @@
                 if($varArr[0])
                 {
                     $_SESSION['scheduleToken'] = $varArr[0];
-                    $infoHere = $modelCalls->createNewPlan($varArr[0], $varArr[1], $varArr[2], $varArr[3], $varArr[4]);
+                    $infoHere = $modelCalls->createNewPlan($varArr[0], $varArr[1], $varArr[2], $varArr[3], $varArr[4], $varArr[5]);
                     echo $infoHere;
                 }
                 $modelCalls->unsetVars($infoArray);
