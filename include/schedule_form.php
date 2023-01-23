@@ -31,8 +31,8 @@
             $modelCalls->displayCreatedPlan($_SESSION['scheduleToken']);
             include("schedule_html.php");
 
-            /*set both session vars back to '' when done with them*/
-            $_SESSION['scheduleToken'] = '';
+            /*unset scheduleToken and set planData back to '' when done with displaying created plan*/
+            unset($_SESSION['scheduleToken']);
             $_SESSION['planData'] = '';
         } else
         {
