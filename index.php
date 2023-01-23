@@ -5,11 +5,6 @@
     {
         unset($_SESSION['scheduleToken']);
     }
-
-    /*TODO: add route handling for token URI input*/
-    include("controller/route.php");
-    $routing = new Route();
-    $routing->addRoute("/{id}", "/");
 ?>
 <!--
     This is the application page containing HTML for the general application view.
@@ -32,11 +27,14 @@
     <link rel="stylesheet" href="css/buttonStyle.css">
     
     <title>Advise-It Tool</title>
-    
+    <!--TODO: create error handling for non-existent token-->
     <?php
-        if(isset($_SCHEDULE['scheduleToken']))
+        /*remove first 10 chars from URI to get the input token code*/
+        $substrURI = substr($_SERVER['REQUEST_URI'], 10);
+        /*if in the right format (i.e. 6 characters long), set app up to view a retrieved schedule*/
+        if(strlen($substrURI) == 6)
         {
-            include('views/retrieve.php');
+            $_SESSION['scheduleToken'] = $substrURI;
         }
     ?>
 
@@ -53,7 +51,7 @@
 
             <section class="col-9 col-lg-10 col-xl-11">
                 <h2 class="ps-3 inline-block">
-                    Advise-It Tool
+                    <img id="logoImg" src="imgs/adviseitlogo.png" alt="Advise-It Tool Name" />
                 </h2>
 
                 <!--TODO: think about how many buttons I will have here. enough to benefit from a view dynamically
@@ -69,7 +67,7 @@
                     </button>
 
                     <button id="retrieve-view-button" class="scheduleButton viewButton">
-                        RETRIEVE SCHEDULE
+                        VIEW SCHEDULES
                     </button>
                 </div>
 
