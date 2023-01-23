@@ -14,13 +14,6 @@
  */
 $(document).ready(function ()
 {
-    /*TODO: create ajax code that will catch URI route and load the 'retrieve' view*/
-    var session;
-    $.ajaxSetup({cache: false})
-    $.get('index.php', function (data) {
-        session = data;
-    });
-
     /**
      * On document 'ready,' the home view is loaded in the index page.
      */
@@ -166,7 +159,6 @@ $(document).ready(function ()
         let inputDataBuilder = '';
         scheduleForms.submit(function(e)
         {
-            /*TODO: might need to use attr('value') for normal input (i.e. advisor name input). val() is used for textarea*/
             e.preventDefault();
             /*grab values on submit and compare to initial input values*/
             let scheduleUpdateVals = $('.quarterInput');
