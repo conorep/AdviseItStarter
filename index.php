@@ -97,11 +97,11 @@
                                         <div>
                                             <form id='adminLoginSubmit' method='post'>
                                             
-                                                <label class='form-label' for='admin-email-input'>Admin Email</label>
+                                                <label class='form-label fw-bold' for='admin-email-input'>Admin Email</label>
                                                 <input class='form-control' name='AdminEmail' id='admin-email-input' 
-                                                    placeholder='Enter account email...'/>
+                                                    type='email' placeholder='Enter account email...'/>
                                                     
-                                                <label class='form-label' for='admin-pass-input'>Password</label>
+                                                <label class='form-label mt-3 fw-bold' for='admin-pass-input'>Password</label>
                                                 <input class='form-control' name='AdminPass' id='admin-pass-input' 
                                                     type='password' placeholder='Enter account password...'/>
                                                     
