@@ -56,11 +56,18 @@ $(document).ready(function()
      */
     $('#admin-login-button').click(function()
     {
-        console.log("YOU CLICKED IT");
         $.post('https://cobrien2.greenriverdev.com/adviseit//controller/login_ajax_call.php', $('#adminLoginSubmit').serialize(), function()
         {
             location.reload(true);
         });
+    });
+
+    /**
+     * This function removes disabled property from admin view button on click.
+     */
+    $('#admin-view-button').click(function()
+    {
+        $(this).prop('disabled', false);
     });
 
     /**
