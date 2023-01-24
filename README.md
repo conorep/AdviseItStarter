@@ -27,3 +27,7 @@
 - ERROR HANDLING IN GENERAL!
   - The admin login needs error handling (not just page reload without error report when entering non-existent email or wrong pass).
   - Retrieval of a schedule from home page input has no error handling.
+  - No error handling on update/new schedule submit when adding more than a certain amount of characters to any given quarter.
+- Think about implementing/not implementing a max char size for quarters
+  - "How many lines of info should I allow? Infinite vs. 10...?"
+  - Currently, creation error when posting quarters with massive amounts of text.
