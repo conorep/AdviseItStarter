@@ -25,6 +25,8 @@
             {
                 echo '<script>console.log("you logged in!")</script>';
             };
+            unset($_POST['AdminEmail']);
+            unset($_POST['AdminPass']);
         }
     }
 
