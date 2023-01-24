@@ -31,3 +31,4 @@
 - Think about implementing/not implementing a max char size for quarters
   - "How many lines of info should I allow? Infinite vs. 10...?"
   - Currently, creation error when posting quarters with massive amounts of text.
+- Make a specific view route for retrieving a schedule via URI...?
