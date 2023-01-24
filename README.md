@@ -16,3 +16,14 @@
 #### If testing the application, use the following login info to access the admin 'see all schedules' page:
 - Admin email: conorepobrien@gmail.com
 - Password: testing
+
+
+#### CURRENT TODOS
+- Schedule retrieval via URI doesn't toggle disable properly for header buttons.
+- URI should/could remove token after retrieval of schedule.
+- Map out how each view route works.
+  - What session variables need to be present to load certain stuff?
+  - Which jQuery functions get run when something happens?
+- ERROR HANDLING IN GENERAL!
+  - The admin login needs error handling (not just page reload without error report when entering non-existent email or wrong pass).
+  - Retrieval of a schedule from home page input has no error handling.
