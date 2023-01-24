@@ -66,14 +66,60 @@
                         NEW SCHEDULE
                     </button>
 
-                    <button id="retrieve-view-button" class="scheduleButton viewButton">
-                        VIEW SCHEDULES
-                    </button>
+                    <?php
+                        /*if admin logged in, show view schedules button. if not, show admin login button*/
+                        if(isset($_SESSION['adminLogged']))
+                        {
+                            if($_SESSION['adminLogged'])
+                            {
+                                echo "
+                                <button id='retrieve-view-button' class='scheduleButton viewButton'>
+                                    VIEW SCHEDULES
+                               </button>
+                               <button id='logout-button' class='scheduleButton viewButton'>
+                                    LOGOUT
+                                </button>
+                               ";
+                            }
+                        } else
+                        {
+                            echo "
+                                <button id='admin-view-button' class='scheduleButton viewButton' type='button'
+                                        data-bs-toggle='offcanvas' data-bs-target='#admin-login' aria-controls='admin-login'>
+                                    ADMIN
+                                </button>
+                                <div class='offcanvas offcanvas-end' tabindex='-1' id='admin-login' aria-labelledby='admin-login-label'>
+                                    <div class='offcanvas-header'>
+                                        <h5 class='offcanvas-title fw-bold' id='admin-login-label'>Administrator Login</h5>
+                                        <button type='button' class='btn-close text-reset' data-bs-dismiss='offcanvas' aria-label='Close'></button>
+                                    </div>
+                                    <div class='offcanvas-body'>
+                                        <div>
+                                            <form id='adminLoginSubmit' method='post'>
+                                            
+                                                <label class='form-label' for='admin-email-input'>Admin Email</label>
+                                                <input class='form-control' name='AdminEmail' id='admin-email-input' 
+                                                    placeholder='Enter account email...'/>
+                                                    
+                                                <label class='form-label' for='admin-pass-input'>Password</label>
+                                                <input class='form-control' name='AdminPass' id='admin-pass-input' 
+                                                    type='password' placeholder='Enter account password...'/>
+                                                    
+                                                <button id='admin-login-button' class='scheduleButton viewButton mt-2 me-2 float-end'
+                                                    type='submit'>LOGIN</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>";
+                        }
+                    ?>
+
                 </div>
 
             </section>
-
         </nav>
+
+
     </header>
     
     <h3 class="hide-for-print print bottom-margin"><em>Green River College</em> <strong>ADVISE-IT SCHEDULE</strong></h3>
