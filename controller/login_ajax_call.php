@@ -11,6 +11,7 @@
      */
     include('../include/object_creation.php');
 
+    /*TODO: error handling for improper logins!!!!*/
     /**
      * The POST ajax call creates attempts an admin login.
      */
