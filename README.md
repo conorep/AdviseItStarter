@@ -11,3 +11,8 @@
 - Advisors will create a one-year schedule with the student which will be reachable via a unique token generated for the schedule. 
 - The schedule will be retrievable by that token by either the advisor or student. 
 - The schedule will be editable by either the student or the advisor.
+
+
+#### If testing the application, use the following login info to access the admin 'see all schedules' page:
+- Admin email: conorepobrien@gmail.com
+- Password: testing
