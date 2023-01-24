@@ -5,14 +5,14 @@
  */
 
 /**
- * This jQuery function contains several nested functions defining page view activity.
+ * This block of jQuery functions contains several functions defining page view activity.
  *      It sets the page load view to 'home' and adds onclick event handlers to load
  *          different PHP views in the document's content body.
  *      When the 'new' view is loaded, an onclick event handler is attached to the submit
  *          button. This prevents page reload and runs a function to submit the new
  *          schedule to the database.
  */
-$(document).ready(function ()
+$(document).ready(function()
 {
     /*TODO: remove Home button disabled prop on view load if found a schedule using URI input*/
     /**
@@ -23,7 +23,7 @@ $(document).ready(function ()
     /**
      * This onclick function loads home.php when the home header button is clicked.
      */
-    $("#home-view-button").click(function ()
+    $("#home-view-button").click(function()
     {
         $("#mainContent").load('views/home.php');
     });
@@ -33,7 +33,7 @@ $(document).ready(function ()
      */
     $("#new-view-button").click(function ()
     {
-        $("#mainContent").load('views/new.php', function ()
+        $("#mainContent").load('views/new.php', function()
         {
             $.fn.postSchedule();
         });
@@ -48,14 +48,41 @@ $(document).ready(function ()
     });
 
     /**
+     * This function adds an onclick event to the admin login button.
+     *      It posts the login form submit data to login_ajax_calls, which handles success or failure to log in.
+     *      NOTE: The post uses the whole URI for the file because this button is loaded on page load.
+     */
+    $('#admin-login-button').click(function()
+    {
+        console.log("YOU CLICKED IT");
+        $.post('https://cobrien2.greenriverdev.com/adviseit//controller/login_ajax_call.php', $('#adminLoginSubmit').serialize(), function()
+        {
+            location.reload(true);
+        });
+    });
+
+    /**
+     * This function adds an onclick event to the logout button.
+     *      It calls the login_ajax_call page with a get request to call the logout function in the controller.
+     *      NOTE: The get uses the whole URI for the file because this button is loaded on page load.
+     */
+    $('#logout-button').click(function()
+    {
+        $.get('https://cobrien2.greenriverdev.com/adviseit//controller/login_ajax_call.php', {"LogGet": "yes"}, function()
+        {
+            location.reload(true);
+        })
+    })
+
+    /**
      * This function adds an onclick event to each button with the retrievalBtnclass.
      * The event will trigger an ajax get call to schedule_ajax_calls.php, triggering a page reload and
-     *             a view of an existing schedule
+     *      a view of an existing schedule
      */
     $(document).on('click', '.retrievalBtn', function(e)
     {
         e.preventDefault();
-        var buttonID = $(this).attr('id');
+        let buttonID = $(this).attr('id');
         $.get('controller/schedule_ajax_calls.php', {"ScheduleIDGet": buttonID}, function()
         {
             /*move view to "retrieve", call disableUpdateBtn function, remove retrieve schedule button 'disabled'*/
@@ -63,7 +90,7 @@ $(document).ready(function ()
             {
                 $.fn.disableUpdateBtn();
             });
-            $('#retrieve-view-button').prop('disabled', false);
+            $('#admin-view-button').prop('disabled', false);
         })
     });
 
@@ -73,7 +100,7 @@ $(document).ready(function ()
      */
     $(document).on('input', '#searchSchedules', function()
     {
-        var thisVal = $(this).val().toUpperCase();
+        let thisVal = $(this).val().toUpperCase();
 
         $('.retrievalDiv').each(function()
         {
@@ -98,7 +125,7 @@ $(document).ready(function ()
                 {
                     $.fn.disableUpdateBtn();
                 });
-                $('#retrieve-view-button').prop('disabled', false);
+                $('#admin-view-button').prop('disabled', false);
                 $('#home-view-button').prop('disabled', false);
             });
         }
@@ -158,8 +185,8 @@ $(document).ready(function ()
      */
     $.fn.disableUpdateBtn = function()
     {
-        var submitBtn = $('#submit-schedule-button');
-        var scheduleForms = $('#scheduleSubmit');
+        let submitBtn = $('#submit-schedule-button');
+        let scheduleForms = $('#scheduleSubmit');
         if(submitBtn.prop('name') === 'scheduleUpdate')
         {
             submitBtn.prop("disabled", true);
@@ -231,7 +258,7 @@ function viewButtonHandler()
 
 /**
  * This function sets the clicked button to 'disabled' and re-enables any other button that has been disabled.
- * @param clicked the ID of the button that was clicked (home-view-button, new-view-button, or retrieve-view-button)
+ * @param clicked the ID of the button that was clicked (home-view-button, new-view-button, or admin-view-button)
  * @param viewButtons button elements with 'viewButton' class
  */
 function disableToggle(clicked, viewButtons)
