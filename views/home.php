@@ -28,7 +28,9 @@
             </div>
             
             <div class='col-7 my-2'>
-                <label class='form-label fw-bold ms-2' for='getSchedule'>Enter your six-digit schedule ID: </label>
+                <label class='form-label fw-bold ms-2' for='getSchedule'>
+                    Looking up your schedule? Enter your six-digit ID: 
+                </label>
                 <input class='form-control shadow' id='getSchedule' name='getSchedule'/>
             </div>
 
