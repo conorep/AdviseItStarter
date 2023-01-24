@@ -14,11 +14,13 @@
  */
 $(document).ready(function()
 {
-    /*TODO: remove Home button disabled prop on view load if found a schedule using URI input*/
     /**
-     * On document 'ready,' the home view is loaded in the index page.
+     * On document 'ready,' the home view is loaded in the index page and the home button is disabled.
      */
-    $("#mainContent").load('views/home.php');
+    $("#mainContent").load('views/home.php', function()
+    {
+        $('#home-view-button').prop('disabled', true);
+    });
 
     /**
      * This onclick function loads home.php when the home header button is clicked.
@@ -90,7 +92,7 @@ $(document).ready(function()
             {
                 $.fn.disableUpdateBtn();
             });
-            $('#admin-view-button').prop('disabled', false);
+            $('#retrieve-view-button').prop('disabled', false);
         })
     });
 
@@ -110,14 +112,14 @@ $(document).ready(function()
     });
 
     /**
-     * This function responds to input in the home page search box. STILL IN WORK!
+     * This function responds to input in the home page search box. Once a 6-digit string is entered into the search box,
+     *      this function is run to retrieve a schedule.
      */
     $(document).on('input', '#getSchedule', function()
     {
         let searchVal = $(this).val().toUpperCase();
         if(searchVal.length === 6)
         {
-            console.log("length six input! run that get.");
             $.get('controller/schedule_ajax_calls.php', {"ScheduleIDGet": searchVal}, function ()
             {
                 /*move view to "retrieve", call disableUpdateBtn function, remove retrieve schedule button 'disabled'*/
@@ -229,6 +231,13 @@ $(document).ready(function()
             }
         })
     }
+
+    /*TODO: remove Home button disabled prop on view load if found a schedule using URI input*/
+    let path = $(location).attr('pathname');
+    if(path.length > 10)
+    {
+        $('#home-view-button').prop('disabled', false);
+    }
 });
 
 
@@ -248,10 +257,6 @@ function viewButtonHandler()
 
     for (let x = 0; x < viewButtons.length; x++)
     {
-        if (viewButtons[x].id === "home-view-button")
-        {
-            viewButtons[x].disabled = true;
-        }
         viewButtons[x].addEventListener("click", () => disableToggle(viewButtons[x].id, viewButtons));
     }
 }
