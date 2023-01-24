@@ -42,7 +42,7 @@
 
 <body>
 
-    <header>
+    <header class="no-print-section">
         <nav class="navbar mb-3 pt-0 pb-0">
 
             <a class="navbar-brand p-2 col-3 col-lg-2 col-xl-1 me-0" href="https://www.greenriver.edu/">
@@ -76,7 +76,10 @@
         </nav>
     </header>
     
+    <h3 class="hide-for-print print bottom-margin"><em>Green River College</em> <strong>ADVISE-IT SCHEDULE</strong></h3>
+    
     <main id="mainContent">
+        
         <!--PHP content here-->
     </main>
 

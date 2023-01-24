@@ -29,7 +29,7 @@
             $thisUniqueId = $this->databaseFuncs->generateUniqueID();
             echo "
                 <div id='" . $thisUniqueId . "' class='container-fluid submit_id'>
-                    <h3 class='text-center'>Schedule Token: " . $thisUniqueId . "</h3>";
+                    <h3 class='text-center'><strong>Schedule Token: </strong>" . $thisUniqueId . "</h3>";
             $this->displayAdvisorInput();
             echo"
                 </div>";
@@ -44,7 +44,7 @@
             echo "
                     <div class='w-50 mx-auto'>
                         <label for='AdvisorName' class='form-label fw-bold d-inline'>Advisor Name </label>
-                        <input id='AdvisorName' class='form-control shadow' name='AdvisorName' 
+                        <input id='AdvisorName' class='form-control shadow' name='AdvisorName'
                         placeholder='Enter advisor name...'/>
                     </div>";
         }
@@ -70,12 +70,13 @@
                 }
                 echo "
                     <div id='" . $planArray['schedule_id'] . "' class='container-fluid submit_id'>
-                        <h3 class='text-center'>Schedule Token: " . $planArray['schedule_id'] . "</h3>
-                        <h4 class='text-center'>Schedule Created: " . $planArray['created_date'] . "</h4>
-                        <h4 class='text-center'>Last Updated: " . $modDate . "</h4>
-                        <div class='w-50 mx-auto'>
+                        <h3 class='text-center'><strong>Schedule Token: </strong>" .$planArray['schedule_id']. "</h3>
+                        <h4 class='text-center'><strong>Schedule Created: </strong>" .$planArray['created_date']. "</h4>
+                        <h4 class='text-center'><strong>Last Updated: </strong>" .$modDate. "</h4>
+                        <h4 class='hide-for-print print text-center'><strong>Advisor Name: </strong>" .$planArray['advisor_name']. "</h4>
+                        <div class='no-print w-50 mx-auto'>
                             <label for='AdvisorName' class='form-label fw-bold d-inline'>Advisor Name </label>
-                            <input id='AdvisorName' class='quarterInput form-control shadow' name='AdvisorName' 
+                            <input id='AdvisorName' class='quarterInput form-control shadow' name='AdvisorName'
                                                     value='" . $planArray['advisor_name'] . "' />
                         </div>
                     </div>";

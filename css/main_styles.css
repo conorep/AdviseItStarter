@@ -53,3 +53,7 @@ div.retrievalDiv > *{
     background-color: white;
     min-height: 25%;
 }
+
+.hide-for-print {
+    display: none;
+}

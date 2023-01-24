@@ -33,16 +33,22 @@
             $rowVal = $databaseValArr[$quarter];
         }
         echo "                    
-                <div class='col-10 col-md-5 shadow quarter-box m-2 p-2'>
-                    <h2>" . $quarter . "</h2>
-                    <label for='" . $quarter . "' class='form-label'>CLASSES</label>
-                    <textarea class='quarterInput form-control' id='" . $quarter . "' rows='5' 
+                <div class='no-print col-10 col-md-5 shadow quarter-box m-2 p-2'>
+                    <label for='" . $quarter . "' class='no-print form-label'><strong>" . $quarter . "</strong>
+                         Classes & Comments</label>
+                    <textarea class='quarterInput form-control' id='" . $quarter . "' rows='5'
                                 name='" . $quarter . "' >";
 
         echo $_SESSION['pageID'] == 'RetrieveView' ? $_SESSION['planData'][$rowVal]  :  '';
 
-        echo       "</textarea>
+        echo "
+                    </textarea>
                 </div>";
+        echo $_SESSION['pageID'] == 'RetrieveView' ? "
+                <div class='hide-for-print print'>
+                        <h2 class='top-margin'><strong>" . $quarter . "</strong> Classes & Comments</h2>
+                        <div class='print-schedule'><pre>" . $_SESSION['planData'][$rowVal] . "</pre></div>
+                </div>" : '';
     }
     
     echo "

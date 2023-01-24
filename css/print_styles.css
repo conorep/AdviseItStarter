@@ -4,10 +4,47 @@
  * @author Conor O'Brien
  */
 
-body {
-    visibility: hidden;
+/*specific element not displayed in print screen*/
+.no-print {
+    display: none;
 }
 
-.print {
-    visibility: visible;
+/*element and all children not shown in print screen*/
+.no-print-section > * {
+    display: none;
+}
+
+/*TODO: is this needed?*/
+.print, .hide-for-print.print {
+    display: block;
+}
+
+button#submit-schedule-button {
+    display: none;
+}
+
+div.print-schedule {
+    border: black 3px solid;
+    border-radius: 5px;
+    padding: 10px 10px;
+}
+
+h2.top-margin {
+    margin-top: 0.3em;
+}
+
+h3.bottom-margin {
+    margin-bottom: 0.5em;
+}
+
+h2 {
+    font-size: 1.3em;
+}
+
+h3 {
+    font-size: 1.15em;
+}
+
+h4 {
+    font-size: 1em;
 }
