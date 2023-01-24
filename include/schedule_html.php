@@ -55,7 +55,12 @@
                     <button type='submit' id='submit-schedule-button' class='scheduleButton' name='".$subOrUpVal. "'
                                 value='".$idVal."'>
                         ". $submitOrUpdate ."
-                    </button>
+                    </button>";
+    
+    echo $_SESSION['pageID'] == 'RetrieveView' ? "
+                    <button type='button' onclick='window.print()' id='submit-schedule-button'
+                        class='no-print ms-3 scheduleButton'>PRINT</button>" :  '';
+    echo"
                 </div>
             </div>
         </form>";
