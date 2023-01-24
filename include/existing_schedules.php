@@ -3,7 +3,7 @@
 
     /**
      * This file contains HTML for a search box in the 'admin schedules' view and a function call to show
-     *      all existing schedules.
+     *  all existing schedules.
      * @version 1.0
      * @author Conor O'Brien
      */
