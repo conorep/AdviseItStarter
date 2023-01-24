@@ -6,16 +6,11 @@
 
     /**
      * This file handles the submitting of new schedules in the background after Ajax
-     * has posted the form data to $_SESSION.
+     *  has posted the form data to $_SESSION.
+     * @version 1.0
+     * @author Conor O'Brien
      */
-    
-    require("controller_class.php");
-    require("../model/model_DB.php");
-    
-    /*create objects*/
-    $dbFunctions = new ModelDB();
-    $modelCalls = new ControllerClass($dbFunctions);
-
+    include('../include/object_creation.php');
 
     /**
      * The POST ajax call creates a new schedule in the DB using this block of code.
