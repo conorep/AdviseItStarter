@@ -8,6 +8,6 @@
      */
 
     echo "        
-            <form id='scheduleSubmit' action='' method='post'>
+            <form id='scheduleSubmit' method='post'>
                 <div class='container-fluid pb-4'>
                     <div class='row justify-content-center'>";
