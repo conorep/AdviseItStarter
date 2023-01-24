@@ -188,7 +188,55 @@
             {
                 return "Error - record not updated.";
             }
-            
+        }
+
+        /**
+         * This function is used when an admin is attempting to log into the site to view all schedules.
+         * @param string $email admin email
+         * @param string $password admin password
+         * @return bool true if login successful, error text if a problem with password matching or email matching.
+         */
+        public function adminLogin(string $email, string $password): bool
+        {
+            /*           $checkProvidedPass = $this->hashPass($providedPass);*/
+            $adminArray = $this->databaseFuncs->getAdminInfo($email);
+
+            if($adminArray)
+            {
+                $checkProvidedPass = $this->hashPass($password);
+                if($checkProvidedPass == $adminArray['password'])
+                {
+                    $_SESSION['adminLogged'] = true;
+                    return true;
+                } else
+                {
+                    return "ERROR! Wrong password.";
+                }
+            } else
+            {
+                return "ERROR! Email not found.";
+            }
+        }
+
+        /**
+         * This function destroys the session array and refreshes the page (essentially logging a user out).
+         * @return void
+         */
+        public function logout()
+        {
+            session_destroy();
+        }
+
+        /**
+         * This method takes an input user password and returns a hashed version. It appends a salt to the password
+         *  before hashing using sha256. Used for new user creation, as well as for validation for login.
+         * @param string $userPass user password
+         * @return string hashed password with salt
+         */
+        public function hashPass(string $userPass): string
+        {
+            $userPass = $userPass . "adviseIT";
+            return hash("sha256", $userPass);
         }
     
         /**
