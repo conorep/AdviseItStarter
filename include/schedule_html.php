@@ -41,8 +41,7 @@
 
         echo $_SESSION['pageID'] == 'RetrieveView' ? $_SESSION['planData'][$rowVal]  :  '';
 
-        echo "
-                    </textarea>
+        echo "</textarea>
                 </div>";
         echo $_SESSION['pageID'] == 'RetrieveView' ? "
                 <div class='hide-for-print print'>
