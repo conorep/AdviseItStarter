@@ -14,9 +14,9 @@
     display: none;
 }
 
-/*TODO: is this needed?*/
 .print, .hide-for-print.print {
     display: block;
+    break-inside: avoid;
 }
 
 button#submit-schedule-button {
@@ -27,6 +27,7 @@ div.print-schedule {
     border: black 3px solid;
     border-radius: 5px;
     padding: 10px 10px;
+    break-inside: avoid;
 }
 
 h2.top-margin {
