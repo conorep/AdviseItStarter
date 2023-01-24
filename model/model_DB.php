@@ -228,4 +228,22 @@
             return $sqlStatement->execute();
         }
 
+        /**
+         * This function retrieves an admin account from the database using a provided email.
+         * @param string $tryEmail email provided by user trying to log in
+         * @return array|false|null associative array if row fetched, false if no rows, null if failure
+         */
+        public function getAdminInfo(string $tryEmail)
+        {
+            $adminEmail = '';
+
+            $getEmail = "SELECT * FROM administrators WHERE email = ?  LIMIT 1";
+            $sqlStatement = $this->getConn()->prepare($getEmail);
+
+            $sqlStatement->bind_param("s", $adminEmail);
+            $adminEmail = $tryEmail;
+
+            $sqlStatement->execute();
+            return $sqlStatement->get_result()->fetch_assoc();
+        }
     }
