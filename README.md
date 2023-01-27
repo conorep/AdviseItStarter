@@ -19,8 +19,7 @@
 
 
 #### CURRENT TODOS
-- Schedule retrieval via URI doesn't toggle disable properly for header buttons.
-- URI should/could remove token after retrieval of schedule.
+- URI should/could remove token after retrieval of schedule...?
 - Map out how each view route works.
   - What session variables need to be present to load certain stuff?
   - Which jQuery functions get run when something happens?
