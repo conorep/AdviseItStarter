@@ -16,77 +16,97 @@ $(document).ready(function()
 {
     /**
      * On document 'ready,' the home view is loaded in the index page and the home button is disabled.
+     *      If that load sequence leads to retrieval of a schedule due to a token in the URI, the home
+     *      view button is NOT disabled, otherwise it is disabled.
      */
     $("#mainContent").load('views/home.php', function()
     {
-        $('#home-view-button').prop('disabled', true);
+        /*using this function to track if there was a URI token used to retrieve a schedule*/
+        /*if $scheduleSubmit.length (i.e. this element exists because retrieve view was loaded), disable home button*/
+        if(!$('#scheduleSubmit').length)
+        {
+            $('#home-view-button').prop('disabled', true);
+        } else
+        {
+            $.fn.updateViewEvents();
+        }
     });
 
     /**
      * This onclick function loads home.php when the home header button is clicked.
+     *      After the 'home' HTML is rendered, the home view button is disabled and other
+     *      header buttons are enabled.
      */
     $("#home-view-button").click(function()
     {
-        $("#mainContent").load('views/home.php');
+        $("#mainContent").load('views/home.php', function()
+        {
+            /*TODO: get rid of these tests when done with developing the token URI functions.*/
+            let currentURL = location.href;
+            console.log(currentURL);
+
+            $('#home-view-button').prop('disabled', true);
+            disableToggle("home-view-button");
+        });
     });
 
     /**
      * This onclick function loads new.php when the new schedule header button is clicked.
+     *      After the 'new' HTML is rendered, the new view button is disabled and other
+     *      header buttons are enabled.
      */
     $("#new-view-button").click(function ()
     {
         $("#mainContent").load('views/new.php', function()
         {
             $.fn.postSchedule();
+            disableToggle("new-view-button");
         });
     });
 
     /**
      * This onclick function loads retrieve.php when the retrieve schedule header button is clicked.
+     *      After the 'retrieve' HTML is rendered, the retrieve view button is disabled and other
+     *      header buttons are enabled.
      */
     $("#retrieve-view-button").click(function()
     {
-        $("#mainContent").load('views/retrieve.php');
+        $("#mainContent").load('views/retrieve.php', function()
+        {
+            disableToggle("retrieve-view-button");
+        });
     });
 
     /**
      * This function adds an onclick event to the admin login button.
      *      It posts the login form submit data to login_ajax_calls, which handles success or failure to log in.
-     *      NOTE: The post uses the whole URI for the file because this button is loaded on page load.
+     *      NOTE: The ajax 'post' uses the whole URI for the file because this button is rendered on page load.
      */
     $('#admin-login-button').click(function()
     {
         $.post('https://cobrien2.greenriverdev.com/adviseit//controller/login_ajax_call.php', $('#adminLoginSubmit').serialize(), function()
         {
-            location.reload(true);
+            location.reload();
         });
-    });
-
-    /**
-     * This function removes disabled property from admin view button on click.
-     */
-    $('#admin-view-button').click(function()
-    {
-        $(this).prop('disabled', false);
     });
 
     /**
      * This function adds an onclick event to the logout button.
      *      It calls the login_ajax_call page with a get request to call the logout function in the controller.
-     *      NOTE: The get uses the whole URI for the file because this button is loaded on page load.
+     *      NOTE: The ajax 'get' uses the whole URI for the file because this button is rendered on page load.
      */
     $('#logout-button').click(function()
     {
         $.get('https://cobrien2.greenriverdev.com/adviseit//controller/login_ajax_call.php', {"LogGet": "yes"}, function()
         {
-            location.reload(true);
+            location.reload();
         })
     })
 
     /**
      * This function adds an onclick event to each button with the retrievalBtnclass.
-     * The event will trigger an ajax get call to schedule_ajax_calls.php, triggering a page reload and
-     *      a view of an existing schedule
+     * The event will trigger an ajax get call to schedule_ajax_calls.php, triggering a page
+     *      reload and a view of an existing schedule
      */
     $(document).on('click', '.retrievalBtn', function(e)
     {
@@ -94,10 +114,10 @@ $(document).ready(function()
         let buttonID = $(this).attr('id');
         $.get('controller/schedule_ajax_calls.php', {"ScheduleIDGet": buttonID}, function()
         {
-            /*move view to "retrieve", call disableUpdateBtn function, remove retrieve schedule button 'disabled'*/
+            /*move view to "retrieve", call updateViewEvents function, remove retrieve schedule button 'disabled'*/
             $("#mainContent").load('views/retrieve.php', function()
             {
-                $.fn.disableUpdateBtn();
+                $.fn.updateViewEvents();
             });
             $('#retrieve-view-button').prop('disabled', false);
         })
@@ -129,10 +149,10 @@ $(document).ready(function()
         {
             $.get('controller/schedule_ajax_calls.php', {"ScheduleIDGet": searchVal}, function ()
             {
-                /*move view to "retrieve", call disableUpdateBtn function, remove retrieve schedule button 'disabled'*/
+                /*move view to "retrieve", call updateViewEvents function, remove retrieve schedule button 'disabled'*/
                 $("#mainContent").load('views/retrieve.php', function ()
                 {
-                    $.fn.disableUpdateBtn();
+                    $.fn.updateViewEvents();
                 });
                 $('#admin-view-button').prop('disabled', false);
                 $('#home-view-button').prop('disabled', false);
@@ -156,7 +176,7 @@ $(document).ready(function()
                     /*move view to "retrieve" and set the view button disabled state properly*/
                     $("#mainContent").load('views/retrieve.php', function()
                     {
-                        $.fn.disableUpdateBtn();
+                        $.fn.updateViewEvents();
                     });
                     alert("NEW RECORD CREATED");
                     $('#new-view-button').prop('disabled', false);
@@ -167,7 +187,7 @@ $(document).ready(function()
     /**
      * On schedule update submit, ajax handles posting of the data to session
      *      and then navigates back to the 'retrieve' view to display the info
-     *      before calling the disableUpdateBtn function to reset element functional
+     *      before calling the updateViewEvents function to reset element functional
      *      properties.
      * @param postDataBuilder string with UniqueID= and the schedule ID.
      * @param inputDataBuilder string with the field(s) to update and update value(s).
@@ -179,20 +199,21 @@ $(document).ready(function()
             /*move view to "retrieve" and set the view button disabled state properly*/
             $("#mainContent").load('views/retrieve.php', function()
             {
-                $.fn.disableUpdateBtn();
+                $.fn.updateViewEvents();
             });
             alert("RECORD UPDATED");
             $('#new-view-button').prop('disabled', false);
         });
     }
 
+    /*TODO: split this function into smaller chunks. LENGTHY, NOT READABLE BY OTHER DEVS.*/
     /**
      * This function disables the update button. It is called when the retrieve view has been loaded.
      *      The button is re-enabled when there is a change registered in the schedule forms.
      *      This function also re-attaches a submit eventlistener to the submit button that has been
      *      loaded via ajax in consideration of this element not being a part of the DOM.
      */
-    $.fn.disableUpdateBtn = function()
+    $.fn.updateViewEvents = function()
     {
         let submitBtn = $('#submit-schedule-button');
         let scheduleForms = $('#scheduleSubmit');
@@ -238,62 +259,17 @@ $(document).ready(function()
             }
         })
     }
-
-    /*TODO: remove Home button disabled prop on view load if found a schedule using URI input*/
-    let path = $(location).attr('pathname');
-    if(path.length > 10)
-    {
-        $('#home-view-button').prop('disabled', false);
-    }
 });
-
-
-/**
- * Call the viewButtonHandler method on window load.
- */
-window.onload = viewButtonHandler;
-
-/**
- * This function does two things:
- *  1: Sets the home button disabled property to 'true' on window load.
- *  2: Attaches a disable toggle function to each of the header 'view' buttons.
- */
-function viewButtonHandler()
-{
-    let viewButtons = document.getElementsByClassName("viewButton");
-
-    for (let x = 0; x < viewButtons.length; x++)
-    {
-        viewButtons[x].addEventListener("click", () => disableToggle(viewButtons[x].id, viewButtons));
-    }
-}
 
 /**
  * This function sets the clicked button to 'disabled' and re-enables any other button that has been disabled.
  * @param clicked the ID of the button that was clicked (home-view-button, new-view-button, or admin-view-button)
- * @param viewButtons button elements with 'viewButton' class
  */
-function disableToggle(clicked, viewButtons)
+function disableToggle(clicked)
 {
+    let viewButtons = document.getElementsByClassName("viewButton");
     for (let x = 0; x < viewButtons.length; x++)
     {
         viewButtons[x].disabled = viewButtons[x].id === clicked;
-    }
-}
-
-/*TODO: see if this is needed or not*/
-/**
- * This function removes all children from the mainContent element.
- */
-function removeElements()
-{
-    const mainElement = document.getElementById("mainContent");
-    if(mainElement.firstChild)
-    {
-        let mainChild = mainElement.firstChild;
-        while (mainChild)
-        {
-            mainElement.removeChild(mainChild);
-        }
     }
 }
