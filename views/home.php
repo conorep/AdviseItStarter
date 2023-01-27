@@ -27,7 +27,6 @@
 
             </div>
             
-            <!--TODO: ADD ERROR HANDLING FOR THIS! CURRENTLY ALLOWING TRAVERSAL TO A PAGE FULL OF ERRORS WITH NONEXISTENT CODE-->
             <div class='col-7 my-2'>
                 <label class='form-label fw-bold ms-2' for='getSchedule'>
                     Looking up your schedule? Enter your six-digit ID: 
