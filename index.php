@@ -27,10 +27,12 @@
     <link rel="stylesheet" media="print" href="css/print_styles.css" type="text/css">
     
     <title>Advise-It Tool</title>
-    <!--TODO: create error handling for non-existent token-->
+    
     <?php
         /*remove first 10 chars from URI to get the input token code*/
+        /*TODO: make this dynamic. this app could be deployed elsewhere and having to edit this exactly is a bad plan*/
         $substrURI = substr($_SERVER['REQUEST_URI'], 10);
+        $splitURI = preg_split($_SERVER['REQUEST_URI'], '/');
         /*if in the right format (i.e. 6 characters long), set app up to view a retrieved schedule*/
         if(strlen($substrURI) == 6)
         {
@@ -41,7 +43,6 @@
 </head>
 
 <body>
-
     <header class="no-print-section">
         <nav class="navbar mb-3 pt-0 pb-0">
 
