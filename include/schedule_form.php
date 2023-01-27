@@ -29,10 +29,14 @@
         {
             include("form_opening.php");
             $modelCalls->displayCreatedPlan($_SESSION['scheduleToken']);
-            include("schedule_html.php");
+            if($_SESSION['planRetrieved'])
+            {
+                include("schedule_html.php");
+            }
 
             /*unset scheduleToken and set planData back to '' when done with displaying created plan*/
             unset($_SESSION['scheduleToken']);
+            unset($_SESSION['planRetrieved']);
             $_SESSION['planData'] = '';
         } else
         {

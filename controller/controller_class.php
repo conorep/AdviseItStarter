@@ -61,6 +61,7 @@
             $planArray = $this->databaseFuncs->retrieveSchedule($uniqueToken);
             if($planArray)
             {
+                $_SESSION['planRetrieved'] = true;
                 if($planArray['modified_date'])
                 {
                     $modDate = $planArray['modified_date'];
@@ -83,9 +84,10 @@
                 $_SESSION['planData'] = $planArray;
             } else
             {
+                $_SESSION['planRetrieved'] = false;
                 echo "
                 <div class='container-fluid'>
-                    <h3 class='text-center'>ERROR. Plan data not found!</h3>
+                    <h3 class='text-center text-danger'>ERROR. Plan data not found!</h3>
                 </div>";
             }
         }
