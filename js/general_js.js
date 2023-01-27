@@ -34,20 +34,26 @@ $(document).ready(function()
 
     /**
      * This onclick function loads home.php when the home header button is clicked.
-     *      After the 'home' HTML is rendered, the home view button is disabled and other
-     *      header buttons are enabled.
+     *      If window.location.href is different from the defined home location string,
+     *      the page is reloaded at homeLoc (i.e. the schedule token used for retrieval
+     *      is removed from the URI and the page gets reloaded).
+     *      Otherwise, after the 'home' HTML is rendered, the home view button is disabled
+     *      and other header buttons are enabled.
      */
     $("#home-view-button").click(function()
     {
-        $("#mainContent").load('views/home.php', function()
+        let homeLoc = "https://cobrien2.greenriverdev.com/adviseit/";
+        if(window.location.href !== homeLoc)
         {
-            /*TODO: get rid of these tests when done with developing the token URI functions.*/
-            let currentURL = location.href;
-            console.log(currentURL);
-
-            $('#home-view-button').prop('disabled', true);
-            disableToggle("home-view-button");
-        });
+            window.location.replace(homeLoc);
+        } else
+        {
+            $("#mainContent").load('views/home.php', function()
+            {
+                $('#home-view-button').prop('disabled', true);
+                disableToggle("home-view-button");
+            });
+        }
     });
 
     /**
@@ -77,6 +83,7 @@ $(document).ready(function()
         });
     });
 
+    /*TODO: implement login error handling. set up a return value from login submit and act accordingly?*/
     /**
      * This function adds an onclick event to the admin login button.
      *      It posts the login form submit data to login_ajax_calls, which handles success or failure to log in.
