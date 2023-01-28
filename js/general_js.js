@@ -132,20 +132,23 @@ $(document).ready(function()
     {
         e.preventDefault();
         let buttonID = $(this).attr('id');
+        let setURLLoc = homeLoc + buttonID;
         $.get('controller/schedule_ajax_calls.php', {"ScheduleIDGet": buttonID}, function()
         {
             /*move view to "retrieve", call updateViewEvents function, remove retrieve schedule button 'disabled'*/
             $("#mainContent").load('views/retrieve.php', function()
             {
                 $.fn.updateViewEvents();
+                history.replaceState({}, null, setURLLoc);
             });
             $('#retrieve-view-button').prop('disabled', false);
         })
     });
 
     /**
-     * This function responds to the search box input. When there's a change, it searches schedule div IDs
-     *      to see if they contain the input character(s). If not, they are hidden. If yes, they are shown.
+     * This function responds to the search box input on the admin 'view schedules' page. When there's a change,
+     *      it searches schedule div IDs to see if they contain the input character(s).
+     *      If not, they are hidden. If yes, they are shown.
      */
     $(document).on('input', '#searchSchedules', function()
     {
@@ -164,12 +167,10 @@ $(document).ready(function()
      */
     $(document).on('input', '#getSchedule', function()
     {
-        let homeLoc = "https://cobrien2.greenriverdev.com/adviseit/";
         let searchVal = $(this).val().toUpperCase();
         if(searchVal.length === 6)
         {
-            homeLoc += searchVal;
-            history.replaceState({}, null, homeLoc);
+            history.replaceState({}, null, homeLoc + searchVal);
             $.get('controller/schedule_ajax_calls.php', {"ScheduleIDGet": searchVal}, function()
             {
                 /*move view to "retrieve", call updateViewEvents function, remove retrieve schedule button 'disabled'*/
@@ -200,6 +201,7 @@ $(document).ready(function()
                     $("#mainContent").load('views/retrieve.php', function()
                     {
                         $.fn.updateViewEvents();
+                        history.replaceState({}, null, homeLoc + $('.submit_id').attr('id'));
                     });
                     alert("NEW RECORD CREATED");
                     $('#new-view-button').prop('disabled', false);
