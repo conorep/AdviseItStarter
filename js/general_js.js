@@ -88,6 +88,10 @@ $(document).ready(function()
     {
         $("#mainContent").load('views/retrieve.php', function()
         {
+            if(window.location.href !== homeLoc)
+            {
+                history.replaceState({}, null, homeLoc);
+            }
             disableToggle("retrieve-view-button");
         });
     });
