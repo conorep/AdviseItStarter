@@ -19,14 +19,15 @@
 
 
 #### CURRENT TODOS
-- URI should/could remove token after retrieval of schedule...?
-- Map out how each view route works.
-  - What session variables need to be present to load certain stuff?
-  - Which jQuery functions get run when something happens?
+##### HOT
 - ERROR HANDLING IN GENERAL!
   - The admin login needs error handling (not just page reload without error report when entering non-existent email or wrong pass).
   - No error handling on update/new schedule submit when adding more than a certain amount of characters to any given quarter.
+
+##### LATER
+- Map out how each view route works.
+  - What session variables need to be present to load certain stuff?
+  - Which jQuery functions get run when something happens?
 - Think about implementing/not implementing a max char size for quarters
   - "How many lines of info should I allow? Infinite vs. 10...?"
   - Currently, creation error when posting quarters with massive amounts of text.
-- Make a specific view route for retrieving a schedule via URI...?
