@@ -3,6 +3,12 @@
  * @version 1.0
  * @author Conor O'Brien
  */
+/*
+TODO: NOTE TO SELF! I'm currently setting this page up with no back button functions.
+   As such, I've used history.replaceState instead of proper window reloads. This has advantages and disadvantages
+   ADVANTAGE: seamless function of page with no reloads
+   DISADVANTAGE: some people are used to a back button to return to previous data
+*/
 
 /**
  * This block of jQuery functions contains several functions defining page view activity.
@@ -14,6 +20,8 @@
  */
 $(document).ready(function()
 {
+    var homeLoc = "https://cobrien2.greenriverdev.com/adviseit/";
+
     /**
      * On document 'ready,' the home view is loaded in the index page and the home button is disabled.
      *      If that load sequence leads to retrieval of a schedule due to a token in the URI, the home
@@ -42,18 +50,15 @@ $(document).ready(function()
      */
     $("#home-view-button").click(function()
     {
-        let homeLoc = "https://cobrien2.greenriverdev.com/adviseit/";
         if(window.location.href !== homeLoc)
         {
-            window.location.replace(homeLoc);
-        } else
-        {
-            $("#mainContent").load('views/home.php', function()
-            {
-                $('#home-view-button').prop('disabled', true);
-                disableToggle("home-view-button");
-            });
+            history.replaceState({}, null, homeLoc);
         }
+        $("#mainContent").load('views/home.php', function()
+        {
+            $('#home-view-button').prop('disabled', true);
+            disableToggle("home-view-button");
+        });
     });
 
     /**
@@ -66,6 +71,10 @@ $(document).ready(function()
         $("#mainContent").load('views/new.php', function()
         {
             $.fn.postSchedule();
+            if(window.location.href !== homeLoc)
+            {
+                history.replaceState({}, null, homeLoc);
+            }
             disableToggle("new-view-button");
         });
     });
@@ -151,13 +160,16 @@ $(document).ready(function()
      */
     $(document).on('input', '#getSchedule', function()
     {
+        let homeLoc = "https://cobrien2.greenriverdev.com/adviseit/";
         let searchVal = $(this).val().toUpperCase();
         if(searchVal.length === 6)
         {
-            $.get('controller/schedule_ajax_calls.php', {"ScheduleIDGet": searchVal}, function ()
+            homeLoc += searchVal;
+            history.replaceState({}, null, homeLoc);
+            $.get('controller/schedule_ajax_calls.php', {"ScheduleIDGet": searchVal}, function()
             {
                 /*move view to "retrieve", call updateViewEvents function, remove retrieve schedule button 'disabled'*/
-                $("#mainContent").load('views/retrieve.php', function ()
+                $("#mainContent").load('views/retrieve.php', function()
                 {
                     $.fn.updateViewEvents();
                 });
