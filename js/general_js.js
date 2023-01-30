@@ -4,9 +4,9 @@
  * @author Conor O'Brien
  */
 /*
-TODO: NOTE TO SELF! I'm currently setting this page up with no back button functions.
-   As such, I've used history.replaceState instead of proper window reloads. This has advantages and disadvantages
-   ADVANTAGE: seamless function of page with no reloads
+TODO: NOTE TO SELF! I'm currently setting this page up with no back button functions. This was OK'd by Tyler.
+   As such, I've used history.replaceState instead of proper window reloads. This has advantages and disadvantages.
+   ADVANTAGE: seamless function of page with no reloads (outside of admin login currently)
    DISADVANTAGE: some people are used to a back button to return to previous data
 */
 
@@ -102,11 +102,21 @@ $(document).ready(function()
      *      It posts the login form submit data to login_ajax_calls, which handles success or failure to log in.
      *      NOTE: The ajax 'post' uses the whole URI for the file because this button is rendered on page load.
      */
-    $('#admin-login-button').click(function()
+    $('#admin-login-button').click(function(e)
     {
-        $.post('https://cobrien2.greenriverdev.com/adviseit//controller/login_ajax_call.php', $('#adminLoginSubmit').serialize(), function()
+        e.preventDefault();
+        $.post('https://cobrien2.greenriverdev.com/adviseit//controller/login_ajax_call.php',
+            $('#adminLoginSubmit').serialize(), function(response)
         {
-            location.reload();
+            console.log(response);
+            if(response.includes('success'))
+            {
+                alert(response);
+                location.reload();
+            } else
+            {
+                alert(response);
+            }
         });
     });
 
@@ -115,10 +125,13 @@ $(document).ready(function()
      *      It calls the login_ajax_call page with a get request to call the logout function in the controller.
      *      NOTE: The ajax 'get' uses the whole URI for the file because this button is rendered on page load.
      */
-    $('#logout-button').click(function()
+    $('#logout-button').click(function(e)
     {
-        $.get('https://cobrien2.greenriverdev.com/adviseit//controller/login_ajax_call.php', {"LogGet": "yes"}, function()
+        e.preventDefault();
+        $.get('https://cobrien2.greenriverdev.com/adviseit//controller/login_ajax_call.php', {"LogGet": "yes"},
+            function()
         {
+            alert("Logout successful.");
             location.reload();
         })
     })
