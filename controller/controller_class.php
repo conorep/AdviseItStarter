@@ -164,7 +164,7 @@
 
         /**
          * @param string $uniqueToken schedule_id token for row reference
-         * @param array $valsArray values to update. also used to reference $columnArr to see which fields need updating.
+         * @param array $valsArray values to update. also used to ref $columnArr to see which fields need updating.
          * @return string return string regarding successful or unsuccessful record creation
          */
         public function updateExistingPlan(string $uniqueToken, array $valsArray): string
@@ -192,32 +192,34 @@
             }
         }
 
+        /*TODO: make the error return more comprehensive. True or false don't tell whether there was an error
+            with the email or password*/
         /**
          * This function is used when an admin is attempting to log into the site to view all schedules.
          * @param string $email admin email
          * @param string $password admin password
-         * @return bool true if login successful, error text if a problem with password matching or email matching.
+         * @return bool true if login successful, false if anything goes wrong
          */
         public function adminLogin(string $email, string $password): bool
         {
-            /*           $checkProvidedPass = $this->hashPass($providedPass);*/
             $adminArray = $this->databaseFuncs->getAdminInfo($email);
 
             if($adminArray)
             {
-                $checkProvidedPass = $this->hashPass($password);
-                if($checkProvidedPass == $adminArray['password'])
+                if($adminArray['password'])
                 {
-                    $_SESSION['adminLogged'] = true;
-                    return true;
-                } else
-                {
-                    return "ERROR! Wrong password.";
+                    $checkProvidedPass = $this->hashPass($password);
+                    if($checkProvidedPass === $adminArray['password'])
+                    {
+                        $_SESSION['adminLogged'] = true;
+                        return true;
+                    }
                 }
             } else
             {
-                return "ERROR! Email not found.";
+                return false;
             }
+            return false;
         }
 
         /**
