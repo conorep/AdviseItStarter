@@ -12,6 +12,6 @@
 //    var_dump($_SESSION);
 
     $_SESSION['pageID'] = 'NewView';
-    $modelCalls->unsetVars($quartersArr);
+    $controllerObject->unsetVars($quartersArr);
 
     include('../include/schedule_form.php');

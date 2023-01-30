@@ -13,7 +13,7 @@
 //    var_dump($_SESSION);
 
         $_SESSION['pageID'] = 'HomeView';
-        $modelCalls->unsetVars($quartersArr);
+        $controllerObject->unsetVars($quartersArr);
 
         echo "
         <br/>

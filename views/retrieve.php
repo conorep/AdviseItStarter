@@ -13,6 +13,6 @@
 //    var_dump($_POST, $_GET, $_SESSION);
     
     $_SESSION['pageID'] = 'RetrieveView';
-    $modelCalls->unsetVars($quartersArr);
+    $controllerObject->unsetVars($quartersArr);
 
     include('../include/schedule_form.php');
