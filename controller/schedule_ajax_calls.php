@@ -41,10 +41,10 @@
                 if($varArr[0])
                 {
                     $_SESSION['scheduleToken'] = $varArr[0];
-                    $infoHere = $modelCalls->createNewPlan($varArr[0], $varArr[1], $varArr[2], $varArr[3], $varArr[4], $varArr[5]);
+                    $infoHere = $controllerObject->createNewPlan($varArr[0], $varArr[1], $varArr[2], $varArr[3], $varArr[4], $varArr[5]);
                     echo $infoHere;
                 }
-                $modelCalls->unsetVars($infoArray);
+                $controllerObject->unsetVars($infoArray);
             }
         }
     }
