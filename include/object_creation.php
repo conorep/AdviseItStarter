@@ -11,7 +11,7 @@
 
     /*create objects*/
     $dbFunctions = new ModelDB();
-    $modelCalls = new ControllerClass($dbFunctions);
+    $controllerObject = new ControllerClass($dbFunctions);
 
     /*shared array of quarter names*/
     $quartersArr = array("Fall", "Winter", "Spring", "Summer");
