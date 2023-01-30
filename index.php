@@ -100,11 +100,12 @@
                                             
                                                 <label class='form-label fw-bold' for='admin-email-input'>Admin Email</label>
                                                 <input class='form-control' name='AdminEmail' id='admin-email-input' 
-                                                    type='email' placeholder='Enter account email...'/>
+                                                    type='email' placeholder='Enter account email...' autocomplete='on'>
                                                     
                                                 <label class='form-label mt-3 fw-bold' for='admin-pass-input'>Password</label>
                                                 <input class='form-control' name='AdminPass' id='admin-pass-input' 
-                                                    type='password' placeholder='Enter account password...'/>
+                                                    type='password' placeholder='Enter account password...' 
+                                                    autocomplete='on'>
                                                     
                                                 <button id='admin-login-button' class='scheduleButton viewButton mt-2 me-2 float-end'
                                                     type='submit'>LOGIN</button>
