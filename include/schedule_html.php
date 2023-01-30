@@ -13,13 +13,25 @@
 
     /*this is used to save the schedule token in the update view*/
     $idVal = '';
+    /*this is used with the object_creation $quartersArr to supply the column names needed for data from/to the database*/
     $databaseValArr = array('Fall'=>'fall_qrtr', 'Winter'=>'winter_qrtr', 'Spring'=>'spring_qrtr', 'Summer'=>'summer_qrtr');
     $rowVal ='';
+    /*get current year for displaying each quarter's year*/
+    if(date('m/d' < '07/01'))
+    {
+        $rowYear = date('Y', strtotime('-1 year'));
+    } else
+    {
+        $rowYear = date('Y');
+    }
 
+
+    /*if the retrieved schedule is to be displayed, change submit button to update*/
     if($_SESSION['pageID'] == 'RetrieveView')
     {
         $submitOrUpdate = 'UPDATE';
         $subOrUpVal = 'scheduleUpdate';
+        $rowYear = $_SESSION['planData']['plan_year'];
         if(isset($_SESSION['scheduleToken']) && $_SESSION['scheduleToken'] !== '')
         {
             $idVal = $_SESSION['scheduleToken'];
@@ -28,13 +40,20 @@
     
     foreach ($quartersArr as $quarter)
     {
+        if($quarter == 'Fall')
+        {
+            $displayYear = $rowYear;
+        } else
+        {
+            $displayYear = $rowYear +1;
+        }
         if($_SESSION['pageID'] == 'RetrieveView')
         {
             $rowVal = $databaseValArr[$quarter];
         }
         echo "                    
                 <div class='no-print col-10 col-md-5 shadow quarter-box m-2 p-2'>
-                    <label for='" . $quarter . "' class='no-print form-label'><strong>" . $quarter . "</strong>
+                    <label for='" . $quarter . "' class='no-print form-label'><strong>" .$quarter. " " .$displayYear. "</strong>
                          Classes & Comments</label>
                     <textarea class='quarterInput form-control' id='" . $quarter . "' rows='5'
                                 name='" . $quarter . "' >";
@@ -45,7 +64,7 @@
                 </div>";
         echo $_SESSION['pageID'] == 'RetrieveView' ? "
                 <div class='hide-for-print print'>
-                        <h2 class='top-margin'><strong>" . $quarter . "</strong> Classes & Comments</h2>
+                        <h2 class='top-margin'><strong>" .$quarter. " " .$displayYear. "</strong> Classes & Comments</h2>
                         <div class='print-schedule'><pre>" . $_SESSION['planData'][$rowVal] . "</pre></div>
                 </div>" : '';
     }
