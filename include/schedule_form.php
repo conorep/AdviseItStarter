@@ -17,7 +17,7 @@
             unset($_SESSION['scheduleToken']);
         }
         include("form_opening.php");
-        $modelCalls->displayUniqueToken();
+        $controllerObject->displayUniqueToken();
 
         include("schedule_html.php");
 
@@ -28,7 +28,7 @@
         if($_SESSION['scheduleToken'] != '')
         {
             include("form_opening.php");
-            $modelCalls->displayCreatedPlan($_SESSION['scheduleToken']);
+            $controllerObject->displayCreatedPlan($_SESSION['scheduleToken']);
             if($_SESSION['planRetrieved'])
             {
                 include("schedule_html.php");
