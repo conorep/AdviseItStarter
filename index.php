@@ -96,9 +96,9 @@
                                         <div>
                                             <form id='adminLoginSubmit' method='post'>
                                             
-                                                <label class='form-label fw-bold' for='admin-email-input'>Admin Email</label>
+                                                <label class='form-label fw-bold' for='admin-email-input'>Admin Account Email/Name</label>
                                                 <input class='form-control' name='AdminEmail' id='admin-email-input' 
-                                                    type='email' placeholder='Enter account email...' autocomplete='on'>
+                                                    type='text' placeholder='Enter account email or name...' autocomplete='on'>
                                                     
                                                 <label class='form-label mt-3 fw-bold' for='admin-pass-input'>Password</label>
                                                 <input class='form-control' name='AdminPass' id='admin-pass-input' 
