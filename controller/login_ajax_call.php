@@ -19,12 +19,24 @@
     {
         if(!empty($_POST))
         {
+            if(empty($_POST['AdminEmail']))
+            {
+                die('Error! Email cannot be empty.');
+            }
+            if(empty($_POST['AdminPass']))
+            {
+                die('Error! Password cannot be empty.');
+            }
             $logEmail = $_POST['AdminEmail'];
             $logPass = $_POST['AdminPass'];
-            if($modelCalls->adminLogin($logEmail, $logPass))
+
+            if($controllerObject->adminLogin($logEmail, $logPass) === true)
             {
-                echo '<script>console.log("you logged in!")</script>';
-            };
+                echo 'Login successful!';
+            } else
+            {
+                echo 'Login error! Check your email and password.';
+            }
             unset($_POST['AdminEmail']);
             unset($_POST['AdminPass']);
         }
@@ -36,7 +48,7 @@
         {
             if($_GET['LogGet'] == 'yes')
             {
-                $modelCalls->logout();
+                $controllerObject->logout();
             }
         }
     }
