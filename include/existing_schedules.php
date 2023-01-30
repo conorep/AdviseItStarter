@@ -23,4 +23,4 @@
 
 
 
-    $modelCalls->getAllIds();
+    $controllerObject->getAllIds();
