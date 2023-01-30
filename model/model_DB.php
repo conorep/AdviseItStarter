@@ -134,6 +134,7 @@
          * This function creates a new schedule in the database.
          *      It utilizes mysqli's prepare and bind_param functions to handle SQL validation
          *      and avoid SQL injection.
+         *      It also checks the current date and sets the plan year accordingly.
          * @param $idParam String unique token ID
          * @param $fallParam String fall quarter info
          * @param $winterParam String winter quarter info
@@ -144,13 +145,29 @@
         public function createNewSchedule(string $idParam, string $advisorParam, string $fallParam, string $winterParam,
                                           string $springParam, string $summerParam): bool
         {
+            /*
+             * get current date.
+             * if it's between January first and June 30th, $planYear needs to reflect the previous year.
+             * if it's between July 1st and December 31st, $planYear needs to reflect the current year.
+            */
+            $currDate = date('m/d');
+
+            if($currDate < '07/01')
+            {
+                $planYear = date('Y', strtotime('-1 year'));
+            } else
+            {
+                $planYear = date('Y');
+            }
+
             /*create SQL statement and use mysqli's prepare function for safe execution preparation*/
-           $newSchedule = "INSERT INTO schedules (schedule_id, advisor_name, fall_qrtr, winter_qrtr, spring_qrtr, summer_qrtr)
-                                VALUES (?, ?, ?, ?, ?, ?);";
+           $newSchedule =
+               "INSERT INTO schedules (schedule_id, advisor_name, fall_qrtr, winter_qrtr, spring_qrtr, summer_qrtr, plan_year)
+                                VALUES (?, ?, ?, ?, ?, ?, ?);";
            $sqlStatement = $this->getConn()->prepare($newSchedule);
            
            /*bind parameters using mysqli and declaring them as String (does not allow for SQL injection)*/
-           $sqlStatement->bind_param("ssssss", $id, $advisor, $fall, $winter, $spring, $summer);
+           $sqlStatement->bind_param("ssssssi", $id, $advisor, $fall, $winter, $spring, $summer, $date);
            
            /*update all bound parameters*/
            $id = $idParam;
@@ -159,6 +176,7 @@
            $winter = $winterParam;
            $spring = $springParam;
            $summer = $summerParam;
+           $date = $planYear;
            
            return $sqlStatement->execute();
         }
