@@ -37,7 +37,7 @@
         }
     }
     echo "
-        <div id='" .$rowYear. "-year-div' class='getYear row justify-content-center'>";
+        <div id='year-div-" .$rowYear. "' class='getYear row justify-content-center'>";
     foreach ($quartersArr as $quarter)
     {
         if($quarter == 'Fall')
