@@ -9,7 +9,6 @@
      */
 
     include('../include/object_creation.php');
-//    var_dump($_SESSION);
 
     $_SESSION['pageID'] = 'NewView';
     $controllerObject->unsetVars($quartersArr);

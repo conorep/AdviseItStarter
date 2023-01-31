@@ -10,7 +10,6 @@
     if(!isset($_SESSION['scheduleToken']))
     {
         include('../include/object_creation.php');
-//    var_dump($_SESSION);
 
         $_SESSION['pageID'] = 'HomeView';
         $controllerObject->unsetVars($quartersArr);
