@@ -21,8 +21,8 @@ TODO: NOTE TO SELF! I'm currently setting this page up with no back button funct
 $(document).ready(function()
 {
     var homeLoc = "https://cobrien2.greenriverdev.com/adviseit/";
-    var schedPath = "?schedule=";
-
+    var schedPath = "schedule=";
+    var currPath = window.location.href;
 
     /**
      * On document 'ready,' the home view is loaded in the index page and the home button is disabled.
@@ -38,8 +38,8 @@ $(document).ready(function()
             $('#home-view-button').prop('disabled', true);
         } else
         {
-            // history.replaceState({}, null, homeLoc);
             $.fn.updateViewEvents();
+            history.replaceState({}, null, currPath);
         }
     });
 
