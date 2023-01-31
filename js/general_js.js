@@ -73,7 +73,7 @@ $(document).ready(function()
     {
         $("#mainContent").load('views/new.php', function()
         {
-            let submitID = $('.submit_id').attr('id');
+            let submitID = getSubmitID($('.submit_id').attr('id'));
             $.fn.postSchedule();
             if(window.location.href !== homeLoc)
             {
@@ -169,6 +169,7 @@ $(document).ready(function()
 
     /*TODO: need to make the new divs functional. the container div needs a proper ID reflecting its year and
        the textarea divs need to have proper IDs reflecting that plan year*/
+    /*TODO: killing the onclick event for the time being. don't want it to kill other testable functions.*/
     /**
      * This function adds an onclick event to the up and down buttons on the new or update schedule views.
      */
@@ -179,18 +180,22 @@ $(document).ready(function()
 
         if(thisId.includes('up'))
         {
-            let prevDiv = getScheduleDivs[0].cloneNode(true);
+            alert("Previous year button clicked. This is in development - check back later.");
+            /*let prevDiv = getScheduleDivs[0].cloneNode(true);
             let prevID = prevDiv.id.split('-');
             prevID[2]--;
             prevDiv.id = prevID.join('-');
-            prevDiv.appendBefore(getScheduleDivs[0]);
+            prevDiv.alterNodeContent('up', prevDiv);
+            prevDiv.appendBefore(getScheduleDivs[0]);*/
         } else
         {
-            let nextDiv = getScheduleDivs[getScheduleDivs.length-1].cloneNode(true);
+            alert("Next year button clicked. This is in development - check back later.");
+            /*let nextDiv = getScheduleDivs[getScheduleDivs.length-1].cloneNode(true);
             let nextID = nextDiv.id.split('-');
             nextID[2]++;
             nextDiv.id = nextID.join('-');
-            nextDiv.appendAfter(getScheduleDivs[getScheduleDivs.length-1]);
+            nextDiv.alterNodeContent('down', nextDiv);
+            nextDiv.appendAfter(getScheduleDivs[getScheduleDivs.length-1]);*/
         }
     });
 
@@ -243,14 +248,15 @@ $(document).ready(function()
         $('#scheduleSubmit').submit(function(e)
         {
             e.preventDefault();
+            let uniqueDivID = getSubmitID($('.submit_id').attr('id'));
             $.post('controller/schedule_ajax_calls.php',
-                "UniqueID=" + $('.submit_id').attr('id') + "&" + $('#scheduleSubmit').serialize(), function()
+                "UniqueID=" + uniqueDivID + "&" + $('#scheduleSubmit').serialize(), function()
                 {
                     /*move view to "retrieve" and set the view button disabled state properly*/
                     $("#mainContent").load('views/retrieve.php', function()
                     {
                         $.fn.updateViewEvents();
-                        history.replaceState({}, null, homeLoc + schedPath + $('.submit_id').attr('id'));
+                        history.replaceState({}, null, homeLoc + schedPath + getSubmitID*$('.submit_id').attr('id'));
                     });
                     alert("NEW RECORD CREATED");
                     $('#new-view-button').prop('disabled', false);
@@ -309,7 +315,7 @@ $(document).ready(function()
         });
 
         /*create initial ID string and an empty input data builder string variable for POST*/
-        let postDataBuilder = "UniqueID=" + $('.submit_id').attr('id');
+        let postDataBuilder = "UniqueID=" + getSubmitID($('.submit_id').attr('id'));
         let inputDataBuilder = '';
         scheduleForms.submit(function(e)
         {
@@ -320,7 +326,7 @@ $(document).ready(function()
             {
                 if(scheduleInitVals[x] !== scheduleUpdateVals[x].value)
                 {
-                    inputDataBuilder += "&" + scheduleUpdateVals[x].id + "=" + scheduleUpdateVals[x].value;
+                    inputDataBuilder += "&" + getSubmitID(scheduleUpdateVals[x].id) + "=" + scheduleUpdateVals[x].value;
                 }
             }
             /*if there are updated values, run the update POST*/
@@ -353,7 +359,8 @@ function disableToggle(clicked)
  * @param newNode the node to insert
  * @param existingNode the existing node to prepend to
  */
-Element.prototype.appendBefore = function (element) {
+Element.prototype.appendBefore = function(element)
+{
     element.parentNode.insertBefore(this, element);
 },false;
 
@@ -362,6 +369,23 @@ Element.prototype.appendBefore = function (element) {
  * @param newNode the node to insert
  * @param existingNode the existing node to append to
  */
-Element.prototype.appendAfter = function (element) {
+Element.prototype.appendAfter = function(element)
+{
     element.parentNode.insertBefore(this, element.nextSibling);
 },false;
+
+Element.prototype.alterNodeContent = function(upOrDown, nodes)
+{
+    console.log(upOrDown);
+    console.log(nodes);
+}
+
+/**
+ * This function removes the year from the div's ID. Example: 888888-2022 becomes 888888
+ * @param IDtoSplit the ID that needs alteration
+ * @return ID that's been altered
+ */
+function getSubmitID(IDtoSplit)
+{
+    return IDtoSplit.split('-')[0];
+}
