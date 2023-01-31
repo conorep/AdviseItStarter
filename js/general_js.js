@@ -21,6 +21,8 @@ TODO: NOTE TO SELF! I'm currently setting this page up with no back button funct
 $(document).ready(function()
 {
     var homeLoc = "https://cobrien2.greenriverdev.com/adviseit/";
+    var schedPath = "?schedule=";
+
 
     /**
      * On document 'ready,' the home view is loaded in the index page and the home button is disabled.
@@ -36,6 +38,7 @@ $(document).ready(function()
             $('#home-view-button').prop('disabled', true);
         } else
         {
+            // history.replaceState({}, null, homeLoc);
             $.fn.updateViewEvents();
         }
     });
@@ -66,14 +69,19 @@ $(document).ready(function()
      *      After the 'new' HTML is rendered, the new view button is disabled and other
      *      header buttons are enabled.
      */
-    $("#new-view-button").click(function ()
+    $("#new-view-button").click(function()
     {
         $("#mainContent").load('views/new.php', function()
         {
+            let submitID = $('.submit_id').attr('id');
             $.fn.postSchedule();
             if(window.location.href !== homeLoc)
             {
                 history.replaceState({}, null, homeLoc);
+            }
+            if(window.location.href === homeLoc && submitID !== null)
+            {
+                history.replaceState({}, null, homeLoc + schedPath + submitID);
             }
             disableToggle("new-view-button");
         });
@@ -96,7 +104,8 @@ $(document).ready(function()
         });
     });
 
-    /*TODO: implement login error handling. set up a return value from login submit and act accordingly?*/
+    /*TODO: implement more comprehensive login error handling.
+       Set up a return value from login submit and act accordingly...?*/
     /**
      * This function adds an onclick event to the admin login button.
      *      It posts the login form submit data to login_ajax_calls, which handles success or failure to log in.
@@ -145,7 +154,7 @@ $(document).ready(function()
     {
         e.preventDefault();
         let buttonID = $(this).attr('id');
-        let setURLLoc = homeLoc + buttonID;
+        let setURLLoc = homeLoc + schedPath + buttonID;
         $.get('controller/schedule_ajax_calls.php', {"ScheduleIDGet": buttonID}, function()
         {
             /*move view to "retrieve", call updateViewEvents function, remove retrieve schedule button 'disabled'*/
@@ -183,13 +192,13 @@ $(document).ready(function()
         let searchVal = $(this).val().toUpperCase();
         if(searchVal.length === 6)
         {
-            history.replaceState({}, null, homeLoc + searchVal);
             $.get('controller/schedule_ajax_calls.php', {"ScheduleIDGet": searchVal}, function()
             {
                 /*move view to "retrieve", call updateViewEvents function, remove retrieve schedule button 'disabled'*/
                 $("#mainContent").load('views/retrieve.php', function()
                 {
                     $.fn.updateViewEvents();
+                    history.replaceState({}, null, homeLoc + schedPath + searchVal);
                 });
                 $('#admin-view-button').prop('disabled', false);
                 $('#home-view-button').prop('disabled', false);
@@ -214,7 +223,7 @@ $(document).ready(function()
                     $("#mainContent").load('views/retrieve.php', function()
                     {
                         $.fn.updateViewEvents();
-                        history.replaceState({}, null, homeLoc + $('.submit_id').attr('id'));
+                        history.replaceState({}, null, homeLoc + schedPath + $('.submit_id').attr('id'));
                     });
                     alert("NEW RECORD CREATED");
                     $('#new-view-button').prop('disabled', false);
