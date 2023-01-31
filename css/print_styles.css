@@ -16,7 +16,7 @@
 
 .print, .hide-for-print.print {
     display: block;
-    break-inside: avoid;
+    break-inside: avoid-page;
 }
 
 button#submit-schedule-button {
