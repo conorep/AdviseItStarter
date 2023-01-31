@@ -17,12 +17,24 @@
 - Admin email: conorepobrien@gmail.com
 - Password: testing
 
+Alternate:
+- Admin username: admin
+- Password: admin
+
 
 #### CURRENT TODOS
 ##### HOT
-- ERROR HANDLING IN GENERAL!
-  - The admin login needs error handling (not just page reload without error report when entering non-existent email or wrong pass).
-  - No error handling on update/new schedule submit when adding more than a certain amount of characters to any given quarter.
+- As an Advisor, I want to add the correct school years before and/or after the current year
+  So that everyone can differentiate year vs year
+  And have a plan that matches their AAS Data and Software class plan over 2-4  total years.
+- As an Advisee,
+  When I open my plan,
+  I should see all of the school years where I have classes listed.
+  If I have no classes listed,
+  I should see the current School year.
+
+
+
 
 ##### LATER
 - Map out how each view route works.
