@@ -36,7 +36,8 @@
             $idVal = $_SESSION['scheduleToken'];
         }
     }
-    
+    echo "
+        <div id='" .$rowYear. "-year-div' class='getYear row justify-content-center'>";
     foreach ($quartersArr as $quarter)
     {
         if($quarter == 'Fall')
@@ -67,6 +68,8 @@
                         <div class='print-schedule'><pre>" . $_SESSION['planData'][$rowVal] . "</pre></div>
                 </div>" : '';
     }
+    echo "
+        </div>";
     $controllerObject->anotherYearButton(1);
     echo "
                     <button type='submit' id='submit-schedule-button' class='scheduleButton' name='".$subOrUpVal. "'
