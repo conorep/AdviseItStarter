@@ -145,20 +145,9 @@
         public function createNewSchedule(string $idParam, string $advisorParam, string $fallParam, string $winterParam,
                                           string $springParam, string $summerParam): bool
         {
-            /*
-             * get current date.
-             * if it's between January first and June 30th, $planYear needs to reflect the previous year.
-             * if it's between July 1st and December 31st, $planYear needs to reflect the current year.
-            */
+            /* If current date is between Jan 1 and June 30, $planYear reflects the prev. year, otherwise curr. year*/
             $currDate = date('m/d');
-
-            if($currDate < '07/01')
-            {
-                $planYear = date('Y', strtotime('-1 year'));
-            } else
-            {
-                $planYear = date('Y');
-            }
+            $currDate < '07/01' ? $planYear=date('Y', strtotime('-1 year')) : $planYear=date('Y');
 
             /*create SQL statement and use mysqli's prepare function for safe execution preparation*/
            $newSchedule =
