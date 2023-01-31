@@ -25,7 +25,6 @@
         $rowYear = date('Y');
     }
 
-
     /*if the retrieved schedule is to be displayed, change submit button to update*/
     if($_SESSION['pageID'] == 'RetrieveView')
     {
@@ -53,9 +52,9 @@
         }
         echo "                    
                 <div class='no-print col-10 col-md-5 shadow quarter-box m-2 p-2'>
-                    <label for='" . $quarter . "' class='no-print form-label'><strong>" .$quarter. " " .$displayYear. "</strong>
+                    <label for='" .$quarter. "-" .$displayYear. "' class='no-print form-label'><strong>" .$quarter. " " .$displayYear. "</strong>
                          Classes & Comments</label>
-                    <textarea class='quarterInput form-control' id='" . $quarter . "' rows='5'
+                    <textarea class='quarterInput form-control' id='" . $quarter . "-" .$displayYear. "' rows='5'
                                 name='" . $quarter . "' >";
 
         echo $_SESSION['pageID'] == 'RetrieveView' ? $_SESSION['planData'][$rowVal]  :  '';
@@ -68,7 +67,7 @@
                         <div class='print-schedule'><pre>" . $_SESSION['planData'][$rowVal] . "</pre></div>
                 </div>" : '';
     }
-    
+    $controllerObject->anotherYearButton(1);
     echo "
                     <button type='submit' id='submit-schedule-button' class='scheduleButton' name='".$subOrUpVal. "'
                                 value='".$idVal."'>
