@@ -179,15 +179,17 @@ $(document).ready(function()
 
         if(thisId.includes('up'))
         {
-            console.log('up');
             let prevDiv = getScheduleDivs[0].cloneNode(true);
-            prevDiv.id = "TESTING-UP";
+            let prevID = prevDiv.id.split('-');
+            prevID[2]--;
+            prevDiv.id = prevID.join('-');
             prevDiv.appendBefore(getScheduleDivs[0]);
         } else
         {
-            console.log('down');
             let nextDiv = getScheduleDivs[getScheduleDivs.length-1].cloneNode(true);
-            nextDiv.id = "TESTING-DOWN";
+            let nextID = nextDiv.id.split('-');
+            nextID[2]++;
+            nextDiv.id = nextID.join('-');
             nextDiv.appendAfter(getScheduleDivs[getScheduleDivs.length-1]);
         }
     });
