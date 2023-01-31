@@ -25,15 +25,11 @@
                     Click a button above to navigate to your desired page or enter your schedule ID below.
                 </p>
 
-            </div>
+            </div>";
             
-            <div class='col-7 my-2'>
-                <label class='form-label fw-bold ms-2' for='getSchedule'>
-                    Looking up your schedule? Enter your six-digit ID: 
-                </label>
-                <input class='form-control shadow' id='getSchedule' name='getSchedule'/>
-            </div>
+        include('../include/get_schedule_form.php');
 
+    echo "
         </div>";
     } else
     {

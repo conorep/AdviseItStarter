@@ -89,6 +89,7 @@
                 <div class='container-fluid'>
                     <h3 class='text-center text-danger'>ERROR. Plan data not found!</h3>
                 </div>";
+                include('../include/get_schedule_form.php');
             }
         }
     
