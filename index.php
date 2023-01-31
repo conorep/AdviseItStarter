@@ -29,13 +29,16 @@
     <title>Advise-It Tool</title>
     
     <?php
-        /*remove first 10 chars from URI to get the input token code*/
         /*TODO: make this dynamic. this app could be deployed elsewhere and having to edit this exactly is a bad plan*/
-        $substrURI = substr($_SERVER['REQUEST_URI'], 10);
-        if(strlen($substrURI) == 6)
+        if(strlen($_SERVER['REQUEST_URI']) >= 20)
         {
-            $_SESSION['scheduleToken'] = $substrURI;
+            $substrURI = substr($_SERVER['REQUEST_URI'], 20);
+            if(strlen($substrURI) == 6)
+            {
+                $_SESSION['scheduleToken'] = $substrURI;
+            }
         }
+
     ?>
 
 </head>
@@ -96,9 +99,9 @@
                                         <div>
                                             <form id='adminLoginSubmit' method='post'>
                                             
-                                                <label class='form-label fw-bold' for='admin-email-input'>Admin Account Email/Name</label>
+                                                <label class='form-label fw-bold' for='admin-email-input'>Admin Email or Username</label>
                                                 <input class='form-control' name='AdminEmail' id='admin-email-input' 
-                                                    type='text' placeholder='Enter account email or name...' autocomplete='on'>
+                                                    type='text' placeholder='Enter account email or username...' autocomplete='on'>
                                                     
                                                 <label class='form-label mt-3 fw-bold' for='admin-pass-input'>Password</label>
                                                 <input class='form-control' name='AdminPass' id='admin-pass-input' 
