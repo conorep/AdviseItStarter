@@ -5,8 +5,17 @@
  */
 
 button.scheduleButton {
-    display: inline-block;
     background-color: #4CAF50;
+}
+
+button.yearButton {
+    background-color: #61d566;
+    border-radius: 10px;
+    max-width: 15%;
+}
+
+button.scheduleButton, button.yearButton {
+    display: inline-block;
     border: none;
     color: white;
     padding: 6px 8px;
@@ -23,13 +32,23 @@ button.scheduleButton:hover, button.scheduleButton:active {
     background-color: #558d55;
 }
 
+button.yearButton:hover, button.yearButton:active {
+    background-color: #72bb75;
+}
+
 button.scheduleButton:disabled {
     background-color: rgba(118, 211, 123, 0.6);
     border: #03a403 1px solid;
     color: #757575;
 }
 
-button.scheduleButton:active {
+button.yearButton:disabled {
+    background-color: rgba(93, 217, 47, 0.6);
+    border: #03a403 1px solid;
+    color: #757575;
+}
+
+button.scheduleButton:active, button.yearButton:active {
     box-shadow: 4px 4px #8c8c8c;
     transform: translateY(2px);
 }
