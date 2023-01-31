@@ -30,9 +30,9 @@
     
     <?php
         /*TODO: make this dynamic. this app could be deployed elsewhere and having to edit this exactly is a bad plan*/
-        if(strlen($_SERVER['REQUEST_URI']) >= 20)
+        if(strlen($_SERVER['REQUEST_URI']) >= 19)
         {
-            $substrURI = substr($_SERVER['REQUEST_URI'], 20);
+            $substrURI = substr($_SERVER['REQUEST_URI'], 19);
             if(strlen($substrURI) == 6)
             {
                 $_SESSION['scheduleToken'] = $substrURI;
