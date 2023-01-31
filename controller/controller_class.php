@@ -47,6 +47,7 @@
                         <input id='AdvisorName' class='form-control shadow' name='AdvisorName'
                         placeholder='Enter advisor name...'/>
                     </div>";
+            $this->anotherYearButton(0);
         }
 
         /**
@@ -70,7 +71,8 @@
                     $modDate = "NO UPDATES YET";
                 }
                 echo "
-                    <div id='" . $planArray['schedule_id'] . "' class='container-fluid submit_id'>
+                    <div id='" . $planArray['schedule_id'] . "-" . $planArray['plan_year'] . "' 
+                    class='container-fluid submit_id'>
                         <h3 class='text-center'><strong>Schedule Token: </strong>" .$planArray['schedule_id']. "</h3>
                         <h4 class='text-center'><strong>Schedule Created: </strong>" .$planArray['created_date']. "</h4>
                         <h4 class='text-center'><strong>Last Updated: </strong>" .$modDate. "</h4>
@@ -81,6 +83,7 @@
                                                     value='" . $planArray['advisor_name'] . "' />
                         </div>
                     </div>";
+                $this->anotherYearButton(0);
                 $_SESSION['planData'] = $planArray;
             } else
             {
@@ -108,10 +111,14 @@
         public function createNewPlan(string $id, string $advisor, string $fall, string $winter, string $spring,
                                       string $summer): string
         {
+            $fallInfo = explode('-', $fall)[0];
+            $winterInfo = explode('-', $winter)[0];
+            $springInfo = explode('-', $spring)[0];
+            $summerInfo = explode('-', $summer)[0];
             /*if there's no existing ID, create new schedule. if there IS an existing ID, run the update function.*/
             if($this->databaseFuncs->checkTokens($id))
             {
-                if($this->databaseFuncs->createNewSchedule($id, $advisor, $fall, $winter, $spring, $summer))
+                if($this->databaseFuncs->createNewSchedule($id, $advisor, $fallInfo, $winterInfo, $springInfo, $summerInfo))
                 {
                     return "The schedule was successfully created!";
                 } else
@@ -120,7 +127,7 @@
                 }
             } else
             {
-                return $this->updateExistingPlan($id, [$advisor, $fall, $winter, $spring, $summer]);
+                return $this->updateExistingPlan($id, [$advisor, $fallInfo, $winterInfo, $springInfo, $summerInfo]);
             }
         }
 
@@ -270,6 +277,24 @@
             }
         }
 
+        /**
+         * This function creates a button that will add another schedule year before or after a plan year based on
+         *      the passed in parameter.
+         * @param int $upOrDown 0 is one up (year before lowest year displayed),
+         *      1 is down (year after highest year displayed)
+         * @return void
+         */
+        public function anotherYearButton(int $upOrDown)
+        {
+            $upOrDown === 0 ? $prevOrNext = 'Previous Year' : $prevOrNext = 'Next Year';
+            $upOrDown === 0 ? $chevronDirection = 'up' : $chevronDirection = 'down';
+            echo "
+                <div class='text-center my-2 no-print'>
+                    <button type='button' class='scheduleButton w-25 float-center'>
+                        <i class='bi bi-chevron-bar-" .$chevronDirection. "'></i> " .$prevOrNext. "
+                    </button>
+                </div>";
+        }
     }
 
 
