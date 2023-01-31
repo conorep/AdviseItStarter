@@ -167,6 +167,8 @@ $(document).ready(function()
         })
     });
 
+    /*TODO: need to make the new divs functional. the container div needs a proper ID reflecting its year and
+       the textarea divs need to have proper IDs reflecting that plan year*/
     /**
      * This function adds an onclick event to the up and down buttons on the new or update schedule views.
      */
