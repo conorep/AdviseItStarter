@@ -290,7 +290,7 @@
             $upOrDown === 0 ? $chevronDirection = 'up' : $chevronDirection = 'down';
             echo "
                 <div id='year-" .$chevronDirection. "' class='text-center my-2 no-print'>
-                    <button type='button' class='yearButton'>
+                    <button id='year-" .$chevronDirection. "-button' type='button' class='yearButton'>
                         <i class='bi bi-chevron-bar-" .$chevronDirection. "'></i> " .$prevOrNext. "
                     </button>
                 </div>";
