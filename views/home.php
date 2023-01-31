@@ -23,6 +23,9 @@
                 <p class='text-center'>
                     Click a button above to navigate to your desired page or enter your schedule ID below.
                 </p>
+                <p class='text-center'>
+                    Alternately, retrieve your schedule via URL. EXAMPLE: https://cobrien2.greenriverdev.com/adviseit/schedule=AAAAAA
+                </p>
 
             </div>";
             
