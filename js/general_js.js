@@ -168,6 +168,29 @@ $(document).ready(function()
     });
 
     /**
+     * This function adds an onclick event to the up and down buttons on the new or update schedule views.
+     */
+    $(document).on('click', '.yearButton', function()
+    {
+        let getScheduleDivs = document.getElementsByClassName('getYear');
+        let thisId = $(this).attr('id');
+
+        if(thisId.includes('up'))
+        {
+            console.log('up');
+            let prevDiv = getScheduleDivs[0].cloneNode(true);
+            prevDiv.id = "TESTING-UP";
+            prevDiv.appendBefore(getScheduleDivs[0]);
+        } else
+        {
+            console.log('down');
+            let nextDiv = getScheduleDivs[getScheduleDivs.length-1].cloneNode(true);
+            nextDiv.id = "TESTING-DOWN";
+            nextDiv.appendAfter(getScheduleDivs[getScheduleDivs.length-1]);
+        }
+    });
+
+    /**
      * This function responds to the search box input on the admin 'view schedules' page. When there's a change,
      *      it searches schedule div IDs to see if they contain the input character(s).
      *      If not, they are hidden. If yes, they are shown.
@@ -320,3 +343,21 @@ function disableToggle(clicked)
         viewButtons[x].disabled = viewButtons[x].id === clicked;
     }
 }
+
+/**
+ * This function allows insertion of a node into the beginning of a list of nodes.
+ * @param newNode the node to insert
+ * @param existingNode the existing node to prepend to
+ */
+Element.prototype.appendBefore = function (element) {
+    element.parentNode.insertBefore(this, element);
+},false;
+
+/**
+ * This function allows insertion of a node into the end of a list of nodes.
+ * @param newNode the node to insert
+ * @param existingNode the existing node to append to
+ */
+Element.prototype.appendAfter = function (element) {
+    element.parentNode.insertBefore(this, element.nextSibling);
+},false;
