@@ -158,7 +158,7 @@
                 }
                 echo   "
                         <div class='retrievalDiv row mx-5' id='" .$row['scheduleId']. "-div'>
-                            <button class='retrievalBtn scheduleButton py-0 fs-5 d-flex justify-content-between align-items-center' 
+                            <button type='button' class='retrievalBtn scheduleButton py-0 fs-5 d-flex justify-content-between align-items-center'
                             id='" .$row['scheduleId']. "' name='" .$row['schedule_id']. "'>
                                 <div class='ps-2 col-4'>".$row['scheduleId']."</div>
                                 <div class='col-4'>".$row['advisorName']."</div>

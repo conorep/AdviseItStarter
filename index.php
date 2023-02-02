@@ -61,11 +61,11 @@
                         generating them...?-->
                 <div class="float-end me-sm-3">
 
-                    <button id="home-view-button" class="scheduleButton viewButton">
+                    <button type="button" id="home-view-button" class="scheduleButton viewButton">
                         HOME
                     </button>
 
-                    <button id="new-view-button" class="scheduleButton viewButton">
+                    <button type="button" id="new-view-button" class="scheduleButton viewButton">
                         NEW SCHEDULE
                     </button>
 
@@ -76,10 +76,10 @@
                             if($_SESSION['adminLogged'])
                             {
                                 echo "
-                                <button id='retrieve-view-button' class='scheduleButton viewButton'>
+                                <button type='button' id='retrieve-view-button' class='scheduleButton viewButton'>
                                     VIEW SCHEDULES
                                </button>
-                               <button id='logout-button' class='scheduleButton viewButton'>
+                               <button type='button' id='logout-button' class='scheduleButton viewButton'>
                                     LOGOUT
                                 </button>
                                ";
