@@ -14,20 +14,22 @@
     display: none;
 }
 
-.print, .hide-for-print.print {
-    display: block;
+.print, .hide-for-print.print, .hide-for-print {
     break-inside: avoid-page;
+    page-break-inside: avoid;
+    display: block;
 }
 
-button#submit-schedule-button {
+button#submit-schedule-button, button#print-schedule-button {
     display: none;
 }
 
 div.print-schedule {
+    break-inside: avoid-page;
+    page-break-inside: avoid;
     border: black 3px solid;
     border-radius: 5px;
     padding: 10px 10px;
-    break-inside: avoid;
 }
 
 h2.top-margin {
