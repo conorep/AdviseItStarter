@@ -21,7 +21,7 @@
     <link rel="icon" type="image/x-icon" href="imgs/logo.png">
 
     <!--    Bootstrap, Icons, Main, Button, and Print Styles-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/main_styles.css" type="text/css">
     <link rel="stylesheet" href="css/button_styles.css" type="text/css">
@@ -48,7 +48,7 @@
     <header class="no-print-section">
         <nav class="navbar mb-3 pt-0 pb-0">
 
-            <a class="navbar-brand p-2 col-3 col-lg-2 col-xl-1 me-0" href="https://www.greenriver.edu/">
+            <a class="navbar-brand p-2 col-3 col-lg-2 col-xl-1 me-0" href="https://www.greenriver.edu/" target="_blank">
                 <img id="centerImg" class="img-fluid" src="imgs/logo.png" alt="Green River College logo"/>
             </a>
 
@@ -56,9 +56,7 @@
                 <h2 class="ps-3 inline-block">
                     <img id="logoImg" src="imgs/adviseitlogo.png" alt="Advise-It Tool Name" />
                 </h2>
-
-                <!--TODO: think about how many buttons I will have here. enough to benefit from a view dynamically
-                        generating them...?-->
+                
                 <div class="float-end me-sm-3">
 
                     <button type="button" id="home-view-button" class="scheduleButton viewButton">
@@ -133,9 +131,9 @@
         <!--PHP content here-->
     </main>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js" type="text/javascript"></script>
     <!--TODO: decide whether the JS for BS will be used or not-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/general_js.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+    <script src="js/general_js.js" type="text/javascript"></script>
 </body>
 </html>
