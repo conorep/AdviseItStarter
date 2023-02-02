@@ -181,6 +181,7 @@ $(document).ready(function()
         if(thisId.includes('up'))
         {
             alert("Previous year button clicked. This is in development - check back later.");
+            /*TODO: un-comment this to re-activate the in-development previous year schedule stuff*/
             /*let prevDiv = getScheduleDivs[0].cloneNode(true);
             let prevID = prevDiv.id.split('-');
             prevID[2]--;
@@ -190,6 +191,7 @@ $(document).ready(function()
         } else
         {
             alert("Next year button clicked. This is in development - check back later.");
+            /*TODO: un-comment this to re-activate the in-development next year schedule stuff*/
             /*let nextDiv = getScheduleDivs[getScheduleDivs.length-1].cloneNode(true);
             let nextID = nextDiv.id.split('-');
             nextID[2]++;
@@ -374,6 +376,12 @@ Element.prototype.appendAfter = function(element)
     element.parentNode.insertBefore(this, element.nextSibling);
 },false;
 
+/**
+ * This function will, once actually developed, alter a copied node that is sent in as a function parameter.
+ * @param upOrDown a differentiating string to state whether to alter something into a
+ *      previous (up) or next (down) schedule block
+ * @param nodes the node (and its children) to be altered
+ */
 Element.prototype.alterNodeContent = function(upOrDown, nodes)
 {
     console.log(upOrDown);
