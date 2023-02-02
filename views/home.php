@@ -24,9 +24,12 @@
                     Click a button above to navigate to your desired page or enter your schedule ID below.
                 </p>
                 <p class='text-center'>
-                    Alternately, retrieve your schedule via URL. EXAMPLE: https://cobrien2.greenriverdev.com/adviseit/schedule=AAAAAA
+                    Alternately, retrieve your schedule via URL.
                 </p>
-
+                <p class='text-center'>
+                    <strong>EXAMPLE:</strong> <a href='https://cobrien2.greenriverdev.com/adviseit/schedule=AAAAAA'>
+                    https://cobrien2.greenriverdev.com/adviseit/schedule=AAAAAA</a>
+                </p>
             </div>";
             
         include('../include/get_schedule_form.php');
