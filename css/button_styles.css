@@ -53,7 +53,7 @@ button.scheduleButton:active, button.yearButton:active {
     transform: translateY(2px);
 }
 
-button#submit-schedule-button {
+button#submit-schedule-button, button#print-schedule-button {
     max-width: 20%;
 }
 

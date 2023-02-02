@@ -78,7 +78,7 @@
                     </button>";
     
     echo $_SESSION['pageID'] == 'RetrieveView' ? "
-                    <button type='button' onclick='window.print()' id='submit-schedule-button'
+                    <button type='button' onclick='window.print()' id='print-schedule-button'
                         class='no-print ms-3 scheduleButton'>PRINT</button>" :  '';
     echo"
                 </div>
