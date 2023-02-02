@@ -121,7 +121,7 @@ $(document).ready(function()
             if(response.includes('success'))
             {
                 alert(response);
-                location.reload();
+                location.replace(homeLoc);
             } else
             {
                 alert(response);
@@ -141,7 +141,7 @@ $(document).ready(function()
             function()
         {
             alert("Logout successful.");
-            location.reload();
+            location.replace(homeLoc);
         })
     })
 
