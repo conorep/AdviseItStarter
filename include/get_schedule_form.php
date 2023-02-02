@@ -8,6 +8,7 @@
                 <label class='form-label fw-bold ms-2' for='getSchedule'>
                     Looking up your schedule? Enter your six-digit ID:
                 </label>
-                <input class='form-control shadow' id='getSchedule' name='getSchedule'>
+                <input class='form-control shadow' id='getSchedule' name='getSchedule'
+                placeholder='Enter your six-digit code (case-insensitive)...'>
             </div>
     ";
