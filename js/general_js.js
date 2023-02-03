@@ -169,7 +169,7 @@ $(document).ready(function()
 
     /*TODO: need to make the new divs functional. the container div needs a proper ID reflecting its year and
        the textarea divs need to have proper IDs reflecting that plan year*/
-    /*TODO: killing the onclick event for the time being. don't want it to kill other testable functions.*/
+    /*TODO: add a plan year (ex: 2022-2023) label before the schedule quarters*/
     /**
      * This function adds an onclick event to the up and down buttons on the new or update schedule views.
      */
@@ -177,27 +177,24 @@ $(document).ready(function()
     {
         let getScheduleDivs = document.getElementsByClassName('getYear');
         let thisId = $(this).attr('id');
+        console.log(thisId);
 
         if(thisId.includes('up'))
         {
-            alert("Previous year button clicked. This is in development - check back later.");
-            /*TODO: un-comment this to re-activate the in-development previous year schedule stuff*/
-            /*let prevDiv = getScheduleDivs[0].cloneNode(true);
+            /*get the lowest existing year div*/
+            let prevDiv = getScheduleDivs[0];
+            /*get JUST the year from the first (the lowest year val) ID*/
             let prevID = prevDiv.id.split('-');
-            prevID[2]--;
-            prevDiv.id = prevID.join('-');
-            prevDiv.alterNodeContent('up', prevDiv);
-            prevDiv.appendBefore(getScheduleDivs[0]);*/
+            let newInsertDivs = scheduleYearContainer(parseInt(prevID[2]) -1);
+            prevDiv.insertAdjacentHTML("beforebegin", newInsertDivs);
         } else
         {
-            alert("Next year button clicked. This is in development - check back later.");
-            /*TODO: un-comment this to re-activate the in-development next year schedule stuff*/
-            /*let nextDiv = getScheduleDivs[getScheduleDivs.length-1].cloneNode(true);
+            /*get the highest existing year div*/
+            let nextDiv = getScheduleDivs[getScheduleDivs.length-1];
+            /*get JUST the year from the first (the highest year val) ID*/
             let nextID = nextDiv.id.split('-');
-            nextID[2]++;
-            nextDiv.id = nextID.join('-');
-            nextDiv.alterNodeContent('down', nextDiv);
-            nextDiv.appendAfter(getScheduleDivs[getScheduleDivs.length-1]);*/
+            let newInsertDivs = scheduleYearContainer(parseInt(nextID[2]) +1);
+            nextDiv.insertAdjacentHTML("afterend", newInsertDivs);
         }
     });
 
@@ -357,38 +354,6 @@ function disableToggle(clicked)
 }
 
 /**
- * This function allows insertion of a node into the beginning of a list of nodes.
- * @param newNode the node to insert
- * @param existingNode the existing node to prepend to
- */
-Element.prototype.appendBefore = function(element)
-{
-    element.parentNode.insertBefore(this, element);
-},false;
-
-/**
- * This function allows insertion of a node into the end of a list of nodes.
- * @param newNode the node to insert
- * @param existingNode the existing node to append to
- */
-Element.prototype.appendAfter = function(element)
-{
-    element.parentNode.insertBefore(this, element.nextSibling);
-},false;
-
-/**
- * This function will, once actually developed, alter a copied node that is sent in as a function parameter.
- * @param upOrDown a differentiating string to state whether to alter something into a
- *      previous (up) or next (down) schedule block
- * @param nodes the node (and its children) to be altered
- */
-Element.prototype.alterNodeContent = function(upOrDown, nodes)
-{
-    console.log(upOrDown);
-    console.log(nodes);
-}
-
-/**
  * This function removes the year from the div's ID. Example: 888888-2022 becomes 888888
  * @param IDtoSplit the ID that needs alteration
  * @return ID that's been altered
@@ -396,4 +361,66 @@ Element.prototype.alterNodeContent = function(upOrDown, nodes)
 function getSubmitID(IDtoSplit)
 {
     return IDtoSplit.split('-')[0];
+}
+
+/**
+ * This function returns the schedule year HTML container and its contained HTML.
+ * @param year the year that needs to be displayed with the quarter
+ * @returns {string} HTML to insert into page
+ */
+function scheduleYearContainer(year)
+{
+    console.log("container year: " + year);
+    let printIt;
+    $('#print-schedule-button').length ? printIt = true : printIt = false;
+    let scheduleQuarters = [['Fall', year], ['Winter', year + 1], ['Spring', year + 1], ['Summer', year + 1]];
+    let returnData =
+    "            <div id='year-div-" + year +"' class='getYear row justify-content-center'>\n"
+
+    for(let x = 0; x < 4; x++)
+    {
+        returnData += displayDiv(scheduleQuarters[x][0], scheduleQuarters[x][1]);
+        if(printIt)
+        {
+            returnData += printDiv(scheduleQuarters[x][0], scheduleQuarters[x][1]);
+        }
+    }
+
+    returnData +=
+    "            </div>";
+    return returnData;
+}
+
+/**
+ * This function returns the div HTML to use in conjunction with insertAdjacentHTML.
+ *      Specifically, this is the HTML that will be displayed on the page when in the print view.
+ * @param year the year that needs to be displayed with the quarter
+ * @param quarter the quarter to be displayed
+ * @returns {string} HTML to insert into page
+ */
+function printDiv(year, quarter)
+{
+    return (
+    "                <div class='hide-for-print print'>\n"+
+    "                    <h2 class='top-margin'><strong>"+ quarter +" "+ year +"</strong> Classes &amp; Comments</h2>\n"+
+    "                    <div class='print-schedule'><pre></pre></div>\n"+
+    "                </div>\n"
+    );
+}
+
+/**
+ * This function returns the div/textarea HTML to use in conjunction with insertAdjacentHTML.
+ *      Specifically, this is the HTML that will be displayed on the page when NOT in the print view.
+ * @param year the year that needs to be displayed with the quarter
+ * @param quarter the quarter to be displayed
+ * @returns {string} HTML to insert into page
+ */
+function displayDiv(year, quarter)
+{
+    return (
+    "                <div class='no-print col-10 col-md-5 shadow quarter-box m-2 p-2'>\n"+
+    "                    <label for='"+ quarter +"-"+ year +"' class='no-print form-label'><strong>"+ quarter +" "+ year +"</strong>\n"+
+                            " Classes &amp; Comments</label>\n"+
+    "                    <textarea class='quarterInput form-control' id='"+ quarter +"-"+ year +"' rows='5' name='"+ quarter +"'></textarea>\n"+
+    "                </div>\n");
 }
