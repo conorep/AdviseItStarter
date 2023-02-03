@@ -54,7 +54,7 @@
          */
         public function getAllUniqueIDs()
         {
-            $selectAllIDs = "SELECT schedule_id FROM schedules";
+            $selectAllIDs = "SELECT schedule_id FROM schedule_ids";
             return mysqli_query($this->getConn(), $selectAllIDs);
         }
 
@@ -117,7 +117,7 @@
         {
             $arrayOfIDs = array();
         
-            $selectAll = "SELECT schedule_id, advisor_name, created_date FROM schedules ORDER BY created_date";
+            $selectAll = "SELECT schedule_id, advisor_name, created_date, modified_date FROM schedules ORDER BY created_date";
             
             $sqlSelectAll = $this->getConn()->prepare($selectAll);
             $sqlSelectAll->execute();
