@@ -152,7 +152,7 @@
 		 * @param string $idParam 6-digit schedule token used to retrieve id_num
 		 * @return array|false|null associative array if row fetched, false if no rows, null if failure
 		 */
-		private function getNewIDNum(string $idParam)
+		private function getIDNum(string $idParam)
 		{
 			$sqlStatement = "SELECT * FROM schedule_ids WHERE schedule_id = ? LIMIT 1";
 			$sqlStatement = $this->getConn()->prepare($sqlStatement);
@@ -183,7 +183,7 @@
 			$newScheduleIDNum = $this->createScheduleIDNum($idParam);
 			if($newScheduleIDNum)
 			{
-				$getIDNum = $this->getNewIDNum($idParam);
+				$getIDNum = $this->getIDNum($idParam);
 				if($getIDNum)
 				{
 					/* If current date is between Jan 1 and June 30, $planYear reflects the prev. year, otherwise curr. year*/
@@ -242,6 +242,8 @@
          */
         public function updateSchedule(string $scheduleID, string $sqlUpdate, array $valsArr): bool
         {
+            $getIDNum = $this->getIDNum($scheduleID);
+
             /*instantiate empty variables for possible usage, dependent on amount of updated fields sent in*/
             $uniqueID = ''; $one = ''; $two = ''; $three = ''; $four = ''; $five = '';
 
@@ -256,8 +258,9 @@
             }
             $columnVars[] = $uniqueID;
 
-            /*create a string of 's's for string bind_param function*/
-            $stringRefs = str_repeat('s', count($columnVars));
+            /*create a string of 's's for string bind_param function and then add the i for the int id_num at the end*/
+            $stringRefs = str_repeat('s', count($columnVars) -1);
+            $stringRefs .= 'i';
             /*prepare query*/
             $sqlStatement = $this->getConn()->prepare($sqlUpdate);
             /*bind parameters using mysqli and declaring them as string (does not allow for SQL injection)*/
@@ -271,7 +274,7 @@
                     $columnVars[$x] = $valsArr[$x];
                 } else
                 {
-                    $columnVars[$x] = $scheduleID;
+                    $columnVars[$x] = $getIDNum['id_num'];
                 }
             }
 

@@ -189,7 +189,7 @@
                 }
             }
             /*trim last ', ' and append 'WHERE schedule_id = ?'*/
-            $updateStatement = substr($updateStatement, 0, -2) . " WHERE schedule_id =?;";
+            $updateStatement = substr($updateStatement, 0, -2) . " WHERE id_num =?;";
 
             if($this->databaseFuncs->updateSchedule($uniqueToken, $updateStatement, $currentValsArr))
             {
