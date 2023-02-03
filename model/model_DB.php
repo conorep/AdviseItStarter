@@ -243,7 +243,6 @@
         public function updateSchedule(string $scheduleID, string $sqlUpdate, array $valsArr): bool
         {
             $getIDNum = $this->getIDNum($scheduleID);
-
             /*instantiate empty variables for possible usage, dependent on amount of updated fields sent in*/
             $uniqueID = ''; $one = ''; $two = ''; $three = ''; $four = ''; $five = '';
 
@@ -269,13 +268,7 @@
             /*save actual values to array of variables*/
             for($x = 0; $x < count($columnVars); $x++)
             {
-                if($x < count($columnVars) -1)
-                {
-                    $columnVars[$x] = $valsArr[$x];
-                } else
-                {
-                    $columnVars[$x] = $getIDNum['id_num'];
-                }
+                $x < count($columnVars) -1 ? $columnVars[$x] = $valsArr[$x] : $columnVars[$x] = $getIDNum['id_num'];
             }
 
             /*execute*/
