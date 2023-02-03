@@ -1,5 +1,4 @@
 <?php
-
     /**
      * This class defines functions for database usage.
      * @version 1.0
@@ -131,7 +130,41 @@
             }
             return $arrayOfIDs;
         }
+	
+		/**
+		 * 	This function creates a schedule ID token instance in the schedule_ids table. This is used to get the id_num
+		 *        that will be created by the MySQL table, which is in turn used by createNewSchedule in this class.
+		 * @param string $idParam the 6-digit token used to create a row in the schedule_ids table
+		 * @return bool false if failure, true if success
+		 */
+		private function createScheduleIDNum(string $idParam): bool
+		{
+			$newScheduleNum = "INSERT INTO schedule_ids (schedule_id) VALUE (?);";
+			
+			$sqlStatement = $this->getConn()->prepare($newScheduleNum);
+			$sqlStatement->bind_param("s", $idToken);
+			$idToken = $idParam;
+			return $sqlStatement->execute();
+		}
+	
+		/**
+		 * This function retrieves the freshly-created record's id_num value.
+		 * @param string $idParam 6-digit schedule token used to retrieve id_num
+		 * @return array|false|null associative array if row fetched, false if no rows, null if failure
+		 */
+		private function getNewIDNum(string $idParam)
+		{
+			$sqlStatement = "SELECT * FROM schedule_ids WHERE schedule_id = ? LIMIT 1";
+			$sqlStatement = $this->getConn()->prepare($sqlStatement);
+			$sqlStatement->bind_param("s", $idToken);
+			$idToken = $idParam;
+			
+			$sqlStatement->execute();
+			return $sqlStatement->get_result()->fetch_assoc();
+		}
 
+		/*TODO: set this up to use a date that has been sent from elsewhere in order to create multiple rows that can
+		 		be tied together by one token ID.*/
         /**
          * This function creates a new schedule in the database.
          *      It utilizes mysqli's prepare and bind_param functions to handle SQL validation
@@ -142,34 +175,43 @@
          * @param $winterParam String winter quarter info
          * @param $springParam String spring quarter info
          * @param $summerParam String summer quarter info
-         * @return bool false if nothing returned from DB query, mysqli_result if data returned
+         * @return bool false if nothing returned from DB query, true if record created
          */
         public function createNewSchedule(string $idParam, string $advisorParam, string $fallParam, string $winterParam,
                                           string $springParam, string $summerParam): bool
         {
-            /* If current date is between Jan 1 and June 30, $planYear reflects the prev. year, otherwise curr. year*/
-            $currDate = date('m/d');
-            $currDate < '07/01' ? $planYear=date('Y', strtotime('-1 year')) : $planYear=date('Y');
-
-            /*create SQL statement and use mysqli's prepare function for safe execution preparation*/
-           $newSchedule =
-               "INSERT INTO schedules (schedule_id, advisor_name, fall_qrtr, winter_qrtr, spring_qrtr, summer_qrtr, plan_year)
+			$newScheduleIDNum = $this->createScheduleIDNum($idParam);
+			if($newScheduleIDNum)
+			{
+				$getIDNum = $this->getNewIDNum($idParam);
+				if($getIDNum)
+				{
+					/* If current date is between Jan 1 and June 30, $planYear reflects the prev. year, otherwise curr. year*/
+					$currDate = date('m/d');
+					$currDate < '07/01' ? $planYear=date('Y', strtotime('-1 year')) : $planYear=date('Y');
+					
+					/*create SQL statement and use mysqli's prepare function for safe execution preparation*/
+					$newSchedule =
+						"INSERT INTO schedules (id_num, advisor_name, fall_qrtr, winter_qrtr, spring_qrtr, summer_qrtr, plan_year)
                                 VALUES (?, ?, ?, ?, ?, ?, ?);";
-           $sqlStatement = $this->getConn()->prepare($newSchedule);
-           
-           /*bind parameters using mysqli and declaring them as String (does not allow for SQL injection)*/
-           $sqlStatement->bind_param("ssssssi", $id, $advisor, $fall, $winter, $spring, $summer, $date);
-           
-           /*update all bound parameters*/
-           $id = $idParam;
-           $advisor = $advisorParam;
-           $fall = $fallParam;
-           $winter = $winterParam;
-           $spring = $springParam;
-           $summer = $summerParam;
-           $date = $planYear;
-           
-           return $sqlStatement->execute();
+					$sqlStatement = $this->getConn()->prepare($newSchedule);
+					
+					/*bind parameters using mysqli and declaring them as String (does not allow for SQL injection)*/
+					$sqlStatement->bind_param("isssssi", $id, $advisor, $fall, $winter, $spring, $summer, $date);
+					
+					/*update all bound parameters*/
+					$id = $getIDNum['id_num'];
+					$advisor = $advisorParam;
+					$fall = $fallParam;
+					$winter = $winterParam;
+					$spring = $springParam;
+					$summer = $summerParam;
+					$date = $planYear;
+					
+					return $sqlStatement->execute();
+				}
+			}
+			return false;
         }
     
         /**
@@ -216,10 +258,8 @@
 
             /*create a string of 's's for string bind_param function*/
             $stringRefs = str_repeat('s', count($columnVars));
-
             /*prepare query*/
             $sqlStatement = $this->getConn()->prepare($sqlUpdate);
-
             /*bind parameters using mysqli and declaring them as string (does not allow for SQL injection)*/
             $sqlStatement->bind_param($stringRefs, ...$columnVars);
 
