@@ -379,10 +379,10 @@ function scheduleYearContainer(year)
 
     for(let x = 0; x < 4; x++)
     {
-        returnData += displayDiv(scheduleQuarters[x][0], scheduleQuarters[x][1]);
+        returnData += displayDiv(scheduleQuarters[x][1], scheduleQuarters[x][0]);
         if(printIt)
         {
-            returnData += printDiv(scheduleQuarters[x][0], scheduleQuarters[x][1]);
+            returnData += printDiv(scheduleQuarters[x][1], scheduleQuarters[x][0]);
         }
     }
 
