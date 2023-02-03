@@ -56,33 +56,7 @@
             $selectAllIDs = "SELECT schedule_id FROM schedule_ids";
             return mysqli_query($this->getConn(), $selectAllIDs);
         }
-
-        /**
-         * This function takes a new ID as a parameter and references it against existing schedule IDs in the database.
-         * @param $newID String new token ID
-         * @return bool true if ID parameter is not found in DB or nothing in DB yet,
-         *      false if found in DB
-         */
-        public function checkTokens(string $newID): bool
-        {
-            $result = $this->getAllUniqueIDs();
-
-            if ($result && mysqli_num_rows($result) > 0)
-            {
-                while ($row = mysqli_fetch_assoc($result))
-                {
-                    if ($row['schedule_id'] == $newID)
-                    {
-                        return false;
-                    }
-                }
-            } else
-            {
-                return true;
-            }
-            return true;
-        }
-
+		
         /*TODO: update this to NOT use uniqid*/
         /**
          * This function creates a unique 6-digit ID to use as a schedule token.
@@ -103,10 +77,58 @@
             {
                 self::generateUniqueID();
             }
-
             /*this is useless and not reachable - just getting rid of a few bogus IDE flags*/
             return '';
         }
+	
+		/**
+		 * This function takes a new ID as a parameter and references it against existing schedule IDs in the database.
+		 * @param $newID String new token ID
+		 * @return int|true true if ID is unique (not found), id_num if found
+		 */
+		public function checkTokens(string $newID)
+		{
+			$result = $this->getAllUniqueIDs();
+		
+			if ($result && mysqli_num_rows($result) > 0)
+			{
+				while ($row = mysqli_fetch_assoc($result))
+				{
+					if ($row['schedule_id'] == $newID)
+					{
+						return (int)$row['id_num'];
+					}
+				}
+			} else
+			{
+				return true;
+			}
+			return true;
+		}
+		
+		/*TODO: pare down functions in model. Can likely have this functionality in another query function.
+		 Ideally, as few queries as possible to get required data (quicker app when done right).*/
+		/**
+		 * This function takes an id_num and plan_year to check for existence of a plan with a certain year. If it
+		 * 		exists already, return true so that an update is triggered. Otherwise, return false.
+		 * @param int $planIdNum
+		 * @param int $planYear
+		 * @return bool true if id_num with plan_year exists, false if not
+		 */
+		public function checkPlanYear(int $planIdNum, int $planYear): bool
+		{
+			$sqlStatement = "SELECT 1 FROM schedules WHERE id_num = ? AND plan_year = ?;";
+			$sqlStatement = $this->getConn()->prepare($sqlStatement);
+			$sqlStatement->bind_param('ii', $idNum, $year);
+			$idNum = $planIdNum;
+			$year = $planYear;
+			$sqlStatement->execute();
+			if($sqlStatement->get_result())
+			{
+				return true;
+			}
+			return false;
+		}
     
         /**
          * This function runs a SELECT ALL query on the database 'schedules' table. It returns an array of all rows.
@@ -175,10 +197,11 @@
          * @param $winterParam String winter quarter info
          * @param $springParam String spring quarter info
          * @param $summerParam String summer quarter info
+		 * @param $planYear int year reflecting the plan
          * @return bool false if nothing returned from DB query, true if record created
          */
         public function createNewSchedule(string $idParam, string $advisorParam, string $fallParam, string $winterParam,
-                                          string $springParam, string $summerParam): bool
+                                          string $springParam, string $summerParam, int $planYear): bool
         {
 			$newScheduleIDNum = $this->createScheduleIDNum($idParam);
 			if($newScheduleIDNum)
@@ -186,10 +209,6 @@
 				$getIDNum = $this->getIDNum($idParam);
 				if($getIDNum)
 				{
-					/* If current date is between Jan 1 and June 30, $planYear reflects the prev. year, otherwise curr. year*/
-					$currDate = date('m/d');
-					$currDate < '07/01' ? $planYear=date('Y', strtotime('-1 year')) : $planYear=date('Y');
-					
 					/*create SQL statement and use mysqli's prepare function for safe execution preparation*/
 					$newSchedule =
 						"INSERT INTO schedules (id_num, advisor_name, fall_qrtr, winter_qrtr, spring_qrtr, summer_qrtr, plan_year)
@@ -238,13 +257,14 @@
          * @param string $scheduleID ID of row to update
          * @param string $sqlUpdate update query built in controller
          * @param array $valsArr values to update
+		 * @param int $planYear row year to update
          * @return bool
          */
-        public function updateSchedule(string $scheduleID, string $sqlUpdate, array $valsArr): bool
+        public function updateSchedule(string $scheduleID, string $sqlUpdate, array $valsArr, int $planYear): bool
         {
             $getIDNum = $this->getIDNum($scheduleID);
             /*instantiate empty variables for possible usage, dependent on amount of updated fields sent in*/
-            $uniqueID = ''; $one = ''; $two = ''; $three = ''; $four = ''; $five = '';
+            $uniqueID = ''; $one = ''; $two = ''; $three = ''; $four = ''; $five = ''; $plan_year = 0;
 
             /*transfer variables into empty array for each in array of values sent into function, plus uniqueID*/
             /*loop through columnNameVars and save the required amount of reference field variables in columnVars*/
@@ -256,10 +276,12 @@
                 $columnVars[] = $columnNameVars[$x];
             }
             $columnVars[] = $uniqueID;
+			$columnVars[] = $plan_year;
 
-            /*create a string of 's's for string bind_param function and then add the i for the int id_num at the end*/
-            $stringRefs = str_repeat('s', count($columnVars) -1);
-            $stringRefs .= 'i';
+            /*create a string of 's's for string bind_param function and then add the ii for the int id_num and int
+            plan_year at the end*/
+            $stringRefs = str_repeat('s', count($columnVars) -2);
+            $stringRefs .= 'ii';
             /*prepare query*/
             $sqlStatement = $this->getConn()->prepare($sqlUpdate);
             /*bind parameters using mysqli and declaring them as string (does not allow for SQL injection)*/
@@ -268,7 +290,13 @@
             /*save actual values to array of variables*/
             for($x = 0; $x < count($columnVars); $x++)
             {
-                $x < count($columnVars) -1 ? $columnVars[$x] = $valsArr[$x] : $columnVars[$x] = $getIDNum['id_num'];
+				if($x < count($columnVars) -2)
+				{
+					$columnVars[$x] = $valsArr[$x];
+				} else
+				{
+					$x == count($columnVars) -2 ? $columnVars[$x] = $getIDNum['id_num'] : $columnVars[$x] = $planYear;
+				}
             }
 
             /*execute*/
