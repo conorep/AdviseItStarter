@@ -117,7 +117,9 @@
         {
             $arrayOfIDs = array();
         
-            $selectAll = "SELECT schedule_id, advisor_name, created_date, modified_date FROM schedules ORDER BY created_date";
+            $selectAll =
+                "SELECT schedule_ids.schedule_id, schedules.advisor_name, schedules.created_date, schedules.modified_date
+					FROM schedules INNER JOIN schedule_ids ON schedule_ids.id_num = schedules.id_num ORDER BY created_date";
             
             $sqlSelectAll = $this->getConn()->prepare($selectAll);
             $sqlSelectAll->execute();
@@ -177,7 +179,9 @@
          */
         public function retrieveSchedule(string $scheduleID)
         {
-            $retrieveSchedule = "SELECT * FROM schedules WHERE schedule_id = ? LIMIT 1";
+            $retrieveSchedule =
+				"SELECT * FROM schedules INNER JOIN schedule_ids ON schedule_ids.id_num = schedules.id_num
+         			WHERE schedule_ids.schedule_id = ? LIMIT 1";
             $sqlStatement = $this->getConn()->prepare($retrieveSchedule);
     
             $sqlStatement->bind_param("s", $id);
