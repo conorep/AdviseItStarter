@@ -17,13 +17,7 @@
     $databaseValArr = array('Fall'=>'fall_qrtr', 'Winter'=>'winter_qrtr', 'Spring'=>'spring_qrtr', 'Summer'=>'summer_qrtr');
     $rowVal ='';
     /*get current year for displaying each quarter's year*/
-    if(date('m/d') < '07/01')
-    {
-        $rowYear = date('Y', strtotime('-1 year'));
-    } else
-    {
-        $rowYear = date('Y');
-    }
+	date('m/d') < '07/01' ? $rowYear = date('Y', strtotime('-1 year')) : $rowYear = date('Y');
 
     /*if the retrieved schedule is to be displayed, change submit button to update*/
     if($_SESSION['pageID'] == 'RetrieveView')
