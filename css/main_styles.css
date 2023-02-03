@@ -54,6 +54,17 @@ div.retrievalDiv > *{
     min-height: 25%;
 }
 
+label#year-label {
+    margin-left: 25%;
+}
+
+input#plan-year {
+    width: 20%;
+    border: none;
+    background-color: rgb(236, 236, 236);
+    font-weight: bold;
+}
+
 .hide-for-print {
     display: none;
 }
