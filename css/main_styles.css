@@ -57,3 +57,17 @@ div.retrievalDiv > *{
 .hide-for-print {
     display: none;
 }
+
+.getYear {
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+}
+
+@-webkit-keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
