@@ -100,25 +100,32 @@
          * This function creates a new plan.
          *      The returned 'alert' scripts are found by checking the 'Network' tab in the browser inspection tool.
          *      Click the
-         * @param $id String plan ID
-         * @param $advisor String advisor name
-         * @param $fall String fall quarter info
-         * @param $winter String winter quarter info
-         * @param $spring String spring quarter info
-         * @param $summer String summer quarter info
+         * @param String $id plan ID
+         * @param String $advisor advisor name
+		 * @param int $planYear year for the plan schedule
+         * @param String $fall fall quarter info
+         * @param String $winter winter quarter info
+         * @param String $spring spring quarter info
+         * @param String $summer summer quarter info
+
          * @return string if true, a success message. if false, an error message.
          */
-        public function createNewPlan(string $id, string $advisor, string $fall, string $winter, string $spring,
-                                      string $summer): string
+        public function createNewPlan(string $id, string $advisor, int $planYear, string $fall, string $winter,
+									  string $spring, string $summer): string
         {
-            $fallInfo = explode('-', $fall)[0];
+			$fallInfo = explode('-', $fall)[0];
             $winterInfo = explode('-', $winter)[0];
             $springInfo = explode('-', $spring)[0];
             $summerInfo = explode('-', $summer)[0];
             /*if there's no existing ID, create new schedule. if there IS an existing ID, run the update function.*/
-            if($this->databaseFuncs->checkTokens($id))
+			$possibleIdNum = $this->databaseFuncs->checkTokens($id);
+			$possibleIdNum !== true ? $planYearCheck = $this->databaseFuncs->checkPlanYear($possibleIdNum, $planYear)
+				: $planYearCheck = false;
+
+            if(!$planYearCheck)
             {
-                if($this->databaseFuncs->createNewSchedule($id, $advisor, $fallInfo, $winterInfo, $springInfo, $summerInfo))
+                if($this->databaseFuncs->createNewSchedule($id, $advisor, $fallInfo, $winterInfo, $springInfo,
+					$summerInfo, $planYear))
                 {
                     return "The schedule was successfully created!";
                 } else
@@ -127,7 +134,8 @@
                 }
             } else
             {
-                return $this->updateExistingPlan($id, [$advisor, $fallInfo, $winterInfo, $springInfo, $summerInfo]);
+                return $this->updateExistingPlan($id, [$advisor, $fallInfo, $winterInfo, $springInfo, $summerInfo],
+					$planYear);
             }
         }
 
@@ -171,11 +179,12 @@
         }
 
         /**
-         * @param string $uniqueToken schedule_id token for row reference
+         * @param string $uniqueToken id_num for for row reference
          * @param array $valsArray values to update. also used to ref $columnArr to see which fields need updating.
+		 * @param int $planYear year of row to update
          * @return string return string regarding successful or unsuccessful record creation
          */
-        public function updateExistingPlan(string $uniqueToken, array $valsArray): string
+        public function updateExistingPlan(string $uniqueToken, array $valsArray, int $planYear): string
         {
             $currentValsArr = [];
             $columnArr = ['advisor_name', 'fall_qrtr', 'winter_qrtr', 'spring_qrtr', 'summer_qrtr'];
@@ -188,10 +197,10 @@
                      $currentValsArr[] = $valsArray[$x];
                 }
             }
-            /*trim last ', ' and append 'WHERE schedule_id = ?'*/
-            $updateStatement = substr($updateStatement, 0, -2) . " WHERE id_num =?;";
+            /*trim last ', ' and append schedule_id + plan_year 'WHERE'*/
+            $updateStatement = substr($updateStatement, 0, -2) . " WHERE id_num =? AND plan_year =?;";
 
-            if($this->databaseFuncs->updateSchedule($uniqueToken, $updateStatement, $currentValsArr))
+            if($this->databaseFuncs->updateSchedule($uniqueToken, $updateStatement, $currentValsArr, $planYear))
             {
                 return "This record was updated properly.";
             } else
