@@ -177,7 +177,6 @@ $(document).ready(function()
     {
         let getScheduleDivs = document.getElementsByClassName('getYear');
         let thisId = $(this).attr('id');
-        console.log(thisId);
 
         if(thisId.includes('up'))
         {
@@ -321,11 +320,14 @@ $(document).ready(function()
             e.preventDefault();
             /*grab values on submit and compare to initial input values*/
             let scheduleUpdateVals = $('.quarterInput');
+            let yearVal = $('.getYear').attr('id');
+            yearVal = yearVal.split('-')[2];
             for(let x = 0; x < scheduleUpdateVals.length; x++)
             {
                 if(scheduleInitVals[x] !== scheduleUpdateVals[x].value)
                 {
-                    inputDataBuilder += "&" + getSubmitID(scheduleUpdateVals[x].id) + "=" + scheduleUpdateVals[x].value;
+                    inputDataBuilder += "&" + getSubmitID(scheduleUpdateVals[x].id) + "=" +
+                        scheduleUpdateVals[x].value + "&PlanYear=" + yearVal;
                 }
             }
             /*if there are updated values, run the update POST*/
@@ -370,12 +372,14 @@ function getSubmitID(IDtoSplit)
  */
 function scheduleYearContainer(year)
 {
-    console.log("container year: " + year);
     let printIt;
     $('#print-schedule-button').length ? printIt = true : printIt = false;
     let scheduleQuarters = [['Fall', year], ['Winter', year + 1], ['Spring', year + 1], ['Summer', year + 1]];
     let returnData =
-    "            <div id='year-div-" + year +"' class='getYear row justify-content-center'>\n"
+    "            <div id='year-div-" + year +"' class='getYear row justify-content-center'>\n"+
+    "                <label for='PlanYear' id='year-label'><strong>Plan Year: </strong>\n"+
+    "                    <input id='plan-year' name='PlanYear' value='" +year+ "' readonly>\n"+
+    "                </label>\n";
 
     for(let x = 0; x < 4; x++)
     {
