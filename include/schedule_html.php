@@ -7,7 +7,7 @@
      * @author Conor O'Brien
      */
     /*this delineates what the submit button will say (submit or update based on view)*/
-    $submitOrUpdate = 'SUBMIT';
+    $submitOrUpdate = 'SAVE';
     /*this delineates what the submit button will be labeled to do (submit new schedule or update existing schedule)*/
     $subOrUpVal = 'newScheduleSubmit';
 
@@ -28,7 +28,7 @@
     /*if the retrieved schedule is to be displayed, change submit button to update*/
     if($_SESSION['pageID'] == 'RetrieveView')
     {
-        $submitOrUpdate = 'UPDATE';
+        $submitOrUpdate = 'SAVE UPDATE';
         $subOrUpVal = 'scheduleUpdate';
         $rowYear = $_SESSION['planData']['plan_year'];
         if(isset($_SESSION['scheduleToken']) && $_SESSION['scheduleToken'] !== '')
@@ -37,7 +37,10 @@
         }
     }
     echo "
-        <div id='year-div-" .$rowYear. "' class='getYear row justify-content-center'>";
+        <div id='year-div-" .$rowYear. "' class='getYear row justify-content-center'>
+            <label for='PlanYear' id='year-label'><strong>Plan Year: </strong>
+                <input id='plan-year' name='PlanYear' value='" .$rowYear. "' readonly>
+            </label>";
     foreach ($quartersArr as $quarter)
     {
         if($quarter == 'Fall')
