@@ -17,7 +17,7 @@
     $databaseValArr = array('Fall'=>'fall_qrtr', 'Winter'=>'winter_qrtr', 'Spring'=>'spring_qrtr', 'Summer'=>'summer_qrtr');
     $rowVal ='';
     /*get current year for displaying each quarter's year*/
-    if(date('m/d' < '07/01'))
+    if(date('m/d') < '07/01')
     {
         $rowYear = date('Y', strtotime('-1 year'));
     } else
