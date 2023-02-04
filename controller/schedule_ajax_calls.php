@@ -24,6 +24,7 @@
             echo json_encode($dbFunctions->getAllSchedules());
         } else
         {
+			/*TODO: make this submit once for each of the */
             /*make arrays of variables and the associated $_POST terms that will be saved to them*/
             $infoArray = ['UniqueID', 'AdvisorName', 'PlanYear', 'Fall', 'Winter', 'Spring', 'Summer'];
             $varArr = [$uniqueID='', $advisor='', $year='', $fallInfo='', $winterInfo='', $springInfo='', $summerInfo=''];
