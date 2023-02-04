@@ -54,7 +54,7 @@ div.retrievalDiv > *{
     min-height: 25%;
 }
 
-label#year-label {
+label.year-label {
     margin-left: 25%;
 }
 
