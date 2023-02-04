@@ -32,7 +32,7 @@
     }
     echo "
         <div id='year-div-" .$rowYear. "' class='getYear row justify-content-center'>
-            <label for='PlanYear' id='year-label'><strong>Plan Year: </strong>
+            <label for='PlanYear' class='year-label'><strong>Plan Year: </strong>
                 <input id='plan-year' name='PlanYear' value='" .$rowYear. "' readonly>
             </label>";
     foreach ($quartersArr as $quarter)
