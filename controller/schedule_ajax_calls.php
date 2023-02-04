@@ -34,6 +34,10 @@
                 {
                     if(isset($_POST[$infoArray[$x]]))
                     {
+						if(empty($_POST[$infoArray[$x]]))
+						{
+							$_POST[$infoArray[$x]] = ' ';
+						}
                         $varArr[$x] = $_POST[$infoArray[$x]];
                     }
                 }
