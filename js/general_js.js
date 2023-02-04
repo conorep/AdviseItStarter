@@ -254,7 +254,7 @@ $(document).ready(function()
                     $("#mainContent").load('views/retrieve.php', function()
                     {
                         $.fn.updateViewEvents();
-                        history.replaceState({}, null, homeLoc + schedPath + getSubmitID*$('.submit_id').attr('id'));
+                        history.replaceState({}, null, homeLoc + schedPath + getSubmitID($('.submit_id').attr('id')));
                     });
                     alert("NEW RECORD CREATED");
                     $('#new-view-button').prop('disabled', false);
@@ -312,29 +312,81 @@ $(document).ready(function()
             scheduleInitVals.push(this.value);
         });
 
+        /*when clicking a year up or down button, add the new init vals into the existing init vals*/
+        $(document).on('click', '.yearButton', function()
+        {
+            let tempEle = '';
+            let upDown;
+            let newInitEles;
+            let newInitVals = [];
+            $(this).attr('id') === 'year-up-button' ?  upDown = 'up' : upDown = 'down';
+            upDown === 'up' ? newInitEles = $('.getYear').first() : newInitEles = $('.getYear').last();
+
+            let quarterChildren = newInitEles.find('.quarterInput');
+            quarterChildren.each(function()
+            {
+                newInitVals.push(this.value);
+            });
+            upDown === 'up' ? scheduleInitVals = newInitVals.concat(scheduleInitVals)
+                : scheduleInitVals = scheduleInitVals.concat(newInitVals);
+            /*juggle positions 0 and 4 if concatenated using the 'up' button*/
+            if(upDown === 'up')
+            {
+                tempEle = scheduleInitVals[4];
+                scheduleInitVals[4] = scheduleInitVals[0];
+                scheduleInitVals[0] = tempEle;
+            }
+            console.log(scheduleInitVals);
+        })
+
         /*create initial ID string and an empty input data builder string variable for POST*/
         let postDataBuilder = "UniqueID=" + getSubmitID($('.submit_id').attr('id'));
         let inputDataBuilder = '';
+
         scheduleForms.submit(function(e)
         {
             e.preventDefault();
             /*grab values on submit and compare to initial input values*/
             let scheduleUpdateVals = $('.quarterInput');
-            let yearVal = $('.getYear').attr('id');
-            yearVal = yearVal.split('-')[2];
-            for(let x = 0; x < scheduleUpdateVals.length; x++)
+            let potentialYearVals = $('.getYear');
+
+            for(let y = 0; y < potentialYearVals.length; y++)
             {
-                if(scheduleInitVals[x] !== scheduleUpdateVals[x].value)
+                let thisYear = potentialYearVals[y];
+                let yearVal = thisYear.id.split('-')[2];
+
+                /*TODO: check only the values inside of the current potentialYearVals element*/
+                for(let x = 0; x < scheduleUpdateVals.length; x++)
                 {
-                    inputDataBuilder += "&" + getSubmitID(scheduleUpdateVals[x].id) + "=" +
-                        scheduleUpdateVals[x].value + "&PlanYear=" + yearVal;
+                    console.log(scheduleUpdateVals[x].id);
+                    let thisEle = scheduleUpdateVals[x].id.split('-');
+                    if(thisEle[1] === yearVal)
+                    {
+                        console.log(scheduleInitVals[x]);
+                        if(scheduleInitVals[x] !== scheduleUpdateVals[x].value)
+                        {
+                            inputDataBuilder += "&" + getSubmitID(scheduleUpdateVals[x].id) + "=" +
+                                scheduleUpdateVals[x].value;
+                        }
+                        if(thisEle[0] === 'Fall')
+                        {
+                            yearVal++;
+                            yearVal = yearVal.toString();
+                        }
+                    }
+                }
+                if(inputDataBuilder !== '')
+                {
+                    yearVal = yearVal -1;
+                    inputDataBuilder += "&PlanYear=" + yearVal.toString();
+                    /*once we've reached the end of the potentialYearVals array, let the function call itself*/
+                    if(y === potentialYearVals.length -1)
+                    {
+                        $.fn.updateSchedule(postDataBuilder, inputDataBuilder);
+                    }
                 }
             }
-            /*if there are updated values, run the update POST*/
-            if(inputDataBuilder !== '')
-            {
-                $.fn.updateSchedule(postDataBuilder, inputDataBuilder);
-            } else
+            if(inputDataBuilder === '')
             {
                 alert("NO CHANGE TO VALUES. SUBMIT CANCELED.");
             }
@@ -365,6 +417,7 @@ function getSubmitID(IDtoSplit)
     return IDtoSplit.split('-')[0];
 }
 
+/*TODO: this is basically a carbon copy of schedule_html stuff. I need to pare this down.*/
 /**
  * This function returns the schedule year HTML container and its contained HTML.
  * @param year the year that needs to be displayed with the quarter
@@ -377,7 +430,7 @@ function scheduleYearContainer(year)
     let scheduleQuarters = [['Fall', year], ['Winter', year + 1], ['Spring', year + 1], ['Summer', year + 1]];
     let returnData =
     "            <div id='year-div-" + year +"' class='getYear row justify-content-center'>\n"+
-    "                <label for='PlanYear' id='year-label'><strong>Plan Year: </strong>\n"+
+    "                <label for='PlanYear' class='year-label'><strong>Plan Year: </strong>\n"+
     "                    <input id='plan-year' name='PlanYear' value='" +year+ "' readonly>\n"+
     "                </label>\n";
 
