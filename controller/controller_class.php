@@ -194,7 +194,7 @@
                 if($valsArray[$x] != '')
                 {
                      $updateStatement .= $columnArr[$x] . "=?, ";
-                     $currentValsArr[] = $valsArray[$x];
+					 $valsArray == ' ' ? $currentValsArr[] = '' : $currentValsArr[] = $valsArray[$x];
                 }
             }
             /*trim last ', ' and append schedule_id + plan_year 'WHERE'*/
